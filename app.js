@@ -43,6 +43,23 @@ var imageStyles = {
   })
 };
 
+var canvas = document.getElementById('canvas');
+var vectorContext = ol.render.toContext(canvas.getContext('2d'), {size: [6*27, 6*27]});
+var ctx = canvas.getContext("2d");
+var pointX = 13.5;
+var pointY = 13.5;
+var intervalY = 13.5*2;
+for (var key in imageStyles) {
+  var style = new ol.style.Style({
+    image: imageStyles[key]
+  });
+  vectorContext.setStyle(style);
+  vectorContext.drawGeometry(new ol.geom.Point([pointX, pointY]));
+  ctx.font = "14px Arial";
+  ctx.fillText(key, pointX + 27 ,pointY);
+  pointY += intervalY;
+}
+
 var styleCache = {};
 
 var map = new ol.Map({
