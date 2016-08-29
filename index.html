@@ -8,11 +8,16 @@
   <link rel="stylesheet" type="text/css" href="node_modules/openlayers/dist/ol.css">
   <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
   <script src="node_modules/openlayers/dist/ol-debug.js"></script>
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 </head>
 <body>
   <div id='map' class='col-md-10'></div>
+  <div style="display: none;">
+    <div id="popup" title="Info"></div>
+  </div>
   <div id='legend-container' class='col-md-2'>
-    <div id='legend' class="panel panel-default">
+    <div id='legend' class="panel panel-default panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title">Legenda</h3>
       </div>
