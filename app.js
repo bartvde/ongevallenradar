@@ -49,6 +49,7 @@ var ctx = canvas.getContext("2d");
 var pointX = 13.5;
 var pointY = 13.5;
 var intervalY = 13.5*2;
+var dpr = window.devicePixelRatio || 1;
 for (var key in imageStyles) {
   var style = new ol.style.Style({
     image: imageStyles[key]
@@ -56,7 +57,7 @@ for (var key in imageStyles) {
   vectorContext.setStyle(style);
   vectorContext.drawGeometry(new ol.geom.Point([pointX, pointY]));
   ctx.font = "14px Arial";
-  ctx.fillText(key, pointX + 27 ,pointY);
+  ctx.fillText(key, dpr * (pointX + 27) , dpr * pointY);
   pointY += intervalY;
 }
 
