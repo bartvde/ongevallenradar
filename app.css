@@ -11,8 +11,12 @@ body {
   padding-right: 0px;
 }
 #legend-container {
+  height: 100%;
   padding-left: 0px;
   padding-right: 0px;
+}
+#legend {
+  margin-bottom: 0px;
 }
 #popup {
   display: block;
