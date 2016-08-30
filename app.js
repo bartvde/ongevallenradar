@@ -104,26 +104,35 @@ var map = new ol.Map({
   view: new ol.View({center: [570000, 6817000], zoom: 8})
 });
 
-var popup = new ol.Overlay({
-  element: document.getElementById('popup')
+var container = document.getElementById('popup');
+var content = document.getElementById('popup-content');
+var closer = document.getElementById('popup-closer');
+
+closer.onclick = function() {
+  overlay.setPosition(undefined);
+  closer.blur();
+  return false;
+};
+
+var overlay = new ol.Overlay({
+  element: container,
+  autoPan: true,
+  autoPanAnimation: {
+    duration: 250
+  }
 });
-map.addOverlay(popup);
+
+map.addOverlay(overlay);
 
 map.on('click', function(evt) {
   var pixel = map.getEventPixel(evt.originalEvent);
-  var element = popup.getElement();
-  $(element).popover('destroy');
+  $(container).hide();
   map.forEachFeatureAtPixel(pixel, function(feature, layer) {
     if (feature && layer !== null) {
       var coordinate = evt.coordinate;
-      popup.setPosition(coordinate);
-      $(element).popover({
-        placement: 'top',
-        animation: false,
-        html: true,
-        content: '<table class="table"><tbody><tr><td>Berger</td><td>' + feature.get('berger') + '</td></tr><tr><td>Melder</td><td>' + feature.get('melder') + '</td></tr></tbody></table>'
-      });
-      $(element).popover('show');
+      content.innerHTML = '<table class="table"><tbody><tr><td>Berger</td><td>' + feature.get('berger') + '</td></tr><tr><td>Melder</td><td>' + feature.get('melder') + '</td></tr></tbody></table>';
+      $(container).show();
+      overlay.setPosition(coordinate);
     }
   });
 });

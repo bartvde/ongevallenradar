@@ -14,7 +14,12 @@
 <body>
   <div id='map' class='col-md-10'></div>
   <div style="display: none;">
-    <div id="popup" title="Info"></div>
+    <div id="popup" class="popover top in">
+      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+      <div class="arrow"></div>
+      <h3 class="popover-title">Info</h3>
+      <div id="popup-content" class="popover-content"></div>
+    </div>
   </div>
   <div id='legend-container' class='col-md-2'>
     <div id='legend' class="panel panel-default panel-primary">
