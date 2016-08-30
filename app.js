@@ -126,12 +126,11 @@ map.addOverlay(overlay);
 
 map.on('click', function(evt) {
   var pixel = map.getEventPixel(evt.originalEvent);
-  $(container).hide();
+  overlay.setPosition(undefined);
   map.forEachFeatureAtPixel(pixel, function(feature, layer) {
     if (feature && layer !== null) {
       var coordinate = evt.coordinate;
       content.innerHTML = '<table class="table"><tbody><tr><td>Berger</td><td>' + feature.get('berger') + '</td></tr><tr><td>Melder</td><td>' + feature.get('melder') + '</td></tr></tbody></table>';
-      $(container).show();
       overlay.setPosition(coordinate);
     }
   });
