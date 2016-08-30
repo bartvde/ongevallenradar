@@ -72,6 +72,40 @@ var vectorSource = new ol.source.Vector({
   format: geojsonFormat
 });
 
+var rayons = {};
+
+var updateRayons = function() {
+  $('#sel-rayon option:gt(0)').remove();
+  for (var key in rayons) {
+    $('#sel-rayon').append($("<option></option>").attr("value", key).text(key));
+  }
+};
+
+var selectedRayon = null;
+
+$('#sel-rayon').change(function(evt) {
+  if (this.value === "0") {
+    selectedRayon = null;
+  } else {
+    selectedRayon = this.value;
+  }
+  vectorSource.changed();
+});
+
+var onChange = function() { 
+  if (vectorSource.getState() === 'ready') { 
+    var features = vectorSource.getFeatures();
+    for (var i = 0, ii = features.length; i < ii; ++i) {
+      var rayon = features[i].get('rayon');
+      rayons[rayon] = true;
+    }
+    updateRayons();
+    vectorSource.un('change', onChange);
+  }
+};
+
+vectorSource.on('change', onChange);
+
 var map = new ol.Map({
   layers: [
     new ol.layer.Tile({
@@ -82,6 +116,10 @@ var map = new ol.Map({
     new ol.layer.Vector({
       style: function(feature, resolution) {
         var nummer = feature.get('nummer');
+        var rayon = feature.get('rayon');
+        if (selectedRayon !== null && rayon !== selectedRayon) {
+          return null;
+        }
         var text = feature.get('bps') + '\n' + feature.get('tijdstip') + '\n' + feature.get('incident_type');
         if (!styleCache[nummer + '|' + text]) {
           styleCache[nummer + '|' + text] = new ol.style.Style({
@@ -176,12 +214,18 @@ var loadFeatures = function() {
       var doBeep = false;
       var add = [];
       var remove;
+      var dirty = false;
       if (xmlhttp.status === 200) {
         var features = geojsonFormat.readFeatures(xmlhttp.responseText);
         remove = getRemove(features);
         var i, ii;
         for (i = 0, ii = features.length; i < ii; ++i) {
           var feature = features[i];
+          var rayon = feature.get('rayon');
+          if (rayons[rayon] !== true) {
+            rayons[rayon] = true;
+            dirty = true;
+          }
           if (!sourceHasFeature(feature)) {
             doBeep = true;
             add.push(feature);
@@ -194,9 +238,12 @@ var loadFeatures = function() {
           vectorSource.addFeatures(add);
         }
         if (remove.length > 0) {
-          for (var i = 0, ii = remove.length; i < ii; ++i) {
+          for (i = 0, ii = remove.length; i < ii; ++i) {
             vectorSource.removeFeature(remove[i]);
           }
+        }
+        if (dirty) {
+          updateRayons();
         }
       } else {
         // TODO handle failure
