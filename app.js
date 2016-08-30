@@ -110,6 +110,7 @@ vectorSource.on('change', onChange);
 var map = new ol.Map({
   layers: [
     new ol.layer.Tile({
+      extent: [313086.06785608083, 6418264.391049679, 939258.2035682462, 7200979.560689885],
       source: new ol.source.OSM({
         url: 'http://geoserver.lcm.nl/{z}/{x}/{y}.png'
       })
