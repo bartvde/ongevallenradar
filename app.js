@@ -42,7 +42,7 @@ var imageStyles = {
     angle: 0
   }),
   'zeven': new ol.style.RegularShape({
-    fill: new ol.style.Fill({color: '#EEEEEE'}),
+    fill: new ol.style.Fill({color: 'rgba(192,192,192, 0.8)'}),
     stroke: new ol.style.Stroke({color: '#000000', width: 2}),
     points: 3,
     radius: 13.5,
