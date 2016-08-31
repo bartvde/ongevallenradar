@@ -40,24 +40,38 @@ var imageStyles = {
     points: 3,
     radius: 13.5,
     angle: 0
+  }),
+  'zeven': new ol.style.RegularShape({
+    fill: new ol.style.Fill({color: '#EEEEEE'}),
+    stroke: new ol.style.Stroke({color: '#000000', width: 2}),
+    points: 3,
+    radius: 13.5,
+    angle: 0
   })
 };
 
+var legendText = {
+  'een': 'laatste melding',
+  'twee': 'twee laatste meldingen daarvóór',
+  'vier': 'drie laatste meldingen daarvóór',
+  'zeven': 'eerdere meldingen vandaag'
+};
+
 var canvas = document.getElementById('canvas');
-var vectorContext = ol.render.toContext(canvas.getContext('2d'), {size: [6*27, 6*27]});
+var vectorContext = ol.render.toContext(canvas.getContext('2d'), {size: [220, 4*27]});
 var ctx = canvas.getContext("2d");
 var pointX = 13.5;
 var pointY = 13.5;
 var intervalY = 13.5*2;
 var dpr = window.devicePixelRatio || 1;
-for (var key in imageStyles) {
+for (var key in legendText) {
   var style = new ol.style.Style({
     image: imageStyles[key]
   });
   vectorContext.setStyle(style);
   vectorContext.drawGeometry(new ol.geom.Point([pointX, pointY]));
-  ctx.font = "14px Arial";
-  ctx.fillText(key, dpr * (pointX + 27) , dpr * pointY);
+  ctx.font = "12px Arial";
+  ctx.fillText(legendText[key], dpr * (pointX + 27) , dpr * pointY);
   pointY += intervalY;
 }
 

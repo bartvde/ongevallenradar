@@ -37,3 +37,9 @@ body {
 .ol-popup-closer:after {
   content: "✖";
 }
+.legend-footer {
+  font-size: 9px;
+}
+.panel-body {
+  padding: 10px !important;
+}
