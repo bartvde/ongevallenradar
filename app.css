@@ -11,13 +11,14 @@ body {
   padding-left: 0px;
   padding-right: 0px;
 }
-#legend-container {
+#east-container {
   height: 100%;
   background-color: #D3D3D3;
   padding-left: 0px;
   padding-right: 0px;
 }
 #legend {
+  overflow-y: auto;
   margin-bottom: 0px;
 }
 #popup {
@@ -42,4 +43,7 @@ body {
 }
 .panel-body {
   padding: 10px !important;
+}
+#opties {
+  margin-bottom: 0px;
 }

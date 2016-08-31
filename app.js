@@ -130,6 +130,8 @@ var map = new ol.Map({
       })
     }),
     new ol.layer.Vector({
+      id: 'actueel',
+      title: 'Actuele incidenten',
       style: function(feature, resolution) {
         var nummer = feature.get('nummer');
         var rayon = feature.get('rayon');
@@ -274,5 +276,17 @@ var loadFeatures = function() {
   xmlhttp.open('GET', wfsUrl, true);
   xmlhttp.send();
 };
+
+// layer list control
+var layerBody = $('#layer-body');
+map.getLayers().forEach(function(layer) {
+  if (layer.get('title')) {
+    var checked = layer.getVisible() ? ' checked' : '';
+    layerBody.append('<div class="checkbox"><label><input id="vis_' + layer.get('id') + '" type="checkbox" value=""' + checked + '>' + layer.get('title') + '</label></div>');
+    $('#vis_' + layer.get('id')).on('change', $.proxy(function(evt) {
+      this.setVisible(evt.target.checked);
+    }, layer));
+  }
+});
 
 window.setInterval(loadFeatures, 10000);
