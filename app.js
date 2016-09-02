@@ -1,60 +1,62 @@
 var imageStyles = {
-  'een': new ol.style.RegularShape({
-    fill: new ol.style.Fill({color: '#FF0000'}),
-    stroke: new ol.style.Stroke({color: '#8a0808', width: 2}),
+  'actueel': {
+    'een': new ol.style.RegularShape({
+      fill: new ol.style.Fill({color: '#FF0000'}),
+      stroke: new ol.style.Stroke({color: '#8a0808', width: 2}),
+      points: 3,
+      radius: 13.5,
+      angle: 0
+    }),
+    'twee': new ol.style.RegularShape({
+      fill: new ol.style.Fill({color: '#FE9A2E'}),
+      stroke: new ol.style.Stroke({color: '#B45F04', width: 2}),
+      points: 3,
+      radius: 13.5,
+      angle: 0
+    }),
+    'drie': new ol.style.RegularShape({
+      fill: new ol.style.Fill({color: '#FE9A2E'}),
+      stroke: new ol.style.Stroke({color: '#B45F04', width: 2}),
+      points: 3,
+      radius: 13.5,
+      angle: 0
+    }),
+    'vier': new ol.style.RegularShape({
+      fill: new ol.style.Fill({color: '#F4FA58'}),
+      stroke: new ol.style.Stroke({color: '#AEB404', width: 2}),
+      points: 3,
+      radius: 13.5,
+      angle: 0
+    }),
+    'vijf': new ol.style.RegularShape({
+      fill: new ol.style.Fill({color: '#F4FA58'}),
+      stroke: new ol.style.Stroke({color: '#AEB404', width: 2}),
+      points: 3,
+      radius: 13.5,
+      angle: 0
+    }),
+    'zes': new ol.style.RegularShape({
+      fill: new ol.style.Fill({color: '#F4FA58'}),
+      stroke: new ol.style.Stroke({color: '#AEB404', width: 2}),
+      points: 3,
+      radius: 13.5,
+      angle: 0
+    })
+  },
+  'vandaag': new ol.style.RegularShape({
+    fill: new ol.style.Fill({color: 'rgba(192, 192, 192, 0.8)'}),
+    stroke: new ol.style.Stroke({color: 'rgba(0, 0, 0, 0.8)', width: 2}),
     points: 3,
-    radius: 13.5,
-    angle: 0
-  }),
-  'twee': new ol.style.RegularShape({
-    fill: new ol.style.Fill({color: '#FE9A2E'}),
-    stroke: new ol.style.Stroke({color: '#B45F04', width: 2}),
-    points: 3,
-    radius: 13.5,
-    angle: 0
-  }),
-  'drie': new ol.style.RegularShape({
-    fill: new ol.style.Fill({color: '#FE9A2E'}),
-    stroke: new ol.style.Stroke({color: '#B45F04', width: 2}),
-    points: 3,
-    radius: 13.5,
-    angle: 0
-  }),
-  'vier': new ol.style.RegularShape({
-    fill: new ol.style.Fill({color: '#F4FA58'}),
-    stroke: new ol.style.Stroke({color: '#AEB404', width: 2}),
-    points: 3,
-    radius: 13.5,
-    angle: 0
-  }),
-  'vijf': new ol.style.RegularShape({
-    fill: new ol.style.Fill({color: '#F4FA58'}),
-    stroke: new ol.style.Stroke({color: '#AEB404', width: 2}),
-    points: 3,
-    radius: 13.5,
-    angle: 0
-  }),
-  'zes': new ol.style.RegularShape({
-    fill: new ol.style.Fill({color: '#F4FA58'}),
-    stroke: new ol.style.Stroke({color: '#AEB404', width: 2}),
-    points: 3,
-    radius: 13.5,
-    angle: 0
-  }),
-  'zeven': new ol.style.RegularShape({
-    fill: new ol.style.Fill({color: 'rgba(192,192,192, 0.8)'}),
-    stroke: new ol.style.Stroke({color: '#000000', width: 2}),
-    points: 3,
-    radius: 13.5,
+    radius: 10,
     angle: 0
   })
 };
 
 var legendText = {
-  'een': 'laatste melding',
-  'twee': 'twee laatste meldingen daarvóór',
-  'vier': 'drie laatste meldingen daarvóór',
-  'zeven': 'eerdere meldingen vandaag'
+  'actueel_een': 'laatste melding',
+  'actueel_twee': 'twee laatste meldingen daarvóór',
+  'actueel_vier': 'drie laatste meldingen daarvóór',
+  'vandaag': 'eerdere meldingen vandaag'
 };
 
 var canvas = document.getElementById('canvas');
@@ -65,9 +67,17 @@ var pointY = 13.5;
 var intervalY = 13.5*2;
 var dpr = window.devicePixelRatio || 1;
 for (var key in legendText) {
-  var style = new ol.style.Style({
-    image: imageStyles[key]
-  });
+  var parts = key.split('_');
+  var style;
+  if (parts.length === 2) {
+    style = new ol.style.Style({
+      image: imageStyles[parts[0]][parts[1]]
+    });
+  } else {
+    style = new ol.style.Style({
+      image: imageStyles[key]
+    });
+  }
   vectorContext.setStyle(style);
   vectorContext.drawGeometry(new ol.geom.Point([pointX, pointY]));
   ctx.font = "12px Arial";
@@ -77,15 +87,69 @@ for (var key in legendText) {
 
 var styleCache = {};
 
-var wfsUrl = '/geoserver/wfs?service=WFS&request=GetFeature&typename=meldingen:actueel&version=1.1.0&srsname=EPSG:3857&outputFormat=application/json';
 var geojsonFormat = new ol.format.GeoJSON();
 
-var vectorSource = new ol.source.Vector({
-  useSpatialIndex: false,
-  strategy: ol.loadingstrategy.all,
-  url: wfsUrl,
-  format: geojsonFormat
-});
+var sources = {
+  actueel: new ol.source.Vector({
+    useSpatialIndex: false,
+    strategy: ol.loadingstrategy.all,
+    url: '/geoserver/wfs?service=WFS&request=GetFeature&typename=meldingen:actueel&version=1.1.0&srsname=EPSG:3857&outputFormat=application/json',
+    format: geojsonFormat
+  }),
+  vandaag: new ol.source.Vector({
+    useSpatialIndex: false,
+    strategy: ol.loadingstrategy.all,
+    url: '/geoserver/wfs?service=WFS&request=GetFeature&typename=meldingen:vandaag&version=1.1.0&srsname=EPSG:3857&outputFormat=application/json',
+    format: geojsonFormat
+  })
+};
+
+var layers = {
+  vandaag: new ol.layer.Vector({
+    visible: false,
+    id: 'vandaag',
+    title: 'Incidenten vandaag',
+    style: function(feature, resolution) {
+      var rayon = feature.get('rayon');
+      if (selectedRayon !== null && rayon !== selectedRayon) {
+        return null;
+      }
+      if (!styleCache.vandaag) {
+        styleCache.vandaag = new ol.style.Style({
+          image: imageStyles.vandaag
+        });
+      }
+      return styleCache.vandaag;
+    },
+    source: sources.vandaag
+  }),
+  actueel: new ol.layer.Vector({
+    id: 'actueel',
+    title: 'Actuele incidenten',
+    style: function(feature, resolution) {
+      var nummer = feature.get('nummer');
+      var rayon = feature.get('rayon');
+      if (selectedRayon !== null && rayon !== selectedRayon) {
+        return null;
+      }
+      var text = feature.get('bps') + '\n' + feature.get('tijdstip') + '\n' + feature.get('incident_type');
+      if (!styleCache[nummer + '|' + text]) {
+        styleCache[nummer + '|' + text] = new ol.style.Style({
+          text: new ol.style.Text({
+            fill: new ol.style.Fill({color: '#0000FF'}),
+            stroke: new ol.style.Stroke({color: '#FFFFFF', width: 1.5}),
+            font: 'bold 11px Arial',
+            offsetY: -35,
+            text: text
+          }),
+          image: imageStyles.actueel[nummer]
+        });
+      }
+      return styleCache[nummer + '|' + text];
+    },
+    source: sources.actueel
+  })
+};
 
 var rayons = {};
 
@@ -104,22 +168,34 @@ $('#sel-rayon').change(function(evt) {
   } else {
     selectedRayon = this.value;
   }
-  vectorSource.changed();
+  for (var key in sources) {
+    var source = sources[key];
+    source.changed();
+  }
 });
 
-var onChange = function() { 
-  if (vectorSource.getState() === 'ready') { 
-    var features = vectorSource.getFeatures();
+var changeCount = 0;
+
+var onChange = function(evt) {
+  var source = evt.target;
+  if (source.getState() === 'ready') { 
+    var features = source.getFeatures();
     for (var i = 0, ii = features.length; i < ii; ++i) {
       var rayon = features[i].get('rayon');
       rayons[rayon] = true;
     }
-    updateRayons();
-    vectorSource.un('change', onChange);
+    changeCount++;
+    if (changeCount === 2) {
+      updateRayons();
+    }
+    source.un('change', onChange);
   }
 };
 
-vectorSource.on('change', onChange);
+for (var key in sources) {
+  var source = sources[key];
+  source.on('change', onChange);
+}
 
 var map = new ol.Map({
   layers: [
@@ -129,32 +205,38 @@ var map = new ol.Map({
         url: 'http://geoserver.lcm.nl/{z}/{x}/{y}.png'
       })
     }),
-    new ol.layer.Vector({
-      id: 'actueel',
-      title: 'Actuele incidenten',
-      style: function(feature, resolution) {
-        var nummer = feature.get('nummer');
-        var rayon = feature.get('rayon');
-        if (selectedRayon !== null && rayon !== selectedRayon) {
-          return null;
-        }
-        var text = feature.get('bps') + '\n' + feature.get('tijdstip') + '\n' + feature.get('incident_type');
-        if (!styleCache[nummer + '|' + text]) {
-          styleCache[nummer + '|' + text] = new ol.style.Style({
-            text: new ol.style.Text({
-              fill: new ol.style.Fill({color: '#0000FF'}),
-              stroke: new ol.style.Stroke({color: '#FFFFFF', width: 1.5}),
-              font: 'bold 11px Arial',
-              offsetY: -35,
-              text: text
-            }),
-            image: imageStyles[nummer]
-          });
-        }
-        return styleCache[nummer + '|' + text];
-      },
-      source: vectorSource
-    })
+    new ol.layer.Tile({
+      visible: false,
+      id: 'rayons',
+      title: 'Rayons',
+      source: new ol.source.TileWMS({
+        url: '/geoserver/wms',
+        params: {'LAYERS': 'rayons:rayons', 'TILED': true, 'VERSION': '1.1.1'},
+        serverType: 'geoserver'
+      })
+    }),
+    new ol.layer.Tile({
+      visible: false,
+      id: 'imwegen',
+      title: 'IM-wegen',
+      source: new ol.source.TileWMS({
+        url: '/geoserver/wms',
+        params: {'LAYERS': 'im_wegen:imwegen', 'TILED': true, 'VERSION': '1.1.1'},
+        serverType: 'geoserver'
+      })
+    }),
+    new ol.layer.Tile({
+      visible: false,
+      id: 'bps',
+      title: 'Hectometerpalen',
+      source: new ol.source.TileWMS({
+        url: '/geoserver/wms',
+        params: {'LAYERS': 'bps:bps_palen', 'TILED': true, 'VERSION': '1.1.1'},
+        serverType: 'geoserver'
+      })
+    }),
+    layers.vandaag,
+    layers.actueel,
   ],
   target: 'map',
   view: new ol.View({center: [570000, 6817000], zoom: 8})
@@ -202,8 +284,8 @@ var beep = function() {
   sound.play();
 };
 
-var sourceHasFeature = function(feature) {
-  var sourceFeatures = vectorSource.getFeatures();
+var sourceHasFeature = function(source, feature) {
+  var sourceFeatures = source.getFeatures();
   for (var i = 0, ii = sourceFeatures.length; i < ii; ++i) {
     if (feature.get('meldnr') === sourceFeatures[i].get('meldnr')) {
       return true;
@@ -212,8 +294,8 @@ var sourceHasFeature = function(feature) {
   return false;
 };
 
-var getRemove = function(features) {
-  var sourceFeatures = vectorSource.getFeatures();
+var getRemove = function(source, features) {
+  var sourceFeatures = source.getFeatures();
   var removeList = [];
   for (var i = 0, ii = sourceFeatures.length; i < ii; ++i) {
     var feature = sourceFeatures[i];
@@ -230,51 +312,57 @@ var getRemove = function(features) {
   return removeList;
 };
 
-var loadFeatures = function() {
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-    if (xmlhttp.readyState === 4) {
-      var doBeep = false;
-      var add = [];
-      var remove;
-      var dirty = false;
-      if (xmlhttp.status === 200) {
-        var features = geojsonFormat.readFeatures(xmlhttp.responseText);
-        remove = getRemove(features);
-        var i, ii;
-        for (i = 0, ii = features.length; i < ii; ++i) {
-          var feature = features[i];
-          var rayon = feature.get('rayon');
-          if (rayons[rayon] !== true) {
-            rayons[rayon] = true;
-            dirty = true;
+var reloadFeatures = function() {
+  for (var key in layers) {
+    if (layers[key].getVisible() === true) {
+      var source = sources[key];
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState === 4) {
+          var doBeep = false;
+          var add = [];
+          var remove;
+          var dirty = false;
+          if (xmlhttp.status === 200) {
+            var features = geojsonFormat.readFeatures(xmlhttp.responseText);
+            remove = getRemove(source, features);
+            var i, ii;
+            for (i = 0, ii = features.length; i < ii; ++i) {
+              var feature = features[i];
+              var rayon = feature.get('rayon');
+              if (rayons[rayon] !== true) {
+                rayons[rayon] = true;
+                dirty = true;
+              }
+              if (!sourceHasFeature(source, feature)) {
+                // only beep for actueel
+                doBeep = (key === 'actueel');
+                add.push(feature);
+              }
+            }
+            if (allowBeep && doBeep) {
+              beep();
+            }
+            if (add.length > 0) {
+              source.addFeatures(add);
+            }
+            if (remove.length > 0) {
+              for (i = 0, ii = remove.length; i < ii; ++i) {
+                source.removeFeature(remove[i]);
+              }
+            }
+            if (dirty) {
+              updateRayons();
+            }
+          } else {
+            // TODO handle failure
           }
-          if (!sourceHasFeature(feature)) {
-            doBeep = true;
-            add.push(feature);
-          }
         }
-        if (allowBeep && doBeep) {
-          beep();
-        }
-        if (add.length > 0) {
-          vectorSource.addFeatures(add);
-        }
-        if (remove.length > 0) {
-          for (i = 0, ii = remove.length; i < ii; ++i) {
-            vectorSource.removeFeature(remove[i]);
-          }
-        }
-        if (dirty) {
-          updateRayons();
-        }
-      } else {
-        // TODO handle failure
-      }
+      };
+      xmlhttp.open('GET', source.getUrl(), true);
+      xmlhttp.send();
     }
-  };
-  xmlhttp.open('GET', wfsUrl, true);
-  xmlhttp.send();
+  }
 };
 
 // layer list control
@@ -289,4 +377,4 @@ map.getLayers().forEach(function(layer) {
   }
 });
 
-window.setInterval(loadFeatures, 10000);
+window.setInterval(reloadFeatures, 10000);
