@@ -1,4 +1,5 @@
 var geoserverUrl = '/geoserver/ows?';
+var useJSONP = true;
 
 var imageStyles = {
   'actueel': {
@@ -61,6 +62,33 @@ var legendText = {
   'vandaag': 'eerdere meldingen vandaag'
 };
 
+var doJSONP = function(url, success, failure, scope) {
+  var cbname = 'fn' + scope.key + Date.now();
+  var script = document.createElement('script');
+  script.src = url.replace('%output%', 'text/javascript&format_options=callback:' + cbname);
+  window[cbname] = function(jsonData) {
+    success.call(scope, jsonData);
+    delete window[cbname];
+  };
+  document.head.appendChild(script);
+};
+
+var doGET = function(url, success, failure, scope) {
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState === 4) {
+      if (xmlhttp.status === 200) {
+        success.call(scope, xmlhttp);
+      } else if (failure) {
+        failure.call(scope, xmlhttp);
+      }
+    }
+  };
+  xmlhttp.open('GET', url, true);
+  xmlhttp.send();
+  return xmlhttp;
+};
+
 var canvas = document.getElementById('canvas');
 var vectorContext = ol.render.toContext(canvas.getContext('2d'), {size: [220, 4*27]});
 var ctx = canvas.getContext("2d");
@@ -91,17 +119,22 @@ var styleCache = {};
 
 var geojsonFormat = new ol.format.GeoJSON();
 
+var sourceUrls = {
+  actueel: geoserverUrl + 'service=WFS&request=GetFeature&typename=meldingen:actueel&version=1.1.0&srsname=EPSG:3857&outputFormat=%output%',
+  vandaag: geoserverUrl + 'service=WFS&request=GetFeature&typename=meldingen:vandaag&version=1.1.0&srsname=EPSG:3857&outputFormat=%output%'
+};
+
 var sources = {
   actueel: new ol.source.Vector({
     useSpatialIndex: false,
     strategy: ol.loadingstrategy.all,
-    url: geoserverUrl + 'service=WFS&request=GetFeature&typename=meldingen:actueel&version=1.1.0&srsname=EPSG:3857&outputFormat=application/json',
+    url: useJSONP ? undefined : sourceUrls.actueel.replace('%output%', 'application/json'),
     format: geojsonFormat
   }),
   vandaag: new ol.source.Vector({
     useSpatialIndex: false,
     strategy: ol.loadingstrategy.all,
-    url: geoserverUrl + 'service=WFS&request=GetFeature&typename=meldingen:vandaag&version=1.1.0&srsname=EPSG:3857&outputFormat=application/json',
+    url: (useJSONP === true) ? undefined : sourceUrls.vandaag.replace('%output%', 'application/json'),
     format: geojsonFormat
   })
 };
@@ -152,6 +185,25 @@ var layers = {
     source: sources.actueel
   })
 };
+
+// initial load of features in case of JSONP
+for (var key in layers) {
+  if (useJSONP) {
+    if (layers[key].getVisible()) {
+      doJSONP(sourceUrls[key], function(jsonData) {
+        this.addFeatures(this.getFormat().readFeatures(jsonData));
+      }, undefined, sources[key]);
+    } else {
+      layers[key].once('change:visible', function(evt) {
+        if (evt.target.getVisible()) {
+          doJSONP(sourceUrls[this], function(jsonData) {
+            this.addFeatures(this.getFormat().readFeatures(jsonData));
+          }, undefined, sources[this]);
+        }
+      }, key);
+    }
+  }
+}
 
 var rayons = {};
 
@@ -314,55 +366,58 @@ var getRemove = function(source, features) {
   return removeList;
 };
 
+var handleNewFeatures = function(config, features) {
+  var doBeep = false;
+  var add = [];
+  var dirty = false;
+  var key = config.key;
+  var source = config.source;
+  var remove = getRemove(source, features);
+  var i, ii;
+  for (i = 0, ii = features.length; i < ii; ++i) {
+    var feature = features[i];
+    var rayon = feature.get('rayon');
+    if (rayons[rayon] !== true) {
+      rayons[rayon] = true;
+      dirty = true;
+    }
+    if (!sourceHasFeature(source, feature)) {
+      // only beep for actueel
+      doBeep = (key === 'actueel');
+      add.push(feature);
+    }
+  }
+  if (allowBeep && doBeep) {
+    beep();
+  }
+  if (add.length > 0) {
+    source.addFeatures(add);
+  }
+  if (remove.length > 0) {
+    for (i = 0, ii = remove.length; i < ii; ++i) {
+      source.removeFeature(remove[i]);
+    }
+  }
+  if (dirty) {
+    updateRayons();
+  }
+};
+
 var reloadFeatures = function() {
   for (var key in layers) {
     if (layers[key].getVisible() === true) {
       var source = sources[key];
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState === 4) {
-          var doBeep = false;
-          var add = [];
-          var remove;
-          var dirty = false;
-          if (xmlhttp.status === 200) {
-            var features = geojsonFormat.readFeatures(xmlhttp.responseText);
-            remove = getRemove(source, features);
-            var i, ii;
-            for (i = 0, ii = features.length; i < ii; ++i) {
-              var feature = features[i];
-              var rayon = feature.get('rayon');
-              if (rayons[rayon] !== true) {
-                rayons[rayon] = true;
-                dirty = true;
-              }
-              if (!sourceHasFeature(source, feature)) {
-                // only beep for actueel
-                doBeep = (key === 'actueel');
-                add.push(feature);
-              }
-            }
-            if (allowBeep && doBeep) {
-              beep();
-            }
-            if (add.length > 0) {
-              source.addFeatures(add);
-            }
-            if (remove.length > 0) {
-              for (i = 0, ii = remove.length; i < ii; ++i) {
-                source.removeFeature(remove[i]);
-              }
-            }
-            if (dirty) {
-              updateRayons();
-            }
-          } else {
-            // TODO handle failure
-          }
-        }
-      };
-      xmlhttp.open('GET', source.getUrl(), true);
-      xmlhttp.send();
+      if (useJSONP) {
+        doJSONP(sourceUrls[key], function(jsonData) {
+          var features = this.source.getFormat().readFeatures(jsonData);
+          handleNewFeatures(this, features);
+        }, undefined, {source: source, key: key});
+      } else {
+        doGET(sourceUrls[key].replace('%output%', 'application/json'), function(xmlhttp) {
+          var features = this.source.getFormat().readFeatures(xmlhttp.responseText);
+          handleNewFeatures(this, features);
+        }, undefined, {source: source, key: key});
+      }
     }
   }
 };
