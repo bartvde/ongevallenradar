@@ -1,3 +1,5 @@
+var geoserverUrl = '/geoserver/ows?';
+
 var imageStyles = {
   'actueel': {
     'een': new ol.style.RegularShape({
@@ -93,13 +95,13 @@ var sources = {
   actueel: new ol.source.Vector({
     useSpatialIndex: false,
     strategy: ol.loadingstrategy.all,
-    url: '/geoserver/wfs?service=WFS&request=GetFeature&typename=meldingen:actueel&version=1.1.0&srsname=EPSG:3857&outputFormat=application/json',
+    url: geoserverUrl + 'service=WFS&request=GetFeature&typename=meldingen:actueel&version=1.1.0&srsname=EPSG:3857&outputFormat=application/json',
     format: geojsonFormat
   }),
   vandaag: new ol.source.Vector({
     useSpatialIndex: false,
     strategy: ol.loadingstrategy.all,
-    url: '/geoserver/wfs?service=WFS&request=GetFeature&typename=meldingen:vandaag&version=1.1.0&srsname=EPSG:3857&outputFormat=application/json',
+    url: geoserverUrl + 'service=WFS&request=GetFeature&typename=meldingen:vandaag&version=1.1.0&srsname=EPSG:3857&outputFormat=application/json',
     format: geojsonFormat
   })
 };
@@ -210,7 +212,7 @@ var map = new ol.Map({
       id: 'rayons',
       title: 'Rayons',
       source: new ol.source.TileWMS({
-        url: '/geoserver/wms',
+        url: geoserverUrl,
         params: {'LAYERS': 'rayons:rayons', 'TILED': true, 'VERSION': '1.1.1'},
         serverType: 'geoserver'
       })
@@ -220,7 +222,7 @@ var map = new ol.Map({
       id: 'imwegen',
       title: 'IM-wegen',
       source: new ol.source.TileWMS({
-        url: '/geoserver/wms',
+        url: geoserverUrl,
         params: {'LAYERS': 'im_wegen:imwegen', 'TILED': true, 'VERSION': '1.1.1'},
         serverType: 'geoserver'
       })
@@ -230,7 +232,7 @@ var map = new ol.Map({
       id: 'bps',
       title: 'Hectometerpalen',
       source: new ol.source.TileWMS({
-        url: '/geoserver/wms',
+        url: geoserverUrl,
         params: {'LAYERS': 'bps:bps_palen', 'TILED': true, 'VERSION': '1.1.1'},
         serverType: 'geoserver'
       })
