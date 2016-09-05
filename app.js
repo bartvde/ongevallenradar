@@ -116,6 +116,7 @@ for (var key in legendText) {
 }
 
 var styleCache = {};
+var styleCacheVandaag = {};
 
 var geojsonFormat = new ol.format.GeoJSON();
 
@@ -145,16 +146,25 @@ var layers = {
     id: 'vandaag',
     title: 'Incidenten vandaag',
     style: function(feature, resolution) {
+      var showLabel = resolution <= 78;
       var rayon = feature.get('rayon');
       if (selectedRayon !== null && rayon !== selectedRayon) {
         return null;
       }
-      if (!styleCache.vandaag) {
-        styleCache.vandaag = new ol.style.Style({
+      var text = feature.get('bps') + '\n' + feature.get('tijdstip') + '\n' + feature.get('incident_type');
+      if (!styleCacheVandaag[showLabel + '|' + text]) {
+        styleCacheVandaag[showLabel + '|' + text]= new ol.style.Style({
+          text: showLabel ? new ol.style.Text({
+            fill: new ol.style.Fill({color: '#000000'}),
+            stroke: new ol.style.Stroke({color: '#FFFFFF', width: 1.5}),
+            font: 'bold 11px Arial',
+            offsetY: -35,
+            text: text
+          }) : undefined,
           image: imageStyles.vandaag
         });
       }
-      return styleCache.vandaag;
+      return styleCacheVandaag[showLabel + '|' + text];
     },
     source: sources.vandaag
   }),
