@@ -57,8 +57,8 @@ var imageStyles = {
 
 var legendText = {
   'actueel_een': 'laatste melding',
-  'actueel_twee': 'twee laatste meldingen daarvóór',
-  'actueel_vier': 'drie laatste meldingen daarvóór',
+  'actueel_twee': 'twee laatste meldingen' + ' daarv' + String.fromCharCode('243') + String.fromCharCode('243') +'r',
+  'actueel_vier': 'drie laatste meldingen' + ' daarv' + String.fromCharCode('243') + String.fromCharCode('243') +'r',
   'vandaag': 'eerdere meldingen vandaag'
 };
 
