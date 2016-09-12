@@ -47,7 +47,7 @@
         angle: 0
       })
     },
-    vandaag: new ol.style.RegularShape({
+    uur: new ol.style.RegularShape({
       fill: new ol.style.Fill({color: 'rgba(192, 192, 192, 0.8)'}),
       stroke: new ol.style.Stroke({color: 'rgba(0, 0, 0, 0.8)', width: 2}),
       points: 3,
@@ -60,7 +60,7 @@
     actueel_een: 'laatste melding',
     actueel_twee: 'twee laatste meldingen' + ' daarv' + String.fromCharCode('243') + String.fromCharCode('243') + 'r',
     actueel_vier: 'drie laatste meldingen' + ' daarv' + String.fromCharCode('243') + String.fromCharCode('243') + 'r',
-    vandaag: 'eerdere meldingen vandaag'
+    uur: 'meldingen laatste zestig minuten'
   };
 
   var doJSONP = function(url, success, failure, scope) {
@@ -123,7 +123,7 @@
 
   var sourceUrls = {
     actueel: geoserverUrl + 'service=WFS&request=GetFeature&typename=meldingen:actueel&version=1.1.0&srsname=EPSG:3857&outputFormat=%output%',
-    vandaag: geoserverUrl + 'service=WFS&request=GetFeature&typename=meldingen:vandaag&version=1.1.0&srsname=EPSG:3857&outputFormat=%output%'
+    uur: geoserverUrl + 'service=WFS&request=GetFeature&typename=meldingen:uur&version=1.1.0&srsname=EPSG:3857&outputFormat=%output%'
   };
 
   var sources = {
@@ -133,19 +133,19 @@
       url: useJSONP ? undefined : sourceUrls.actueel.replace('%output%', 'application/json'),
       format: geojsonFormat
     }),
-    vandaag: new ol.source.Vector({
+    uur: new ol.source.Vector({
       useSpatialIndex: false,
       strategy: ol.loadingstrategy.all,
-      url: (useJSONP === true) ? undefined : sourceUrls.vandaag.replace('%output%', 'application/json'),
+      url: (useJSONP === true) ? undefined : sourceUrls.uur.replace('%output%', 'application/json'),
       format: geojsonFormat
     })
   };
 
   var layers = {
-    vandaag: new ol.layer.Vector({
+    uur: new ol.layer.Vector({
       visible: false,
-      id: 'vandaag',
-      title: 'Incidenten vandaag',
+      id: 'uur',
+      title: 'Meldingen laatste zestig minuten',
       style: function(feature, resolution) {
         var showLabel = resolution <= 78;
         var rayon = feature.get('rayon');
@@ -162,12 +162,12 @@
               offsetY: -35,
               text: text
             }) : undefined,
-            image: imageStyles.vandaag
+            image: imageStyles.uur
           });
         }
         return styleCacheVandaag[showLabel + '|' + text];
       },
-      source: sources.vandaag
+      source: sources.uur
     }),
     actueel: new ol.layer.Vector({
       id: 'actueel',
@@ -301,7 +301,7 @@
           serverType: 'geoserver'
         })
       }),
-      layers.vandaag,
+      layers.uur,
       layers.actueel,
     ],
     target: 'map',
