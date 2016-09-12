@@ -117,7 +117,7 @@
   }
 
   var styleCache = {};
-  var styleCacheVandaag = {};
+  var styleCacheUur = {};
 
   var geojsonFormat = new ol.format.GeoJSON();
 
@@ -153,8 +153,8 @@
           return null;
         }
         var text = feature.get('bps') + '\n' + feature.get('tijdstip') + '\n' + feature.get('incident_type');
-        if (!styleCacheVandaag[showLabel + '|' + text]) {
-          styleCacheVandaag[showLabel + '|' + text]= new ol.style.Style({
+        if (!styleCacheUur[showLabel + '|' + text]) {
+          styleCacheUur[showLabel + '|' + text]= new ol.style.Style({
             text: showLabel ? new ol.style.Text({
               fill: new ol.style.Fill({color: '#000000'}),
               stroke: new ol.style.Stroke({color: '#FFFFFF', width: 1.5}),
@@ -165,7 +165,7 @@
             image: imageStyles.uur
           });
         }
-        return styleCacheVandaag[showLabel + '|' + text];
+        return styleCacheUur[showLabel + '|' + text];
       },
       source: sources.uur
     }),
@@ -380,11 +380,9 @@
 
   var handleNewFeatures = function(config, features) {
     var doBeep = false;
-    var add = [];
     var dirty = false;
     var key = config.key;
     var source = config.source;
-    var remove = getRemove(source, features);
     var i, ii;
     for (i = 0, ii = features.length; i < ii; ++i) {
       var feature = features[i];
@@ -396,20 +394,16 @@
       if (!sourceHasFeature(source, feature)) {
         // only beep for actueel
         doBeep = (key === 'actueel');
-        add.push(feature);
       }
     }
     if (allowBeep && doBeep) {
       beep();
     }
-    if (add.length > 0) {
-      source.addFeatures(add);
-    }
-    if (remove.length > 0) {
-      for (i = 0, ii = remove.length; i < ii; ++i) {
-        source.removeFeature(remove[i]);
-      }
-    }
+    // clear the style caches
+    styleCache = {};
+    styleCacheUur = {};
+    source.clear();
+    source.addFeatures(features);
     if (dirty) {
       updateRayons();
     }
