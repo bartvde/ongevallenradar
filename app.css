@@ -4,6 +4,21 @@ html, body {
 }
 body {
   margin: 0;
+  font-family: 'Verdana' !important;
+}
+.panel-title {
+  font-weight: bold;
+  color: #077495 !important;
+ }
+.panel-default>.panel-heading {
+  background-color: transparent !important;
+  border: none !important;
+}
+.panel {
+  border: none !important;
+}
+.panel-footer {
+  border: none !important;
 }
 #map {
   background-color: #FFFFFF;

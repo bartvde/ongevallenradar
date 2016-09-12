@@ -91,7 +91,7 @@
   };
 
   var canvas = document.getElementById('canvas');
-  var vectorContext = ol.render.toContext(canvas.getContext('2d'), {size: [220, 4*27]});
+  var vectorContext = ol.render.toContext(canvas.getContext('2d'), {size: [210, 4*27]});
   var ctx = canvas.getContext("2d");
   var pointX = 13.5;
   var pointY = 13.5;
@@ -111,7 +111,7 @@
     }
     vectorContext.setStyle(style);
     vectorContext.drawGeometry(new ol.geom.Point([pointX, pointY]));
-    ctx.font = "12px Arial";
+    ctx.font = "10px Verdana";
     ctx.fillText(legendText[key], dpr * (pointX + 27) , dpr * pointY);
     pointY += intervalY;
   }
