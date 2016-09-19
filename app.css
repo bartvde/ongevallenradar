@@ -9,6 +9,16 @@ body {
 label {
   color: #077495;
 }
+#attribution {
+  margin: auto;
+  z-index: 5000;
+  width: 20%;
+  bottom: 10px;
+  position: fixed;
+  display: flex;
+  left: 0px;
+  right: 0px;
+}
 #legend {
   padding: 5px;
   background-color: white;
@@ -21,7 +31,7 @@ label {
 }
 #layers {
   padding: 5px;
-  background: #FFFFFF url("logo.png") no-repeat 90% 10%; 
+  background: #FFFFFF url("img/logo.png") no-repeat 90% 10%; 
   width: 20%;
   right: 0px;
   top: 10px;
