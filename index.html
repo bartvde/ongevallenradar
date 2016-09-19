@@ -12,47 +12,32 @@
   <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 </head>
 <body>
-  <div id='map' class='col-xs-12 col-sm-6 col-md-10'></div>
+  <div id='map'></div>
+  <div id='layers'>
+    <label>Kaartlagen</label>
+    <div id='layer-body'></div>
+  </div>
+  <div id='filter'>
+    <div class="form-group">
+      <label for="sel-rayon">Filter op rayon</label>
+      <select class="form-control" id="sel-rayon">
+        <option value="0">Geen filter</option>
+      </select>
+    </div>
+  </div>
+  <div id='beep' class='checkbox'>
+    <label><input id="beep-checkbox" type="checkbox" value="" checked>Geluidssignaal</label>
+  </div>
+  <div id='legend'>
+    <canvas id='canvas'></canvas>
+    <div class="legend-footer">Het bij elke melding gepubliceerde tijdstip betreft het moment waarop het LCM het dossier afsluit en het proces van inschakeling van de berger begint. Meldingen verschijnen in beeld met een vertraging van tien tot dertig seconden ten opzichte van het gepubliceerde tijdstip.</div>
+  </div>
   <div style="display: none;">
     <div id="popup" class="popover top in">
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>
       <div class="arrow"></div>
       <h3 class="popover-title">Info</h3>
       <div id="popup-content" class="popover-content"></div>
-    </div>
-  </div>
-  <div id='east-container' class='col-xs-6 col-md-2'>
-    <div id='legend' class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Legenda</h3>
-      </div>
-      <div class="panel-body">
-        <canvas id='canvas'></canvas>
-      </div>
-      <div class="panel-footer legend-footer">Het bij elke melding gepubliceerde tijdstip betreft het moment waarop het LCM het dossier afsluit en het proces van inschakeling van de berger begint. Meldingen verschijnen in beeld met een vertraging van tien tot dertig seconden ten opzichte van het gepubliceerde tijdstip.</div>
-    </div>
-    <div id='opties' class='panel panel-default'>
-      <div class="panel-heading">
-        <h3 class="panel-title">Opties</h3>
-      </div>
-      <div class="panel-body">
-        <div class="form-group">
-          <label for="sel-rayon">Filter op rayon:</label>
-          <select class="form-control" id="sel-rayon">
-            <option value="0">Geen filter</option>
-          </select>
-        </div>
-        <div class="checkbox">
-          <label><input id="beep-checkbox" type="checkbox" value="" checked>Geluidssignaal</label>
-        </div>
-      </div>
-    </div>
-    <div id='layers' class='panel panel-default'>
-      <div class="panel-heading">
-        <h3 class="panel-title">Kaartlagen</h3>
-      </div>
-      <div id='layer-body' class="panel-body">
-      </div>
     </div>
   </div>
   <script src="app.js"></script>

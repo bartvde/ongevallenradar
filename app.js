@@ -111,7 +111,8 @@
     }
     vectorContext.setStyle(style);
     vectorContext.drawGeometry(new ol.geom.Point([pointX, pointY]));
-    ctx.font = "10px Verdana";
+    ctx.font = '10px Verdana';
+    ctx.fillStyle = '#077495';
     ctx.fillText(legendText[key], dpr * (pointX + 27) , dpr * pointY);
     pointY += intervalY;
   }
@@ -239,8 +240,6 @@
     }
   });
 
-  var changeCount = 0;
-
   var onChange = function(evt) {
     var source = evt.target;
     if (source.getState() === 'ready') { 
@@ -249,18 +248,12 @@
         var rayon = features[i].get('rayon');
         rayons[rayon] = true;
       }
-      changeCount++;
-      if (changeCount === 2) {
-        updateRayons();
-      }
+      updateRayons();
       source.un('change', onChange);
     }
   };
 
-  for (var key in sources) {
-    var source = sources[key];
-    source.on('change', onChange);
-  }
+  sources.actueel.on('change', onChange);
 
   var map = new ol.Map({
     controls: ol.control.defaults({attribution: false}),

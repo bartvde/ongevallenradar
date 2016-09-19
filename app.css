@@ -6,36 +6,49 @@ body {
   margin: 0;
   font-family: 'Verdana' !important;
 }
-.panel-title {
-  font-weight: bold;
-  color: #077495 !important;
- }
-.panel-default>.panel-heading {
-  background-color: transparent !important;
-  border: none !important;
-}
-.panel {
-  border: none !important;
-}
-.panel-footer {
-  border: none !important;
-}
-#map {
-  background-color: #FFFFFF;
-  height: 100%;
-  padding-left: 0px;
-  padding-right: 0px;
-}
-#east-container {
-  overflow-y: auto;
-  height: 100%;
-  background-color: #FFFFFF;
-  padding-left: 0px;
-  padding-right: 0px;
+label {
+  color: #077495;
 }
 #legend {
-  overflow-y: auto;
-  margin-bottom: 0px;
+  padding: 5px;
+  background-color: white;
+  width: 20%;
+  right: 0px;
+  bottom: 10px;
+  position: absolute;
+  max-height: 200px;
+  overflow: auto;
+}
+#layers {
+  padding: 5px;
+  background: #FFFFFF url("logo.png") no-repeat 90% 10%; 
+  width: 20%;
+  right: 0px;
+  top: 10px;
+  max-height: 185px;
+  overflow: auto;
+  position: absolute;
+}
+#filter {
+  position: absolute;
+  right: 0px;
+  background-color: white;
+  padding: 5px;
+  width: 20%;
+  top: 200px;
+}
+#beep {
+  position: absolute;
+  right: 0px;
+  background-color: white;
+  padding: 5px;
+  width: 20%;
+  bottom: 200px;
+}
+#map {
+  background-color: white;
+  width: 100%;
+  height: 100%;
 }
 #popup {
   display: block;
@@ -55,14 +68,6 @@ body {
   content: "✖";
 }
 .legend-footer {
+  color: #077495;
   font-size: 9px;
-}
-.panel-body {
-  padding: 10px !important;
-}
-#opties {
-  margin-bottom: 0px;
-}
-#layers {
-  margin-bottom: 0px;
 }
