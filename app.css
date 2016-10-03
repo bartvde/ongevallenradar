@@ -45,7 +45,7 @@ label {
   background-color: white;
   padding: 5px;
   width: 20%;
-  top: 200px;
+  bottom: 225px;
 }
 #beep {
   position: absolute;
@@ -53,7 +53,7 @@ label {
   background-color: white;
   padding: 5px;
   width: 20%;
-  bottom: 200px;
+  top: 200px;
 }
 #map {
   background-color: white;
@@ -80,4 +80,7 @@ label {
 .legend-footer {
   color: #077495;
   font-size: 9px;
+}
+#sel-rayon {
+  color: #077495;
 }
