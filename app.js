@@ -270,8 +270,7 @@
         title: 'Rayons',
         source: new ol.source.TileWMS({
           url: geoserverUrl,
-          params: {'LAYERS': 'rayons:rayons', 'TILED': true, 'VERSION': '1.1.1'},
-          serverType: 'geoserver'
+          params: {'LAYERS': 'rayons:rayons', 'TILED': true, 'VERSION': '1.1.1'}
         })
       }),
       new ol.layer.Tile({
@@ -280,8 +279,7 @@
         title: 'IM-wegen',
         source: new ol.source.TileWMS({
           url: geoserverUrl,
-          params: {'LAYERS': 'im_wegen:imwegen', 'TILED': true, 'VERSION': '1.1.1'},
-          serverType: 'geoserver'
+          params: {'LAYERS': 'im_wegen:imwegen', 'TILED': true, 'VERSION': '1.1.1'}
         })
       }),
       new ol.layer.Tile({
@@ -290,8 +288,7 @@
         title: 'Hectometerpalen',
         source: new ol.source.TileWMS({
           url: geoserverUrl,
-          params: {'LAYERS': 'bps:bps_palen', 'TILED': true, 'VERSION': '1.1.1'},
-          serverType: 'geoserver'
+          params: {'LAYERS': 'bps:bps_palen', 'TILED': true, 'VERSION': '1.1.1'}
         })
       }),
       layers.uur,
