@@ -40,6 +40,7 @@ label {
   position: absolute;
 }
 #filter {
+  text-align:center;
   position: absolute;
   right: 0px;
   background-color: white;
@@ -87,4 +88,8 @@ label {
 .modal-title {
   color: #077495;
   font-weight: bold;
+}
+.btn-app {
+  color: white;
+  background-color: #077495;
 }
