@@ -376,7 +376,7 @@
       style: function(feature, resolution) {
         var showLabel = resolution <= 78;
         var rayon = feature.get('rayon');
-        if (selectedRayon !== null && rayon !== selectedRayon) {
+        if (filterRayon === true && selectedRayons[rayon] !== true) {
           return null;
         }
         var text = feature.get('bps') + '\n' + feature.get('tijdstip') + '\n' + feature.get('incident_type');
@@ -402,7 +402,7 @@
       style: function(feature, resolution) {
         var nummer = feature.get('nummer');
         var rayon = feature.get('rayon');
-        if (selectedRayon !== null && rayon !== selectedRayon) {
+        if (filterRayon === true && selectedRayons[rayon] !== true) {
           return null;
         }
         var text = feature.get('bps') + '\n' + feature.get('tijdstip') + '\n' + feature.get('incident_type');
@@ -443,43 +443,39 @@
     }
   }
 
-  var rayons = {};
+  for (var i = 0, ii = rayons.length; i < ii; ++i) {
+    $('#sel-rayon').append($("<option></option>").attr("value", rayons[i]).text(rayons[i]));
+  }
 
-  var updateRayons = function() {
-    $('#sel-rayon option:gt(0)').remove();
-    for (var key in rayons) {
-      $('#sel-rayon').append($("<option></option>").attr("value", key).text(key));
+  var selectedRayons = {};
+  $('#sel-rayon').multiSelect({
+    afterSelect: function(values) {
+      selectedRayons[values[0]] = true;
+    },
+    afterDeselect: function(values) {
+      selectedRayons[values[0]] = false;
     }
-  };
+  });
 
-  var selectedRayon = null;
+  var filterRayon = false;
 
-  $('#sel-rayon').change(function(evt) {
-    if (this.value === "0") {
-      selectedRayon = null;
-    } else {
-      selectedRayon = this.value;
-    }
+  $('#filter-button').click(function(evt) {
+    filterRayon = true;
     for (var key in sources) {
       var source = sources[key];
       source.changed();
     }
   });
 
-  var onChange = function(evt) {
-    var source = evt.target;
-    if (source.getState() === 'ready') { 
-      var features = source.getFeatures();
-      for (var i = 0, ii = features.length; i < ii; ++i) {
-        var rayon = features[i].get('rayon');
-        rayons[rayon] = true;
-      }
-      updateRayons();
-      source.un('change', onChange);
+  $('#clear-filter-button').click(function(evt) {
+    filterRayon = false;
+    $('#sel-rayon').multiSelect('deselect_all');
+    $('#sel-rayon').multiSelect('refresh');
+    for (var key in sources) {
+      var source = sources[key];
+      source.changed();
     }
-  };
-
-  sources.actueel.on('change', onChange);
+  });
 
   var map = new ol.Map({
     controls: ol.control.defaults({attribution: false}),
@@ -596,17 +592,11 @@
 
   var handleNewFeatures = function(config, features) {
     var doBeep = false;
-    var dirty = false;
     var key = config.key;
     var source = config.source;
     var i, ii;
     for (i = 0, ii = features.length; i < ii; ++i) {
       var feature = features[i];
-      var rayon = feature.get('rayon');
-      if (rayons[rayon] !== true) {
-        rayons[rayon] = true;
-        dirty = true;
-      }
       if (!sourceHasFeature(source, feature)) {
         // only beep for actueel
         doBeep = (key === 'actueel');
@@ -620,9 +610,6 @@
     styleCacheUur = {};
     source.clear();
     source.addFeatures(features);
-    if (dirty) {
-      updateRayons();
-    }
   };
 
   var reloadFeatures = function() {

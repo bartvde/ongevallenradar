@@ -7,10 +7,12 @@
   <link rel="stylesheet" type="text/css" href="app.css">
   <link rel="stylesheet" type="text/css" href="vendor/openlayers/dist/ol.css">
   <link rel="stylesheet" type="text/css" href="vendor/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="vendor/multiselect/css/multi-select.css">
   <link rel="stylesheet" media="(max-width: 800px)" href="mobile.css" />
   <script src="vendor/openlayers/dist/ol.js"></script>
   <script src="vendor/jquery/dist/jquery.min.js"></script>
   <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="vendor/multiselect/js/jquery.multi-select.js"></script>
 </head>
 <body>
   <div id='map'><div id='attribution'><a href="http://www.stichtingimn.nl"/><img src="./img/SIMN.png"/></a></div></div>
@@ -19,11 +21,30 @@
     <div id='layer-body'></div>
   </div>
   <div id='filter'>
-    <div class="form-group">
-      <label for="sel-rayon">Filter op rayon</label>
-      <select class="form-control" id="sel-rayon">
-        <option value="0">Geen filter</option>
-      </select>
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#filterModal">
+      Filter op rayon
+    </button>
+    <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Sluit">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="filterModalLabel">Filter op rayon</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <select class="form-control" id="sel-rayon" multiple='multiple'>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="filter-button" type="button" class="btn btn-primary" data-dismiss="modal">Filter</button>
+            <button id="clear-filter-button" type="button" class="btn btn-primary" data-dismiss="modal">Verwijder Filter</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div id='beep'>

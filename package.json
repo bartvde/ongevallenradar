@@ -15,6 +15,7 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "jquery": "^2.2.4",
+    "multiselect": "^0.9.12",
     "openlayers": "3.18.1"
   },
   "bugs": {
