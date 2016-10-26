@@ -81,6 +81,10 @@ label {
   color: #077495;
   font-size: 9px;
 }
-#sel-rayon {
+#ms-sel-rayon li {
   color: #077495;
+}
+.modal-title {
+  color: #077495;
+  font-weight: bold;
 }
