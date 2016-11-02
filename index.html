@@ -16,13 +16,14 @@
 </head>
 <body>
   <div id='map'><div id='attribution'><a href="http://www.stichtingimn.nl"/><img src="./img/SIMN.png"/></a></div></div>
+<div id='eastpanel' class='flexcontainer'>
   <div id='layers'>
     <label>Kaartlagen</label>
     <div id='layer-body'></div>
   </div>
   <div id='filter'>
     <button type="button" class="btn btn-app btn-lg" data-toggle="modal" data-target="#filterModal">
-      Filter op rayon
+      Rayonfilter
     </button>
     <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -66,6 +67,7 @@
       <div id="popup-content" class="popover-content"></div>
     </div>
   </div>
+</div>
   <script src="app.js"></script>
 </body>
 </html>

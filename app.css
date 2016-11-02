@@ -9,10 +9,17 @@ body {
 label {
   color: #077495;
 }
+.flexcontainer {
+  justify-content: space-between;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
 #attribution {
+  width: 360px;
   margin: auto;
   z-index: 5000;
-  width: 20%;
   bottom: 10px;
   position: fixed;
   display: flex;
@@ -20,41 +27,27 @@ label {
   right: 0px;
 }
 #legend {
+  height: 30%;
   padding: 5px;
   background-color: white;
-  width: 20%;
-  right: 0px;
-  bottom: 10px;
-  position: absolute;
-  max-height: 200px;
   overflow: auto;
 }
 #layers {
+  height: 30%;
   padding: 5px;
   background: #FFFFFF url("img/logo.png") no-repeat 90% 10%; 
-  width: 20%;
-  right: 0px;
-  top: 10px;
-  max-height: 185px;
   overflow: auto;
-  position: absolute;
 }
 #filter {
-  text-align:center;
-  position: absolute;
-  right: 0px;
-  background-color: white;
   padding: 5px;
-  width: 20%;
-  bottom: 225px;
+  height: 55px;
+  text-align:center;
+  background-color: white;
 }
 #beep {
-  position: absolute;
-  right: 0px;
+  height: 65px;
   background-color: white;
   padding: 5px;
-  width: 20%;
-  top: 200px;
 }
 #map {
   background-color: white;
@@ -89,7 +82,17 @@ label {
   color: #077495;
   font-weight: bold;
 }
+.btn.focus, .btn:focus, .btn:hover {
+  color: #077495 !important;
+}
 .btn-app {
-  color: white;
-  background-color: #077495;
+  color: #077495;
+  background-color: white;
+}
+#eastpanel {
+  width: 20%;
+  height: 100%;
+  position: absolute;
+  right: 0px;
+  top: 0px;
 }
