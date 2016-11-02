@@ -80,7 +80,6 @@ label {
 }
 .modal-title {
   color: #077495;
-  font-weight: bold;
 }
 .btn.focus, .btn:focus, .btn:hover {
   color: #077495 !important;
