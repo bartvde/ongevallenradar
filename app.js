@@ -286,7 +286,7 @@
     actueel_een: 'laatste melding',
     actueel_twee: 'twee laatste meldingen' + ' daarv' + String.fromCharCode('243') + String.fromCharCode('243') + 'r',
     actueel_vier: 'drie laatste meldingen' + ' daarv' + String.fromCharCode('243') + String.fromCharCode('243') + 'r',
-    uur: 'meldingen laatste zestig minuten'
+    uur: 'recente meldingen'
   };
 
   var doJSONP = function(url, success, failure, scope) {
@@ -346,12 +346,14 @@
 
   var styleCache = {};
   var styleCacheUur = {};
+  var styleCacheVandaag = {};
 
   var geojsonFormat = new ol.format.GeoJSON();
 
   var sourceUrls = {
     actueel: geoserverUrl + 'service=WFS&request=GetFeature&typename=meldingen:actueel&version=1.1.0&srsname=EPSG:3857&outputFormat=%output%',
-    uur: geoserverUrl + 'service=WFS&request=GetFeature&typename=meldingen:uur&version=1.1.0&srsname=EPSG:3857&outputFormat=%output%'
+    uur: geoserverUrl + 'service=WFS&request=GetFeature&typename=meldingen:uur&version=1.1.0&srsname=EPSG:3857&outputFormat=%output%',
+    vandaag: geoserverUrl + 'service=WFS&request=GetFeature&typename=meldingen:vandaag&version=1.1.0&srsname=EPSG:3857&outputFormat=%output%'
   };
 
   var sources = {
@@ -365,6 +367,12 @@
       useSpatialIndex: false,
       strategy: ol.loadingstrategy.all,
       url: (useJSONP === true) ? undefined : sourceUrls.uur.replace('%output%', 'application/json'),
+      format: geojsonFormat
+    }),
+    vandaag: new ol.source.Vector({
+      useSpatialIndex: false,
+      strategy: ol.loadingstrategy.all,
+      url: (useJSONP === true) ? undefined : sourceUrls.vandaag.replace('%output%', 'application/json'),
       format: geojsonFormat
     })
   };
@@ -396,6 +404,33 @@
         return styleCacheUur[showLabel + '|' + text];
       },
       source: sources.uur
+    }),
+    vandaag: new ol.layer.Vector({
+      visible: false,
+      id: 'vandaag',
+      title: 'Incidenten vandaag',
+      style: function(feature, resolution) {
+        var showLabel = resolution <= 78;
+        var rayon = feature.get('rayon');
+        if (filterRayon === true && selectedRayons[rayon] !== true) {
+          return null;
+        }
+        var text = feature.get('bps') + '\n' + feature.get('tijdstip') + '\n' + feature.get('incident_type');
+        if (!styleCacheVandaag[showLabel + '|' + text]) {
+          styleCacheVandaag[showLabel + '|' + text]= new ol.style.Style({
+            text: showLabel ? new ol.style.Text({
+              fill: new ol.style.Fill({color: '#000000'}),
+              stroke: new ol.style.Stroke({color: '#FFFFFF', width: 1.5}),
+              font: 'bold 11px Arial',
+              offsetY: -35,
+              text: text
+            }) : undefined,
+            image: imageStyles.uur
+          });
+        }
+        return styleCacheVandaag[showLabel + '|' + text];
+      },
+      source: sources.vandaag
     }),
     actueel: new ol.layer.Vector({
       id: 'actueel',
@@ -454,17 +489,27 @@
       selectedRayons[values[0]] = true;
     },
     afterDeselect: function(values) {
-      selectedRayons[values[0]] = false;
+      if (values !== null) {
+        selectedRayons[values[0]] = false;
+      }
     }
   });
 
   var filterRayon = false;
 
   $('#filter-button').click(function(evt) {
-    filterRayon = true;
-    for (var key in sources) {
-      var source = sources[key];
-      source.changed();
+    var hasRayon = false;
+    for (var rayon in selectedRayons) {
+      if (selectedRayons[rayon] === true) {
+        hasRayon = true;
+      }
+    }
+    filterRayon = hasRayon;
+    if (filterRayon) {
+      for (var key in sources) {
+        var source = sources[key];
+        source.changed();
+      }
     }
   });
 
@@ -514,8 +559,9 @@
           params: {'LAYERS': 'bps:bps_palen', 'TILED': true, 'VERSION': '1.1.1'}
         })
       }),
-      layers.uur,
+      layers.vandaag,
       layers.actueel,
+      layers.uur
     ],
     target: 'map',
     view: new ol.View({center: [570000, 6817000], zoom: 8})
@@ -601,6 +647,11 @@
       if (!sourceHasFeature(source, feature)) {
         // only beep for actueel
         doBeep = (key === 'actueel');
+        var rayon = feature.get('rayon');
+        // do not beep if we are filtering and rayon is not in the selected list
+        if (filterRayon === true && selectedRayons[rayon] !== true) {
+          doBeep = false;
+        }
       }
     }
     if (allowBeep && doBeep) {
@@ -609,6 +660,7 @@
     // clear the style caches
     styleCache = {};
     styleCacheUur = {};
+    styleCacheVandaag = {};
     source.clear();
     source.addFeatures(features);
   };

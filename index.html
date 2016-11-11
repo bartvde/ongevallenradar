@@ -22,31 +22,10 @@
     <div id='layer-body'></div>
   </div>
   <div id='filter'>
-    <button type="button" class="btn btn-app btn-lg" data-toggle="modal" data-target="#filterModal">
-      Rayonfilter
-    </button>
-    <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Sluit">
-              <span aria-hidden="true">&#215;</span>
-            </button>
-            <h4 class="modal-title" id="filterModalLabel">Filter op rayon</h4>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <select class="form-control" id="sel-rayon" multiple='multiple'>
-              </select>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button id="filter-button" type="button" class="btn btn-app" data-dismiss="modal">Filter</button>
-            <button id="clear-filter-button" type="button" class="btn btn-app" data-dismiss="modal">Verwijder Filter</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <label>Rayonfilter</label>
+    <select class="form-control" id="sel-rayon" multiple='multiple'></select>
+    <button id="filter-button" type="button" class="btn btn-app" data-dismiss="modal">Filter aan</button>
+    <button id="clear-filter-button" type="button" class="btn btn-app" data-dismiss="modal">Filter uit</button>
   </div>
   <div id='beep'>
     <label>Geluidssignaal</label>

@@ -40,8 +40,17 @@ label {
 }
 #filter {
   padding: 5px;
-  height: 55px;
+  height: 165px;
   background-color: white;
+}
+#clear-filter-button {
+  margin-left: 20px !important;
+}
+.ms-container {
+  width: 200px !important;
+}
+.ms-container .ms-list {
+  height: 100px !important;
 }
 #beep {
   height: 65px;
@@ -75,9 +84,6 @@ label {
   font-size: 9px;
 }
 #ms-sel-rayon li {
-  color: #077495;
-}
-.modal-title {
   color: #077495;
 }
 .btn.focus, .btn:focus, .btn:hover {
