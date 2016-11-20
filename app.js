@@ -379,6 +379,7 @@
 
   var layers = {
     uur: new ol.layer.Vector({
+      zIndex: 4,
       visible: false,
       id: 'uur',
       title: 'Meldingen laatste zestig minuten',
@@ -408,7 +409,7 @@
     vandaag: new ol.layer.Vector({
       visible: false,
       id: 'vandaag',
-      title: 'Incidenten vandaag',
+      title: 'Meldingen vandaag',
       style: function(feature, resolution) {
         var showLabel = resolution <= 78;
         var rayon = feature.get('rayon');
@@ -433,8 +434,9 @@
       source: sources.vandaag
     }),
     actueel: new ol.layer.Vector({
+      zIndex: 5,
       id: 'actueel',
-      title: 'Actuele incidenten',
+      title: 'Actuele meldingen',
       style: function(feature, resolution) {
         var nummer = feature.get('nummer');
         var rayon = feature.get('rayon');
