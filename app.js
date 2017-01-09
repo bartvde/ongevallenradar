@@ -284,7 +284,7 @@
 
   var legendText = {
     actueel_een: 'laatste melding',
-    actueel_twee: 'twee laatste meldingen' + ' daarv' + String.fromCharCode('243') + String.fromCharCode('243') + 'r',
+    actueel_twee: 'op ' + String.fromCharCode('233') + String.fromCharCode('233') + 'n na laatste melding',
     actueel_vier: 'drie laatste meldingen' + ' daarv' + String.fromCharCode('243') + String.fromCharCode('243') + 'r',
     uur: 'recente meldingen'
   };
@@ -545,15 +545,6 @@
       }),
       new ol.layer.Tile({
         visible: false,
-        id: 'imwegen',
-        title: 'IM-wegen',
-        source: new ol.source.TileWMS({
-          url: geoserverUrl,
-          params: {'LAYERS': 'im_wegen:imwegen', 'TILED': true, 'VERSION': '1.1.1'}
-        })
-      }),
-      new ol.layer.Tile({
-        visible: false,
         id: 'bps',
         title: 'Hectometerpalen',
         source: new ol.source.TileWMS({
@@ -561,9 +552,18 @@
           params: {'LAYERS': 'bps:bps_palen', 'TILED': true, 'VERSION': '1.1.1'}
         })
       }),
+      new ol.layer.Tile({
+        visible: false,
+        id: 'imwegen',
+        title: 'IM-wegen',
+        source: new ol.source.TileWMS({
+          url: geoserverUrl,
+          params: {'LAYERS': 'im_wegen:imwegen', 'TILED': true, 'VERSION': '1.1.1'}
+        })
+      }),
       layers.vandaag,
-      layers.actueel,
-      layers.uur
+      layers.uur,
+      layers.actueel
     ],
     target: 'map',
     view: new ol.View({center: [570000, 6817000], zoom: 8})
@@ -667,7 +667,19 @@
     source.addFeatures(features);
   };
 
+  var formatDate = function(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return date.getDate() + '-' + date.getMonth()+1 + "-" + date.getFullYear() + "  " + strTime;
+  };
+
   var reloadFeatures = function() {
+    document.getElementById('app-title-date').innerHTML = formatDate(new Date());
     for (var key in layers) {
       if (layers[key].getVisible() === true) {
         var source = sources[key];
@@ -688,7 +700,9 @@
 
   // layer list control
   var layerBody = $('#layer-body');
-  map.getLayers().forEach(function(layer) {
+  var layersArray = map.getLayers().getArray().reverse();
+  for (var l = 0, ll = layersArray.length; l < ll; ++l) {
+    var layer = layersArray[l];
     if (layer.get('title')) {
       var checked = layer.getVisible() ? ' checked' : '';
       layerBody.append('<div class="checkbox"><label><input id="vis_' + layer.get('id') + '" type="checkbox" value=""' + checked + '>' + layer.get('title') + '</label></div>');
@@ -696,7 +710,9 @@
         this.setVisible(evt.target.checked);
       }, layer));
     }
-  });
+  }
+
+  document.getElementById('app-title-date').innerHTML = formatDate(new Date());
 
   window.setInterval(reloadFeatures, 10000);
 })();
