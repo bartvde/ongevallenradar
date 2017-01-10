@@ -17,9 +17,6 @@ label {
 .app-title-main {
   font-size: 18px;
 }
-#app-title-date {
-  color: red;
-}
 .flexcontainer {
   justify-content: space-between;
   display: -webkit-flex;
