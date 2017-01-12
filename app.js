@@ -465,16 +465,17 @@
   // initial load of features in case of JSONP
   for (var key in layers) {
     if (useJSONP) {
+      var source = sources[key];
       if (layers[key].getVisible()) {
         doJSONP(sourceUrls[key], function(jsonData) {
-          this.addFeatures(this.getFormat().readFeatures(jsonData));
-        }, undefined, sources[key]);
+          this.source.addFeatures(this.source.getFormat().readFeatures(jsonData));
+        }, undefined, {source: source, key: key});
       } else {
         layers[key].once('change:visible', function(evt) {
           if (evt.target.getVisible()) {
             doJSONP(sourceUrls[this], function(jsonData) {
-              this.addFeatures(this.getFormat().readFeatures(jsonData));
-            }, undefined, sources[this]);
+              this.source.addFeatures(this.source.getFormat().readFeatures(jsonData));
+            }, undefined, {source: source, key: key});
           }
         }, key);
       }
