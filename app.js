@@ -310,31 +310,33 @@
   };
 
   var canvas = document.getElementById('canvas');
-  var vectorContext = ol.render.toContext(canvas.getContext('2d'), {size: [210, 4*27]});
-  var ctx = canvas.getContext("2d");
-  var pointX = 13.5;
-  var pointY = 13.5;
-  var intervalY = 13.5*2;
-  var dpr = window.devicePixelRatio || 1;
-  for (var key in legendText) {
-    var parts = key.split('_');
-    var style;
-    if (parts.length === 2) {
-      style = new ol.style.Style({
-        image: imageStyles[parts[0]][parts[1]]
-      });
-    } else {
-      style = new ol.style.Style({
-        image: imageStyles[key]
-      });
+  if (canvas) {
+    var vectorContext = ol.render.toContext(canvas.getContext('2d'), {size: [210, 4*27]});
+    var ctx = canvas.getContext("2d");
+    var pointX = 13.5;
+    var pointY = 13.5;
+    var intervalY = 13.5*2;
+    var dpr = window.devicePixelRatio || 1;
+    for (var key in legendText) {
+      var parts = key.split('_');
+      var style;
+      if (parts.length === 2) {
+        style = new ol.style.Style({
+          image: imageStyles[parts[0]][parts[1]]
+        });
+      } else {
+        style = new ol.style.Style({
+          image: imageStyles[key]
+        });
+      }
+      vectorContext.setStyle(style);
+      vectorContext.drawGeometry(new ol.geom.Point([pointX, pointY]));
+      var fontSize = 9 * dpr;
+      ctx.font = fontSize + 'px Verdana';
+      ctx.fillStyle = '#077495';
+      ctx.fillText(legendText[key], dpr * (pointX + 27) , dpr * pointY);
+      pointY += intervalY;
     }
-    vectorContext.setStyle(style);
-    vectorContext.drawGeometry(new ol.geom.Point([pointX, pointY]));
-    var fontSize = 9 * dpr;
-    ctx.font = fontSize + 'px Verdana';
-    ctx.fillStyle = '#077495';
-    ctx.fillText(legendText[key], dpr * (pointX + 27) , dpr * pointY);
-    pointY += intervalY;
   }
 
   var styleCache = {};
@@ -480,47 +482,48 @@
   }
 
   var selectedRayons = {};
-  $('#sel-rayon').multiSelect({
-    afterSelect: function(values) {
-      selectedRayons[values[0]] = true;
-    },
-    afterDeselect: function(values) {
-      if (values !== null) {
-        selectedRayons[values[0]] = false;
-      }
-    }
-  });
-
   var filterRayon = false;
 
-  $('#filter-button').click(function(evt) {
-    var hasRayon = false;
-    for (var rayon in selectedRayons) {
-      if (selectedRayons[rayon] === true) {
-        hasRayon = true;
+  if (window.embedMap !== true) {
+    $('#sel-rayon').multiSelect({
+      afterSelect: function(values) {
+        selectedRayons[values[0]] = true;
+      },
+      afterDeselect: function(values) {
+        if (values !== null) {
+          selectedRayons[values[0]] = false;
+        }
       }
-    }
-    filterRayon = hasRayon;
-    if (filterRayon) {
+    });
+    $('#filter-button').click(function(evt) {
+      var hasRayon = false;
+      for (var rayon in selectedRayons) {
+        if (selectedRayons[rayon] === true) {
+          hasRayon = true;
+        }
+      }
+      filterRayon = hasRayon;
+      if (filterRayon) {
+        for (var key in sources) {
+          var source = sources[key];
+          source.changed();
+        }
+      }
+    });
+    $('#clear-filter-button').click(function(evt) {
+      filterRayon = false;
+      $('#sel-rayon').multiSelect('deselect_all');
+      $('#sel-rayon').multiSelect('refresh');
       for (var key in sources) {
         var source = sources[key];
         source.changed();
       }
-    }
-  });
-
-  $('#clear-filter-button').click(function(evt) {
-    filterRayon = false;
-    $('#sel-rayon').multiSelect('deselect_all');
-    $('#sel-rayon').multiSelect('refresh');
-    for (var key in sources) {
-      var source = sources[key];
-      source.changed();
-    }
-  });
+    });
+  }
 
   var map = new ol.Map({
-    controls: ol.control.defaults({attribution: false}),
+    interactions: window.embedMap === true ? [] : ol.interaction.defaults(),
+    controls: window.embedMap === true ? [] : ol.control.defaults({attribution: false}),
     layers: [
       new ol.layer.Tile({
         extent: [313086.06785608083, 6418264.391049679, 939258.2035682462, 7200979.560689885],
@@ -560,42 +563,44 @@
       layers.actueel
     ],
     target: 'map',
-    view: new ol.View({center: [570000, 6817000], zoom: 8})
+    view: new ol.View({center: [570000, 6817000], zoom: window.embedMap !== true ? 8 : 6})
   });
 
-  var container = document.getElementById('popup');
-  var content = document.getElementById('popup-content');
-  var closer = document.getElementById('popup-closer');
+  if (window.embedMap !== true) {
+    var container = document.getElementById('popup');
+    var content = document.getElementById('popup-content');
+    var closer = document.getElementById('popup-closer');
 
-  closer.onclick = function() {
-    overlay.setPosition(undefined);
-    closer.blur();
-    return false;
-  };
+    closer.onclick = function() {
+      overlay.setPosition(undefined);
+      closer.blur();
+      return false;
+    };
 
-  var overlay = new ol.Overlay({
-    element: container,
-    autoPan: true,
-    autoPanAnimation: {
-      duration: 250
-    }
-  });
-
-  map.addOverlay(overlay);
-
-  map.on('click', function(evt) {
-    var pixel = map.getEventPixel(evt.originalEvent);
-    overlay.setPosition(undefined);
-    map.forEachFeatureAtPixel(pixel, function(feature, layer) {
-      if (feature && layer !== null) {
-        var coordinate = evt.coordinate;
-        content.innerHTML = '<table class="table"><tbody><tr><td>Berger</td><td>' + feature.get('berger') + '</td></tr><tr><td>Melder</td><td>' + feature.get('melder') + '</td></tr></tbody></table>';
-        overlay.setPosition(coordinate);
+    var overlay = new ol.Overlay({
+      element: container,
+      autoPan: true,
+      autoPanAnimation: {
+        duration: 250
       }
     });
-  });
 
-  var allowBeep = true;
+    map.addOverlay(overlay);
+
+    map.on('click', function(evt) {
+      var pixel = map.getEventPixel(evt.originalEvent);
+      overlay.setPosition(undefined);
+      map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+        if (feature && layer !== null) {
+          var coordinate = evt.coordinate;
+          content.innerHTML = '<table class="table"><tbody><tr><td>Berger</td><td>' + feature.get('berger') + '</td></tr><tr><td>Melder</td><td>' + feature.get('melder') + '</td></tr></tbody></table>';
+          overlay.setPosition(coordinate);
+        }
+      });
+    });
+  }
+
+  var allowBeep = (window.embedMap !== true);
   $('#beep-checkbox').change(function() {
     allowBeep = this.checked;
   });
@@ -669,8 +674,12 @@
     return date.getDate() + '-' + date.getMonth() + 1 + '-' + date.getFullYear() + '  ' + strTime;
   };
 
+  var titleElement = document.getElementById('app-title-date');
+
   var reloadFeatures = function() {
-    document.getElementById('app-title-date').innerHTML = formatDate(new Date());
+    if (titleElement) {
+      titleElement.innerHTML = formatDate(new Date());
+    }
     for (var key in layers) {
       if (layers[key].getVisible() === true) {
         var source = sources[key];
@@ -703,7 +712,8 @@
     }
   }
 
-  document.getElementById('app-title-date').innerHTML = formatDate(new Date());
-
+  if (titleElement) {
+    titleElement.innerHTML = formatDate(new Date());
+  }
   window.setInterval(reloadFeatures, 10000);
 })();
