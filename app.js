@@ -245,8 +245,8 @@
         angle: 0
       }),
       drie: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: '#FE9A2E'}),
-        stroke: new ol.style.Stroke({color: '#B45F04', width: 2}),
+        fill: new ol.style.Fill({color: '#F4FA58'}),
+        stroke: new ol.style.Stroke({color: '#AEB404', width: 2}),
         points: 3,
         radius: 13.5,
         angle: 0
@@ -259,13 +259,6 @@
         angle: 0
       }),
       vijf: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: '#F4FA58'}),
-        stroke: new ol.style.Stroke({color: '#AEB404', width: 2}),
-        points: 3,
-        radius: 13.5,
-        angle: 0
-      }),
-      zes: new ol.style.RegularShape({
         fill: new ol.style.Fill({color: '#F4FA58'}),
         stroke: new ol.style.Stroke({color: '#AEB404', width: 2}),
         points: 3,
