@@ -402,6 +402,7 @@
       source: sources.uur
     }),
     vandaag: new ol.layer.Vector({
+      zIndex: 4,
       visible: false,
       id: 'vandaag',
       title: 'Meldingen vandaag',
