@@ -534,6 +534,7 @@
       }),
       new ol.layer.Tile({
         visible: false,
+        zIndex: 3,
         id: 'rayons',
         title: 'Rayons',
         source: new ol.source.TileWMS({
@@ -543,6 +544,7 @@
       }),
       new ol.layer.Tile({
         visible: false,
+        zIndex: 3,
         id: 'bps',
         title: 'Hectometerpalen',
         source: new ol.source.TileWMS({
@@ -552,6 +554,7 @@
       }),
       new ol.layer.Tile({
         visible: false,
+        zIndex: 3,
         id: 'imwegen',
         title: 'IM-wegen',
         source: new ol.source.TileWMS({
