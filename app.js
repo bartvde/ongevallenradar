@@ -468,11 +468,11 @@
       } else {
         layers[key].once('change:visible', function(evt) {
           if (evt.target.getVisible()) {
-            doJSONP(sourceUrls[this], function(jsonData) {
+            doJSONP(sourceUrls[this.key], function(jsonData) {
               this.source.addFeatures(this.source.getFormat().readFeatures(jsonData));
-            }, undefined, {source: source, key: key});
+            }, undefined, this);
           }
-        }, key);
+        }, {key: key, source: source});
       }
     }
   }
