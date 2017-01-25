@@ -81,9 +81,9 @@ label {
 #popup {
   display: block;
   width: 212px;
-  height: 148px;
+  height: 275px;
   left: -106px;
-  top: -148px;
+  top: -275px;
 }
 .ol-popup-closer {
   text-decoration: none;

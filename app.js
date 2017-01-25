@@ -597,7 +597,14 @@
       map.forEachFeatureAtPixel(pixel, function(feature, layer) {
         if (feature && layer !== null) {
           var coordinate = evt.coordinate;
-          content.innerHTML = '<table class="table"><tbody><tr><td>Berger</td><td>' + feature.get('berger') + '</td></tr><tr><td>Melder</td><td>' + feature.get('melder') + '</td></tr></tbody></table>';
+          var html = '<table class="table"><tbody>';
+          html += '<tr><td>IM nummer</td><td>' + feature.get('meldnr') + '</td></tr>';
+          html += '<tr><td>Tijdstip</td><td>' + feature.get('tijdstip') + '</td></tr>';
+          html += '<tr><td>Type</td><td>' + feature.get('incident_type') + '</td></tr>';
+          html += '<tr><td>Berger</td><td>' + feature.get('berger') + '</td></tr>';
+          html += '<tr><td>Melder</td><td>' + feature.get('melder') + '</td></tr>';
+          html += '</tbody></table>';
+          content.innerHTML = html;
           overlay.setPosition(coordinate);
         }
       });
