@@ -9,6 +9,24 @@ body {
 label {
   color: #077495;
 }
+#canvas {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.logo-img {
+  width: 90%;
+  margin: 5px;
+}
+#title {
+  border-bottom: 1px solid rgba(7,116,149, 0.5);
+}
+#title label {
+  width: 100%;
+  text-align: center;
+}
 .flexcontainer {
   justify-content: space-between;
   display: -webkit-flex;
@@ -32,20 +50,27 @@ label {
   right: 0px;
 }
 #legend {
-  height: 30%;
-  padding: 2px;
-  background-color: white;
+  height: 120px;
+  padding: 5px;
   overflow: auto;
+  border-bottom: 1px solid rgba(7,116,149, 0.5);
+}
+#legendfooter {
+  height: 60px;
+  margin: 10px;
 }
 #layers {
-  padding: 2px;
-  background: #FFFFFF url("img/logo.png") no-repeat 90% 10%; 
+  padding: 5px;
   overflow: auto;
+  border-bottom: 1px solid rgba(7,116,149, 0.5);
+}
+#title {
+  height: 100px;
 }
 #filter {
-  padding: 2px;
-  height: 165px;
-  background-color: white;
+  padding: 10px;
+  height: 120px;
+  border-bottom: 1px solid rgba(7,116,149, 0.5);
 }
 .ms-container {
   width: 200px !important;
@@ -54,13 +79,18 @@ label {
   height: 100px !important;
 }
 #beep {
-  height: 75px;
-  background-color: white;
-  padding: 2px;
+  background-repeat: no-repeat;
+  height: 58px;
+  padding: 5px;
+  border-bottom: 1px solid rgba(7,116,149, 0.5);
 }
-#beep .checkbox {
-  margin-top: 2px;
-  margin-bottom: 2px;
+.soundoff {
+  background-image: url(img/ic_volume_off_black_48px.svg);
+  cursor: pointer;
+}
+.soundon {
+  cursor: pointer;
+  background-image: url(img/ic_volume_up_black_48px.svg);
 }
 #map {
   background-color: white;
@@ -103,6 +133,7 @@ label {
   background-color: white;
 }
 #eastpanel {
+  background-color: white;
   width: 20%;
   height: 100%;
   position: absolute;
@@ -114,4 +145,18 @@ label {
   width: 70px;
   bottom: 60px;
   left: 210px;
+}
+#datetime {
+  margin-left: 30%;
+  margin-right: 30%;
+  font-weight: bold;
+  color: #077495;
+  height: 100px;
+  width: 40%;
+}
+#hour {
+  font-size: 50px;
+}
+#date {
+  font-size: 25px;
 }

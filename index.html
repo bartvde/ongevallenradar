@@ -25,25 +25,28 @@
     </div>
   </div>
   <div id='eastpanel' class='flexcontainer'>
+    <div id='title'>
+      <img src="img/logo.png" class="logo-img">
+      <label>actuele incidentmeldingen op IM-wegen</label>
+    </div>
     <div id='layers'>
-      <label>Kaartlagen</label>
       <div id='layer-body'></div>
     </div>
     <div id='filter'>
-      <label>Filteren op Rayons</label>
       <select class="form-control" id="sel-rayon" multiple='multiple'></select>
       <div id="filter-toggle" class="toggle toggle-iphone"></div>
     </div>
     <div id='beep'>
-      <label>Geluidssignaal<br/>Nieuwe Melding</label>
-      <div class='checkbox'>
-        <label><input id="beep-checkbox" type="checkbox" value="" checked></label>
-      </div>
+      <div id='beep-button' style="width:48px;height:48px" class='soundoff'></div>
     </div>
     <div id='legend'>
-      <label>Legenda</label><br/>
       <canvas id='canvas'></canvas>
-      <div class="legend-footer">Het bij elke melding gepubliceerde tijdstip betreft het moment waarop het LCM het dossier afsluit en het proces van inschakeling van de berger begint. Meldingen verschijnen in beeld met een vertraging van tien tot dertig seconden ten opzichte van het gepubliceerde tijdstip.</div>
+    </div>
+    <div id='datetime'>
+      <div id="hour"></div>
+      <div id="date"></div>
+    </div>
+    <div id='legendfooter' class="legend-footer">Het bij elke melding gepubliceerde tijdstip betreft het moment waarop het LCM het dossier afsluit en het proces van inschakeling van de berger begint. Meldingen verschijnen in beeld met een vertraging van tien tot dertig seconden ten opzichte van het gepubliceerde tijdstip.
     </div>
     <div style="display: none;">
       <div id="popup" class="popover top in">
