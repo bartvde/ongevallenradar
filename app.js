@@ -486,38 +486,37 @@
   var filterRayon = false;
 
   if (window.embedMap !== true) {
+    var hasRayon = function() {
+      var result = false;
+      for (var rayon in selectedRayons) {
+        if (selectedRayons[rayon] === true) {
+          result = true;
+          break;
+        }
+      }
+      return result;
+    };
+    $('#filter-toggle').toggles().addClass('disabled').on('toggle', function(evt) {
+      filterRayon = !filterRayon;
+      for (var key in sources) {
+        var source = sources[key];
+        source.changed();
+      }
+    });
     $('#sel-rayon').multiSelect({
       afterSelect: function(values) {
         selectedRayons[values[0]] = true;
+        $('#filter-toggle').removeClass('disabled');
       },
       afterDeselect: function(values) {
         if (values !== null) {
           selectedRayons[values[0]] = false;
         }
-      }
-    });
-    $('#filter-button').click(function(evt) {
-      var hasRayon = false;
-      for (var rayon in selectedRayons) {
-        if (selectedRayons[rayon] === true) {
-          hasRayon = true;
+        if (hasRayon()) {
+          $('#filter-toggle').removeClass('disabled');
+        } else {
+          $('#filter-toggle').addClass('disabled');
         }
-      }
-      filterRayon = hasRayon;
-      if (filterRayon) {
-        for (var key in sources) {
-          var source = sources[key];
-          source.changed();
-        }
-      }
-    });
-    $('#clear-filter-button').click(function(evt) {
-      filterRayon = false;
-      $('#sel-rayon').multiSelect('deselect_all');
-      $('#sel-rayon').multiSelect('refresh');
-      for (var key in sources) {
-        var source = sources[key];
-        source.changed();
       }
     });
   }

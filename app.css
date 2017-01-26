@@ -55,9 +55,6 @@ label {
   height: 165px;
   background-color: white;
 }
-#clear-filter-button {
-  margin-left: 20px !important;
-}
 .ms-container {
   width: 200px !important;
 }
@@ -119,4 +116,10 @@ label {
   position: absolute;
   right: 0px;
   top: 80px;
+}
+#filter-toggle {
+  position: relative;
+  width: 70px;
+  bottom: 60px;
+  left: 210px;
 }
