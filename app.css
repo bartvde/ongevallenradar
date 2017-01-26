@@ -80,10 +80,10 @@ label {
 }
 #popup {
   display: block;
-  width: 212px;
-  height: 275px;
-  left: -106px;
-  top: -275px;
+  width: 260px;
+  height: 305px;
+  left: -130px;
+  top: -305px;
 }
 .ol-popup-closer {
   text-decoration: none;
