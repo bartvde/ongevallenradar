@@ -9,14 +9,6 @@ body {
 label {
   color: #077495;
 }
-#app-title {
-  height: 80px;
-  text-align: center;
-  color: #077495;
-}
-.app-title-main {
-  font-size: 18px;
-}
 .flexcontainer {
   justify-content: space-between;
   display: -webkit-flex;
@@ -73,7 +65,7 @@ label {
 #map {
   background-color: white;
   width: 100%;
-  height: calc(100% - 80px);
+  height: 100%;
 }
 #popup {
   display: block;
@@ -112,10 +104,10 @@ label {
 }
 #eastpanel {
   width: 20%;
-  height: calc(100% - 80px);
+  height: 100%;
   position: absolute;
   right: 0px;
-  top: 80px;
+  top: 0px;
 }
 #filter-toggle {
   position: relative;
