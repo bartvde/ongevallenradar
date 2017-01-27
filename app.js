@@ -566,7 +566,7 @@
       layers.actueel
     ],
     target: 'map',
-    view: new ol.View({ minResolution: 0.5971642834779395, maxResolution: 611.49622628141, center: [570000, 6817000], zoom: window.embedMap !== true ? 1 : 6})
+    view: new ol.View({ minResolution: 0.5971642834779395, maxResolution: window.embedMap !== true ? 611.49622628141 : undefined, center: [570000, 6817000], zoom: window.embedMap !== true ? 1 : 6})
   });
 
   if (window.embedMap !== true) {
