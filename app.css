@@ -26,9 +26,9 @@ label {
 #title label {
   width: 100%;
   text-align: center;
+  font-size: x-small;
 }
 .flexcontainer {
-  justify-content: space-between;
   display: -webkit-flex;
   display: flex;
   -webkit-flex-direction: column;
@@ -68,7 +68,7 @@ label {
   height: 100px;
 }
 #filter {
-  padding: 10px;
+  padding: 5px;
   height: 120px;
   border-bottom: 1px solid rgba(7,116,149, 0.5);
 }
@@ -109,28 +109,17 @@ label {
   position: absolute;
   top: 2px;
   right: 8px;
-  font-size: 20px;
+  font-size: large;
 }
 .ol-popup-closer:after {
   content: "✖";
 }
 .legend-footer {
   color: #077495;
-  font-size: 9px;
+  font-size: xx-small;
 }
 #ms-sel-rayon li {
   color: #077495;
-}
-.btn.focus, .btn:focus, .btn:hover {
-  color: #077495 !important;
-}
-.btn-app {
-  padding-left: 0px !important;
-  font-family: 'Verdana' !important;
-  font-size: 14px !important;
-  font-weight: bold !important;
-  color: #077495;
-  background-color: white;
 }
 #eastpanel {
   background-color: white;
@@ -151,19 +140,19 @@ label {
   margin-right: 30%;
   font-weight: bold;
   color: #077495;
-  height: 100px;
+  height: 90px;
   width: 40%;
 }
 #hour {
-  font-size: 50px;
+  font-size: xx-large;
 }
 #date {
-  font-size: 25px;
+  font-size: medium;
 }
 #collapse {
   color: #077495;
   font-weight: bold;
-  font-size: 30px;
+  font-size: large;
   position: absolute;
   top: 0px;
   right: 20%;
