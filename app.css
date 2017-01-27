@@ -160,3 +160,12 @@ label {
 #date {
   font-size: 25px;
 }
+#collapse {
+  color: #077495;
+  font-weight: bold;
+  font-size: 30px;
+  position: absolute;
+  top: 0px;
+  right: 20%;
+  z-index: 10000;
+}

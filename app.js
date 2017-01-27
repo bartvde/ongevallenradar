@@ -735,6 +735,22 @@
     }
   }
 
+  var collapsibleEl = $('#eastpanel');
+  var buttonEl =  $("#collapse");
+  var expanded = true;
+  buttonEl.click(function() {
+    if (expanded) {
+      buttonEl.css({right: '0px'});
+      collapsibleEl.css({display: 'none'});
+      buttonEl.html('&laquo;');
+    } else {
+      buttonEl.css({right: '20%'});
+      collapsibleEl.css({display: 'inline-flex'});  
+      buttonEl.html('&raquo;');
+    }
+    expanded = !expanded;
+  });
+
   setDateTime();
   window.setInterval(reloadFeatures, 10000);
 })();
