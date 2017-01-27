@@ -745,7 +745,7 @@
       buttonEl.html('&laquo;');
     } else {
       buttonEl.css({right: '20%'});
-      collapsibleEl.css({display: 'inline-flex'});  
+      collapsibleEl.css({display: ''});
       buttonEl.html('&raquo;');
     }
     expanded = !expanded;
