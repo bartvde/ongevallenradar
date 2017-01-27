@@ -7,7 +7,7 @@ body {
   font-family: 'Verdana' !important;
 }
 label {
-  color: #077495;
+  color: #4794AE;
 }
 #canvas {
   -webkit-user-select: none;
@@ -115,11 +115,11 @@ label {
   content: "✖";
 }
 .legend-footer {
-  color: #077495;
+  color: #4794AE;
   font-size: xx-small;
 }
 #ms-sel-rayon li {
-  color: #077495;
+  color: #4794AE;
 }
 #eastpanel {
   background-color: white;
@@ -139,7 +139,7 @@ label {
   margin-left: 30%;
   margin-right: 30%;
   font-weight: bold;
-  color: #077495;
+  color: #4794AE;
   height: 80px;
   width: 40%;
 }
@@ -150,7 +150,7 @@ label {
   font-size: medium;
 }
 #collapse {
-  color: #077495;
+  color: #4794AE;
   font-weight: bold;
   font-size: large;
   position: absolute;
