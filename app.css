@@ -50,7 +50,7 @@ label {
   right: 0px;
 }
 #legend {
-  height: 120px;
+  height: 130px;
   padding: 5px;
   overflow: auto;
   border-bottom: 1px solid rgba(7,116,149, 0.5);
@@ -140,7 +140,7 @@ label {
   margin-right: 30%;
   font-weight: bold;
   color: #077495;
-  height: 90px;
+  height: 80px;
   width: 40%;
 }
 #hour {
