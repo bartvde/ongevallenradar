@@ -85,12 +85,14 @@ label {
   border-bottom: 1px solid rgba(7,116,149, 0.5);
 }
 .soundoff {
-  background-image: url(img/ic_volume_off_black_48px.svg);
+  background-image: url(img/sound_off.svg);
+  background-size: 48px 48px;
   cursor: pointer;
 }
 .soundon {
   cursor: pointer;
-  background-image: url(img/ic_volume_up_black_48px.svg);
+  background-size: 48px 48px;
+  background-image: url(img/sound_on.svg);
 }
 #map {
   background-color: white;
