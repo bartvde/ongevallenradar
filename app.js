@@ -232,43 +232,43 @@
     actueel: {
       een: new ol.style.RegularShape({
         fill: new ol.style.Fill({color: '#FF0000'}),
-        stroke: new ol.style.Stroke({color: '#8a0808', width: 2}),
+        stroke: new ol.style.Stroke({color: '#990000', width: 2}),
         points: 3,
         radius: 13.5,
         angle: 0
       }),
       twee: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: '#FE9A2E'}),
-        stroke: new ol.style.Stroke({color: '#B45F04', width: 2}),
+        fill: new ol.style.Fill({color: '#FF6600'}),
+        stroke: new ol.style.Stroke({color: '#B84F09', width: 2}),
         points: 3,
         radius: 13.5,
         angle: 0
       }),
       drie: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: '#F4FA58'}),
-        stroke: new ol.style.Stroke({color: '#AEB404', width: 2}),
+        fill: new ol.style.Fill({color: 'yellow'}),
+        stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
         points: 3,
         radius: 13.5,
         angle: 0
       }),
       vier: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: '#F4FA58'}),
-        stroke: new ol.style.Stroke({color: '#AEB404', width: 2}),
+        fill: new ol.style.Fill({color: 'yellow'}),
+        stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
         points: 3,
         radius: 13.5,
         angle: 0
       }),
       vijf: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: '#F4FA58'}),
-        stroke: new ol.style.Stroke({color: '#AEB404', width: 2}),
+        fill: new ol.style.Fill({color: 'yellow'}),
+        stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
         points: 3,
         radius: 13.5,
         angle: 0
       })
     },
     uur: new ol.style.RegularShape({
-      fill: new ol.style.Fill({color: 'rgba(192, 192, 192, 0.8)'}),
-      stroke: new ol.style.Stroke({color: 'rgba(0, 0, 0, 0.8)', width: 2}),
+      fill: new ol.style.Fill({color: '#E5E5E5'}),
+      stroke: new ol.style.Stroke({color: '#4C4C4C', width: 2}),
       points: 3,
       radius: 10,
       angle: 0
