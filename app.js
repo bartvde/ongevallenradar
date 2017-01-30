@@ -739,11 +739,11 @@
   var expanded = true;
   buttonEl.click(function() {
     if (expanded) {
-      buttonEl.css({right: '0px'});
+      $('#centerpanel').css({right: '0px'});
       collapsibleEl.css({display: 'none'});
       buttonEl.html('&laquo;');
     } else {
-      buttonEl.css({right: '20%'});
+      $('#centerpanel').css({right: '20%'});
       collapsibleEl.css({display: ''});
       buttonEl.html('&raquo;');
     }

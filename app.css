@@ -133,6 +133,14 @@ label {
 #ms-sel-rayon li {
   color: #4794AE;
 }
+#centerpanel {
+  height: 100%;
+  width: 25px;
+  background-color: #D3E6EC;
+  right: 20%;
+  position: absolute;
+  top: 0px;
+}
 #eastpanel {
   background-color: white;
   width: 20%;
@@ -168,6 +176,5 @@ label {
   font-size: large;
   position: absolute;
   top: 0px;
-  right: 20%;
   z-index: 10000;
 }
