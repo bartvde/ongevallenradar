@@ -443,7 +443,7 @@
         if (!styleCache[nummer + '|' + text]) {
           styleCache[nummer + '|' + text] = new ol.style.Style({
             text: new ol.style.Text({
-              fill: new ol.style.Fill({color: '#0000FF'}),
+              fill: new ol.style.Fill({color: '#00007a'}),
               stroke: new ol.style.Stroke({color: '#FFFFFF', width: 1.5}),
               font: 'bold 11px Arial',
               offsetY: -35,
