@@ -59,6 +59,8 @@ label {
   border-bottom: 1px solid #D3E6EC;
 }
 #filter {
+  padding-right: 5px;
+  margin-top: 40px;
   padding-left: 5px;
   border-bottom: 1px solid #D3E6EC;
 }
