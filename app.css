@@ -7,7 +7,7 @@ body {
   font-family: 'Verdana' !important;
 }
 label {
-  color: #4794AE;
+  color: #077395;
 }
 #canvas {
   -webkit-user-select: none;
@@ -127,11 +127,11 @@ label {
   content: "✖";
 }
 .legend-footer {
-  color: #4794AE;
+  color: #077395;
   font-size: xx-small;
 }
 #ms-sel-rayon li {
-  color: #4794AE;
+  color: #077395;
 }
 #centerpanel {
   height: 100%;
@@ -156,11 +156,27 @@ label {
   bottom: 60px;
   left: 210px;
 }
+#collapse-button {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: 0px;
+}
+.collapsed {
+  background-image: url(img/collapse.svg);
+  background-size: 25px 25px;
+  cursor: pointer;
+}
+.expanded {
+  background-image: url(img/expand.svg);
+  background-size: 25px 25px;
+  cursor: pointer;
+}
 #datetime {
   margin-left: 30%;
   margin-right: 30%;
   font-weight: bold;
-  color: #4794AE;
+  color: #077395;
   height: 80px;
   width: 40%;
 }
@@ -169,12 +185,4 @@ label {
 }
 #date {
   font-size: medium;
-}
-#collapse {
-  color: #4794AE;
-  font-weight: bold;
-  font-size: large;
-  position: absolute;
-  top: 0px;
-  z-index: 10000;
 }

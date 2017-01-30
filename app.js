@@ -735,18 +735,18 @@
   }
 
   var collapsibleEl = $('#eastpanel');
-  var buttonEl =  $("#collapse");
+  var buttonEl =  $("#collapse-button");
   var expanded = true;
   buttonEl.click(function() {
     if (expanded) {
       $('#centerpanel').css({right: '0px'});
       collapsibleEl.css({display: 'none'});
-      buttonEl.html('&laquo;');
     } else {
       $('#centerpanel').css({right: '20%'});
       collapsibleEl.css({display: ''});
-      buttonEl.html('&raquo;');
     }
+    buttonEl.toggleClass('expanded');
+    buttonEl.toggleClass('collapsed');
     expanded = !expanded;
   });
 
