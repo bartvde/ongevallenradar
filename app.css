@@ -21,7 +21,7 @@ label {
   margin: 5px;
 }
 #title {
-  border-bottom: 1px solid rgba(7,116,149, 0.5);
+  border-bottom: 1px solid #D3E6EC;
 }
 #title label {
   width: 100%;
@@ -54,7 +54,7 @@ label {
   height: 130px;
   padding: 5px;
   overflow: auto;
-  border-bottom: 1px solid rgba(7,116,149, 0.5);
+  border-bottom: 1px solid #D3E6EC;
 }
 #legendfooter {
   height: 60px;
@@ -63,12 +63,12 @@ label {
 #layers {
   padding: 5px;
   overflow: auto;
-  border-bottom: 1px solid rgba(7,116,149, 0.5);
+  border-bottom: 1px solid #D3E6EC;
 }
 #filter {
   padding: 5px;
   height: 120px;
-  border-bottom: 1px solid rgba(7,116,149, 0.5);
+  border-bottom: 1px solid #D3E6EC;
 }
 .ms-container {
   width: 200px !important;
@@ -80,7 +80,7 @@ label {
   background-repeat: no-repeat;
   height: 58px;
   padding: 5px;
-  border-bottom: 1px solid rgba(7,116,149, 0.5);
+  border-bottom: 1px solid #D3E6EC;
 }
 .soundoff {
   background-image: url(img/sound_off.svg);
