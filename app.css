@@ -94,6 +94,16 @@ label {
   background-size: 48px 48px;
   background-image: url(img/sound_on.svg);
 }
+.toggleon {
+  background-image: url(img/toggle_on.svg);
+  background-size: 65px 26px;
+  cursor: pointer;
+}
+.toggleoff {
+  background-image: url(img/toggle_off.svg);
+  background-size: 65px 26px;
+  cursor: pointer;
+}
 #map {
   background-color: white;
   width: 100%;
@@ -131,9 +141,10 @@ label {
   right: 0px;
   top: 0px;
 }
-#filter-toggle {
+#filter-button {
+  width: 65px;
+  height: 26px;
   position: relative;
-  width: 70px;
   bottom: 60px;
   left: 210px;
 }

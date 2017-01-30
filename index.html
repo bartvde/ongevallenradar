@@ -8,15 +8,12 @@
   <link rel="stylesheet" type="text/css" href="vendor/openlayers/dist/ol.css">
   <link rel="stylesheet" type="text/css" href="vendor/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="vendor/multiselect/css/multi-select.css">
-  <link rel="stylesheet" type="text/css" href="vendor/jquery-toggles/css/toggles.css">
-  <link rel="stylesheet" type="text/css" href="vendor/jquery-toggles/css/themes/toggles-iphone.css">  
   <link rel="stylesheet" media="(max-width: 800px)" href="mobile.css" />
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
   <script src="vendor/openlayers/dist/ol.js"></script>
   <script src="vendor/jquery/dist/jquery.min.js"></script>
   <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="vendor/multiselect/js/jquery.multi-select.js"></script>
-  <script src="vendor/jquery-toggles/toggles.min.js"></script>
 </head>
 <body>
   <div id='map'>
@@ -34,7 +31,7 @@
     </div>
     <div id='filter'>
       <select class="form-control" id="sel-rayon" multiple='multiple'></select>
-      <div id="filter-toggle" class="toggle toggle-iphone"></div>
+      <div id="filter-button" class='toggleoff'></div>
     </div>
     <div id='beep'>
       <div id='beep-button' style="width:48px;height:48px" class='soundoff'></div>

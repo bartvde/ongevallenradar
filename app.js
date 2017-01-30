@@ -496,8 +496,13 @@
       }
       return result;
     };
-    $('#filter-toggle').toggles().addClass('disabled').on('toggle', function(evt) {
+    $('#filter-button').on('click', function(evt){ 
+      if (!hasRayon() && !filterRayon) {
+        return;
+      }
       filterRayon = !filterRayon;
+      $('#filter-button').toggleClass('toggleoff');
+      $('#filter-button').toggleClass('toggleon');
       for (var key in sources) {
         var source = sources[key];
         source.changed();
@@ -506,16 +511,10 @@
     $('#sel-rayon').multiSelect({
       afterSelect: function(values) {
         selectedRayons[values[0]] = true;
-        $('#filter-toggle').removeClass('disabled');
       },
       afterDeselect: function(values) {
         if (values !== null) {
           selectedRayons[values[0]] = false;
-        }
-        if (hasRayon()) {
-          $('#filter-toggle').removeClass('disabled');
-        } else {
-          $('#filter-toggle').addClass('disabled');
         }
       }
     });
