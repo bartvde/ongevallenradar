@@ -4,7 +4,7 @@ html, body {
 }
 body {
   margin: 0;
-  font-family: 'Verdana' !important;
+  font-family: Verdana, Arial, "Trebuchet MS", Helvetica, sans-serif !important;
 }
 label {
   color: #077395;
