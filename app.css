@@ -46,13 +46,11 @@ label {
   right: 0px;
 }
 #legend {
-  height: 130px;
   padding: 5px;
   overflow: auto;
   border-bottom: 1px solid #D3E6EC;
 }
 #legendfooter {
-  height: 60px;
   margin: 10px;
 }
 #layers {
@@ -167,7 +165,6 @@ label {
   margin-left: 30%;
   margin-right: 30%;
   color: #077395;
-  height: 80px;
   width: 40%;
 }
 #hour {
