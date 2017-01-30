@@ -29,6 +29,7 @@ label {
   font-size: x-small;
 }
 .flexcontainer {
+  justify-content: space-between;
   display: -webkit-flex;
   display: flex;
   -webkit-flex-direction: column;
