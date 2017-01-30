@@ -727,7 +727,7 @@
     var layer = layersArray[l];
     if (layer.get('title')) {
       var checked = layer.getVisible() ? ' checked' : '';
-      layerBody.append('<div class="checkbox"><label><input id="vis_' + layer.get('id') + '" type="checkbox" value=""' + checked + '>' + layer.get('title') + '</label></div>');
+      layerBody.append('<div class="pretty"><input id="vis_' + layer.get('id') + '" type="checkbox" value=""' + checked + '/><label><i class="mi mi-check"></i>' + layer.get('title') + '</label></div><br/>');
       $('#vis_' + layer.get('id')).on('change', $.proxy(function(evt) {
         this.setVisible(evt.target.checked);
       }, layer));
