@@ -739,15 +739,18 @@
   var expanded = true;
   buttonEl.click(function() {
     if (expanded) {
+      $('#map').css({width: '100%'});
       $('#centerpanel').css({right: '0px'});
       collapsibleEl.css({display: 'none'});
     } else {
+      $('#map').css({width: '80%'});
       $('#centerpanel').css({right: '20%'});
       collapsibleEl.css({display: ''});
     }
     buttonEl.toggleClass('expanded');
     buttonEl.toggleClass('collapsed');
     expanded = !expanded;
+    map.updateSize();
   });
 
   setDateTime();
