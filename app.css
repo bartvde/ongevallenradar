@@ -23,11 +23,6 @@ label {
 #title {
   border-bottom: 1px solid #D3E6EC;
 }
-#title label {
-  width: 100%;
-  text-align: center;
-  font-size: x-small;
-}
 .flexcontainer {
   justify-content: space-between;
   display: -webkit-flex;
@@ -117,14 +112,14 @@ label {
   position: absolute;
   top: 2px;
   right: 8px;
-  font-size: large;
+  font-size: 20px;
 }
 .ol-popup-closer:after {
   content: "✖";
 }
 .legend-footer {
   color: #077395;
-  font-size: xx-small;
+  font-size: 9px;
 }
 #ms-sel-rayon li {
   color: #077395;
@@ -176,8 +171,12 @@ label {
   width: 40%;
 }
 #hour {
-  font-size: xx-large;
+  font-size: 40px;
 }
 #date {
-  font-size: medium;
+  font-size: 20px;
+}
+.bordertext {
+  text-align: right;
+  color: #D3E6EC;
 }
