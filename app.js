@@ -333,7 +333,7 @@
       vectorContext.drawGeometry(new ol.geom.Point([pointX, pointY]));
       var fontSize = 9 * dpr;
       ctx.font = fontSize + 'px Verdana';
-      ctx.fillStyle = '#4794AE';
+      ctx.fillStyle = '#077395';
       ctx.fillText(legendText[key], dpr * (pointX + 27) , dpr * pointY);
       pointY += intervalY;
     }
