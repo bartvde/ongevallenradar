@@ -118,7 +118,8 @@ label {
   content: "✖";
 }
 .legend-footer {
-  color: #077395;
+  color: #83B9CA;
+  text-align: center;
   font-size: 9px;
 }
 #ms-sel-rayon li {
@@ -164,10 +165,10 @@ label {
   cursor: pointer;
 }
 #datetime {
-  margin-left: 30%;
-  margin-right: 30%;
-  color: #077395;
-  width: 40%;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  color: #83B9CA;
 }
 #hour {
   font-size: 40px;

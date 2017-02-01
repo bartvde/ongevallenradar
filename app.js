@@ -331,7 +331,7 @@
       }
       vectorContext.setStyle(style);
       vectorContext.drawGeometry(new ol.geom.Point([pointX, pointY]));
-      var fontSize = 9 * dpr;
+      var fontSize = 14 * dpr;
       ctx.font = fontSize + 'px Verdana';
       ctx.fillStyle = '#077395';
       ctx.fillText(legendText[key], dpr * (pointX + 27) , dpr * pointY);
