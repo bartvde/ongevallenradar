@@ -16,12 +16,13 @@ label {
   -ms-user-select: none;
   user-select: none;
 }
-.logo-img {
-  width: 90%;
-  margin: 5px;
-}
 #title {
+  height: 200px;
+  background-image: url(img/logo.svg);
+  background-size: 90% 100%;
+  background-repeat: no-repeat;
   border-bottom: 1px solid #D3E6EC;
+  background-position: center;
 }
 .flexcontainer {
   justify-content: space-between;
@@ -75,14 +76,18 @@ label {
   padding: 5px;
   border-bottom: 1px solid #D3E6EC;
 }
+#beep-button {
+  width: 36px;
+  height: 36px;
+}
 .soundoff {
   background-image: url(img/sound_off.svg);
-  background-size: 48px 48px;
+  background-size: 36px 36px;
   cursor: pointer;
 }
 .soundon {
   cursor: pointer;
-  background-size: 48px 48px;
+  background-size: 36px 36px;
   background-image: url(img/sound_on.svg);
 }
 .toggleon {
@@ -171,7 +176,7 @@ label {
   color: #83B9CA;
 }
 #hour {
-  font-size: 40px;
+  font-size: 42px;
 }
 #date {
   font-size: 20px;
