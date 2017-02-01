@@ -21,7 +21,7 @@ label {
   background-color: white;
   height: 125px;
   background-image: url(img/logo.svg);
-  background-size: 100% 100%;
+  background-size: 275px 72px;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -49,7 +49,7 @@ label {
 }
 #legend {
   color: #077395;
-  height: 100px;
+  height: 130px;
   background-color: white;
   margin: 15px;
   justify-content: space-between;
@@ -63,15 +63,16 @@ label {
   height: 100%;
 }
 .legendimg img {
-  height: 80px;
+  height: 100px;
 }
 #legendtext {
   width: 90%;
+  height: 100%;
   margin-left: 15px;
 }
 #legendtext div {
-  line-height: 20px;
-  height: 20px;
+  line-height: 25px;
+  height: 25px;
 }
 .between {
   border: 1px solid #D3E6EC;
