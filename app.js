@@ -497,7 +497,7 @@
       return result;
     };
     $('#filter-button').on('click', function(evt){ 
-      if (!hasRayon() && !filterRayon) {
+      if (!hasRayon()) {
         return;
       }
       filterRayon = !filterRayon;
@@ -515,6 +515,15 @@
       afterDeselect: function(values) {
         if (values !== null) {
           selectedRayons[values[0]] = false;
+        }
+        if (!hasRayon()) {
+          $('#filter-button').addClass('toggleoff');
+          $('#filter-button').removeClass('toggleon');
+          filterRayon = false;
+          for (var key in sources) {
+            var source = sources[key];
+            source.changed();
+          }
         }
       }
     });
