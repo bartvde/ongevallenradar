@@ -48,9 +48,30 @@ label {
   right: 0px;
 }
 #legend {
+  color: #077395;
+  height: 100px;
   background-color: white;
-  padding: 15px;
-  overflow: auto;
+  margin: 15px;
+  justify-content: space-between;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+.legendimg {
+  width: 10%;
+  height: 100%;
+}
+.legendimg img {
+  height: 80px;
+}
+#legendtext {
+  width: 90%;
+  margin-left: 15px;
+}
+#legendtext div {
+  line-height: 20px;
+  height: 20px;
 }
 .between {
   border: 1px solid #D3E6EC;

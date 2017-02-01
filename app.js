@@ -275,13 +275,6 @@
     })
   };
 
-  var legendText = {
-    actueel_een: 'laatste melding',
-    actueel_twee: 'op ' + String.fromCharCode('233') + String.fromCharCode('233') + 'n na laatste melding',
-    actueel_vier: 'drie laatste meldingen' + ' daarv' + String.fromCharCode('243') + String.fromCharCode('243') + 'r',
-    uur: 'recente meldingen'
-  };
-
   var doJSONP = function(url, success, failure, scope) {
     var cbname = 'fn' + scope.key + Date.now();
     var script = document.createElement('script');
@@ -308,36 +301,6 @@
     xmlhttp.send();
     return xmlhttp;
   };
-
-  var canvas = document.getElementById('canvas');
-  if (canvas) {
-    var vectorContext = ol.render.toContext(canvas.getContext('2d'), {size: [210, 4*27]});
-    var ctx = canvas.getContext("2d");
-    var pointX = 13.5;
-    var pointY = 13.5;
-    var intervalY = 13.5*2;
-    var dpr = window.devicePixelRatio || 1;
-    for (var key in legendText) {
-      var parts = key.split('_');
-      var style;
-      if (parts.length === 2) {
-        style = new ol.style.Style({
-          image: imageStyles[parts[0]][parts[1]]
-        });
-      } else {
-        style = new ol.style.Style({
-          image: imageStyles[key]
-        });
-      }
-      vectorContext.setStyle(style);
-      vectorContext.drawGeometry(new ol.geom.Point([pointX, pointY]));
-      var fontSize = 14 * dpr;
-      ctx.font = fontSize + 'px Verdana';
-      ctx.fillStyle = '#077395';
-      ctx.fillText(legendText[key], dpr * (pointX + 27) , dpr * pointY);
-      pointY += intervalY;
-    }
-  }
 
   var styleCache = {};
   var styleCacheUur = {};
