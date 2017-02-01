@@ -17,11 +17,11 @@ label {
   user-select: none;
 }
 #title {
+  background-color: white;
   height: 125px;
   background-image: url(img/logo.svg);
   background-size: 90% 100%;
   background-repeat: no-repeat;
-  border-bottom: 1px solid #D3E6EC;
   background-position: center;
 }
 .flexcontainer {
@@ -47,22 +47,29 @@ label {
   right: 0px;
 }
 #legend {
+  background-color: white;
   padding: 5px;
   overflow: auto;
-  border-bottom: 1px solid #D3E6EC;
+}
+.between {
+  border: 1px solid #D3E6EC;
 }
 #legendfooter {
+  background-color: white;
   margin: 10px;
 }
 #layers {
+  background-color: white;
   padding: 5px;
   overflow: auto;
-  border-bottom: 1px solid #D3E6EC;
 }
 #filter {
-  padding-right: 5px;
-  padding-left: 5px;
-  border-bottom: 1px solid #D3E6EC;
+  background-color: white;
+  padding: 5px;
+}
+#filter-body {
+  height: 100px;
+  position: relative;
 }
 .ms-container {
   width: 200px !important;
@@ -71,9 +78,9 @@ label {
   height: 100px !important;
 }
 #beep {
+  background-color: white;
   background-repeat: no-repeat;
   padding: 5px;
-  border-bottom: 1px solid #D3E6EC;
 }
 #beep-button {
   width: 32px;
@@ -169,6 +176,7 @@ label {
   cursor: pointer;
 }
 #datetime {
+  background-color: white;
   font-weight: bold;
   width: 100%;
   text-align: center;
