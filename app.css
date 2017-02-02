@@ -16,15 +16,6 @@ label {
   -ms-user-select: none;
   user-select: none;
 }
-#title {
-  margin: 15px;
-  background-color: white;
-  height: 125px;
-  background-image: url(img/logo.svg);
-  background-size: 275px 72px;
-  background-repeat: no-repeat;
-  background-position: center;
-}
 .flexcontainer {
   justify-content: space-between;
   display: -webkit-flex;
@@ -32,26 +23,54 @@ label {
   -webkit-flex-direction: column;
   flex-direction: column;
 }
-.attribution {
-  cursor: pointer;
-  margin-bottom: 0px;
-}
-#attribution {
+#title {
+  margin: 15px 0px 0px 30px;
   background-color: white;
-  width: 340px;
-  margin: auto;
-  z-index: 5000;
-  bottom: 10px;
-  position: fixed;
-  display: flex;
-  left: 0px;
-  right: 0px;
+  height: 80px;
+  background-image: url(img/logo.svg);
+  background-size: 275px 72px;
+  background-repeat: no-repeat;
+  background-position: left;
+}
+#layers {
+  background-color: white;
+  padding: 0px 0px 0px 35px;
+  margin: -10px 0px -10px 0px;
+  overflow: auto;
+}
+#filter {
+  background-color: white;
+  padding: 0px 0px 0px 35px;
+}
+#filter-body {
+  height: 100px;
+  position: relative;
+}
+#beep {
+  background-color: white;
+  background-repeat: no-repeat;
+  padding: 0px 0px 0px 35px;
+  margin: -10px 0px -10px 0px;
+}
+#beep-button {
+  width: 32px;
+  height: 32px;
+}
+.soundoff {
+  background-image: url(img/sound_off.svg);
+  background-size: 32px 32px;
+  cursor: pointer;
+}
+.soundon {
+  cursor: pointer;
+  background-size: 32px 32px;
+  background-image: url(img/sound_on.svg);
 }
 #legend {
   color: #077395;
-  height: 130px;
+  height: 100px;
   background-color: white;
-  margin: 15px;
+  margin: 0px 0px 0px 40px;
   justify-content: space-between;
   display: -webkit-flex;
   display: flex;
@@ -74,6 +93,20 @@ label {
   line-height: 25px;
   height: 25px;
 }
+#datetime {
+  background-color: white;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  color: #83B9CA;
+}
+#hour {
+  font-size: 50px;
+}
+#date {
+  font-size: 20px;
+  margin: -10px 0px 0px 0px;
+}
 .between {
   border: 1px solid #D3E6EC;
 }
@@ -81,18 +114,20 @@ label {
   background-color: white;
   margin: 10px;
 }
-#layers {
-  background-color: white;
-  padding: 15px;
-  overflow: auto;
+.attribution {
+  cursor: pointer;
+  margin-bottom: 0px;
 }
-#filter {
+#attribution {
   background-color: white;
-  padding: 15px;
-}
-#filter-body {
-  height: 100px;
-  position: relative;
+  width: 340px;
+  margin: auto;
+  z-index: 5000;
+  bottom: 10px;
+  position: fixed;
+  display: flex;
+  left: 0px;
+  right: 0px;
 }
 .ms-container {
   width: 200px !important;
@@ -100,25 +135,7 @@ label {
 .ms-container .ms-list {
   height: 100px !important;
 }
-#beep {
-  background-color: white;
-  background-repeat: no-repeat;
-  padding: 15px;
-}
-#beep-button {
-  width: 32px;
-  height: 32px;
-}
-.soundoff {
-  background-image: url(img/sound_off.svg);
-  background-size: 32px 32px;
-  cursor: pointer;
-}
-.soundon {
-  cursor: pointer;
-  background-size: 32px 32px;
-  background-image: url(img/sound_on.svg);
-}
+
 .toggleon {
   background-image: url(img/toggle_on.svg);
   background-size: 50px 20px;
@@ -197,19 +214,6 @@ label {
   background-image: url(img/expand.svg);
   background-size: 15px 15px;
   cursor: pointer;
-}
-#datetime {
-  background-color: white;
-  font-weight: bold;
-  width: 100%;
-  text-align: center;
-  color: #83B9CA;
-}
-#hour {
-  font-size: 42px;
-}
-#date {
-  font-size: 20px;
 }
 .bordertext {
   text-align: right;
