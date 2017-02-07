@@ -1,5 +1,5 @@
 (function() {
-  var geoserverUrl = 'http://164.138.30.171:8080/geoserver/ows?';
+  var geoserverUrl = 'http://164.138.30.171/geoserver/ows?';
   var useJSONP = true;
 
   var rayons = [
