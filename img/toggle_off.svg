@@ -17,7 +17,7 @@ viewBox="0 0 648 257"
    <![CDATA[
     @font-face { font-family:"Verdana";src:url("#FontID0") format(svg)}
     .fil1 {fill:white}
-    .fil0 {fill:#83B9CA}
+    .fil0 {fill:#4495AF}
     .fnt0 {font-weight:bold;font-size:150.472px;font-family:'Verdana'}
    ]]>
   </style>

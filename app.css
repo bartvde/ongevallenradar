@@ -57,14 +57,14 @@ label {
   height: 32px;
 }
 .soundoff {
-  background-image: url(img/sound_off.svg);
+  background-image: url(img/sound_on.svg);
   background-size: 32px 32px;
   cursor: pointer;
 }
 .soundon {
   cursor: pointer;
   background-size: 32px 32px;
-  background-image: url(img/sound_on.svg);
+  background-image: url(img/sound_off.svg);
 }
 #legend {
   color: #077395;
