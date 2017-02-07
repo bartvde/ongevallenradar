@@ -338,7 +338,7 @@
   var layers = {
     uur: new ol.layer.Vector({
       zIndex: 4,
-      visible: false,
+      visible: true,
       id: 'uur',
       title: 'Meldingen laatste zestig minuten',
       style: function(feature, resolution) {
