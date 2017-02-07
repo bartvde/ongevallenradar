@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Creator: CorelDRAW X7 -->
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="262px" height="235px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-viewBox="0 0 95 85"
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="500px" height="500px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 199 199"
  xmlns:xlink="http://www.w3.org/1999/xlink">
  <defs>
   <style type="text/css">
    <![CDATA[
-    .str1 {stroke:white;stroke-width:3.70336}
-    .str0 {stroke:#4495AF;stroke-width:5.87914;stroke-linecap:round;stroke-linejoin:round}
-    .fil1 {fill:none}
-    .fil2 {fill:#4495AF}
-    .fil0 {fill:white}
+    .str0 {stroke:#4495AF;stroke-width:14.2475;stroke-linecap:round;stroke-linejoin:round}
+    .fil0 {fill:none}
+    .fil2 {fill:white}
+    .fil1 {fill:#4495AF}
    ]]>
   </style>
  </defs>
  <g id="Layer_x0020_1">
   <metadata id="CorelCorpID_0Corel-Layer"/>
-  <rect class="fil0" width="94.8331" height="85.2221"/>
-  <path class="fil1 str0" d="M64 32c2,3 3,7 3,10 0,4 -1,8 -3,11"/>
-  <path class="fil2" d="M32 29l3 -2 16 -16 0 0c0,0 1,-1 2,-1l0 0c2,0 3,2 3,4l0 57c0,2 -1,4 -3,4l0 0c-1,0 -2,-1 -2,-1l0 0 -16 -16 -1 0 -20 0c-1,0 -2,-2 -2,-3l0 -23c0,-1 1,-3 2,-3l18 0z"/>
-  <rect class="fil2 str1" transform="matrix(0.0873737 0.0873737 -0.0873737 0.0873737 76.8367 1.46483)" width="76.7036" height="865.142" rx="38" ry="38"/>
+  <path class="fil0 str0" d="M152 73c5,7 7,17 7,24 0,10 -2,20 -7,27"/>
+  <path class="fil1" d="M74 66l8 -5 38 -39 0 0c0,0 3,-2 5,-2l0 0c5,0 8,5 8,9l0 139c0,4 -3,9 -8,9l0 0c-2,0 -5,-2 -5,-2l0 0 -38 -39 -3 0 -48 0c-3,0 -5,-5 -5,-7l0 -56c0,-2 2,-7 5,-7l43 0z"/>
+  <g id="_1624102427696">
+   <rect class="fil2" transform="matrix(0.707107 0.707107 -0.707107 0.707107 182.344 -7.04171)" width="33.9027" height="267.831" rx="17" ry="17"/>
+   <rect class="fil1" transform="matrix(0.707107 0.707107 -0.707107 0.707107 182.671 6.36137)" width="14.4856" height="249.339" rx="7" ry="7"/>
+  </g>
  </g>
 </svg>
