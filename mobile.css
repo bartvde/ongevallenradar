@@ -4,3 +4,11 @@
 #centerpanel {
   display: none;
 }
+#map {
+  width: 100%;
+}
+#popup {
+  height: 200px;
+  overflow: auto;
+  top: -200px;
+}
