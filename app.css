@@ -67,6 +67,8 @@ label {
   background-image: url(img/sound_off.svg);
 }
 #legend {
+  width: 100%;
+  overflow: auto;
   color: #077395;
   height: 100px;
   background-color: white;
@@ -78,20 +80,11 @@ label {
   flex-direction: row;
 }
 .legendimg {
-  width: 10%;
-  height: 100%;
+  padding: 2px;
+  width: 28px;
 }
-.legendimg img {
-  height: 100px;
-}
-#legendtext {
-  width: 90%;
-  height: 100%;
-  margin-left: 15px;
-}
-#legendtext div {
-  line-height: 25px;
-  height: 25px;
+.legendtext {
+  padding-left: 15px;
 }
 #datetime {
   background-color: white;
