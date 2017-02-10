@@ -711,12 +711,12 @@
   var expanded = true;
   buttonEl.click(function() {
     if (expanded) {
-      $('#map').css({width: '100%'});
+      $('#map').css({width: 'calc(100% - 15px)'});
       $('#centerpanel').css({right: '0px'});
       collapsibleEl.css({display: 'none'});
     } else {
-      $('#map').css({width: '80%'});
-      $('#centerpanel').css({right: '20%'});
+      $('#map').css({width: 'calc(100% - 340px)'});
+      $('#centerpanel').css({right: '325px'});
       collapsibleEl.css({display: ''});
     }
     buttonEl.toggleClass('expanded');
