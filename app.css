@@ -130,12 +130,12 @@ label {
 }
 
 .toggleon {
-  background-image: url(img/toggle_on.svg);
+  background-image: url(img/toggle_uit.svg);
   background-size: 50px 20px;
   cursor: pointer;
 }
 .toggleoff {
-  background-image: url(img/toggle_off.svg);
+  background-image: url(img/toggle_aan.svg);
   background-size: 50px 20px;
   cursor: pointer;
 }
