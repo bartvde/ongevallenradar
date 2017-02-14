@@ -1,5 +1,6 @@
 (function() {
-  var geoserverUrl = 'http://164.138.30.171/geoserver/ows?';
+  var protocol = (window.location.protocol === 'https:') ? 'https:' : 'http:';
+  var geoserverUrl = protocol + '//164.138.30.171/geoserver/ows?';
   var useJSONP = true;
 
   var rayons = [
