@@ -56,16 +56,6 @@ label {
   width: 32px;
   height: 32px;
 }
-.soundoff {
-  background-image: url(img/sound_on.svg);
-  background-size: 32px 32px;
-  cursor: pointer;
-}
-.soundon {
-  cursor: pointer;
-  background-size: 32px 32px;
-  background-image: url(img/sound_off.svg);
-}
 #legend {
   overflow: auto;
   color: #077395;
@@ -127,17 +117,6 @@ label {
 }
 .ms-container .ms-list {
   height: 100px !important;
-}
-
-.toggleon {
-  background-image: url(img/toggle_uit.svg);
-  background-size: 50px 20px;
-  cursor: pointer;
-}
-.toggleoff {
-  background-image: url(img/toggle_aan.svg);
-  background-size: 50px 20px;
-  cursor: pointer;
 }
 #map {
   position: absolute;
