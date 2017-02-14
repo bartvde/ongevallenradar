@@ -117,7 +117,8 @@ label {
   z-index: 5000;
   bottom: 10px;
   position: fixed;
-  display: flex;
+  display: table-cell;
+  text-align:center;
   left: 0px;
   right: 0px;
 }
