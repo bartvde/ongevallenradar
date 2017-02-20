@@ -5,6 +5,12 @@ html, body {
 body {
   margin: 0;
   font-family: Verdana, Arial, "Trebuchet MS", Helvetica, sans-serif !important;
+  font-size: 14px !important;
+  font-size: 1.8vh !important;
+}
+.ms-container .ms-selectable li.ms-elem-selectable, .ms-container .ms-selection li.ms-elem-selection {
+  font-size: 14px !important;
+  font-size: 1.8vh !important;
 }
 label {
   color: #077395;
@@ -37,6 +43,10 @@ label {
   padding: 0px 0px 0px 35px;
   margin: -10px 0px -10px 0px;
   overflow: auto;
+}
+#filter-melder {
+  padding: 0px 0px 0px 35px;
+  margin: -10px 0px -10px 0px;
 }
 #filter {
   background-color: white;
@@ -84,9 +94,11 @@ label {
 }
 #hour {
   font-size: 50px;
+  font-size: 6.5vh;
 }
 #date {
   font-size: 20px;
+  font-size: 2.6vh;
   margin: -10px 0px 0px 0px;
 }
 .between {
@@ -119,6 +131,7 @@ label {
   height: 100px !important;
 }
 #map {
+  min-height: 735px;
   position: absolute;
   top: 0px;
   left: 0px;
@@ -143,15 +156,11 @@ label {
 .ol-popup-closer:after {
   content: "✖";
 }
-.legend-footer {
-  color: #83B9CA;
-  text-align: center;
-  font-size: 9px;
-}
 #ms-sel-rayon li {
   color: #077395;
 }
 #centerpanel {
+  min-height: 735px;
   height: 100%;
   width: 15px;
   background-color: #D3E6EC;
@@ -160,12 +169,14 @@ label {
   top: 0px;
 }
 #eastpanel {
+  min-height: 735px;
   background-color: white;
   width: 325px;
   height: 100%;
   position: absolute;
   right: 0px;
   top: 0px;
+  overflow: auto;
 }
 #filter-button {
   width: 50px;

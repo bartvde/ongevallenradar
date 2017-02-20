@@ -698,6 +698,17 @@
     }
   };
 
+  // melders filter
+  var melder_filter = $('#filter-melder');
+  var melders = [{id: 0, title: 'Verkeerscentrale'}, {id: 1, title: 'Politie meldkamer'}, {id: 2, title: 'ANWB'}];
+  for (var m = 0, mm = melders.length; m < mm; ++m) {
+    melder_filter.append('<div class="pretty"><input id="melder_' + melders[m].id + '" type="checkbox" value="' + melders[m].id +  '" checked/><label><i class="mi mi-check"></i>' + melders[m].title + '</label></div><br/>');
+    $('#melder_' + melders[m].id).on('change', $.proxy(function(evt) {
+      console.log(evt.target.value);
+      console.log(evt.target.checked);
+    }));
+  }
+
   // layer list control
   var layerBody = $('#layer-body');
   var layersArray = map.getLayers().getArray().reverse();
