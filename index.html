@@ -27,59 +27,63 @@
   <div id='centerpanel'>
     <div id='collapse-button' class='collapsed'></div>
   </div>
-  <div id='eastpanel' class='flexcontainer'>
-    <a href="http://www.stichtingimn.nl"/><div id='title'></div></a>
-    <div class='between'></div>
-    <div id='layers'>
-      <div id='layer-body'></div>
+  <div id='eastpanel'>
+    <div id='secondaryoptions'>
+      <button id='backtomain'>Terug naar opties</button>
+      <div id='filter-melder'></div>
     </div>
-    <div class='between'></div>
-    <div id='filter'>
-      <div id='filter-body'>
-        <select class="form-control" id="sel-rayon" multiple='multiple'></select>
-        <div id="filter-button"><img id='filter-button-img' style="cursor: pointer;" width="50" height="20" src="img/toggle_aan.svg" title="zet filter op uw rayonselectie aan/uit" /></div>
+    <div id='mainoptions' class='flexcontainer'>
+      <a href="http://www.stichtingimn.nl"/><div id='title'></div></a>
+      <div class='between'></div>
+      <div id='layers'>
+        <div id='layer-body'></div>
       </div>
-    </div>
-    <div class='between'></div>
-    <div id='filter-melder'>
-    </div>
-    <div class='between'></div>
-    <div id='beep'>
-      <div id='beep-button'><img id='beep-button-img' src="img/sound_on.svg" width="32" height="32" style="cursor: pointer;" title="zet geluid bij nieuwe melding aan/uit"/></div>
-    </div>
-    <div class='between'></div>
-    <div id='legend' title='Het bij elke melding gepubliceerde tijdstip betreft het moment waarop het LCM het dossier afsluit en het proces van inschakeling van de berger begint. Meldingen verschijnen in beeld met een vertraging van tien tot dertig seconden ten opzichte van het gepubliceerde tijdstip.'>
-      <table>
-        <tr>
-          <td><img class="legendimg" src="img/driehoek-rood.svg"></td>
-          <td class="legendtext">laatste melding</td>
-        </tr>
-        <tr>
-          <td><img class="legendimg" src="img/driehoek-oranje.svg"></td>
-          <td class="legendtext">op &eacute;&eacute;n na laatste melding</td>
-        </tr>
-        <tr>
-          <td><img class="legendimg" src="img/driehoek-geel.svg"></td>
-          <td class="legendtext">drie laatste meldingen daarv&oacute;&oacute;r</td>
-        </tr>
-        <tr>
-          <td><img class="legendimg" src="img/driehoek-grijs.svg"></td>
-          <td class="legendtext">recente meldingen</td>
-        </tr>
-      </table>
-    </div>
-    <div class='between'></div>
-    <div id='datetime'>
-      <div id="hour"></div>
-      <div id="date"></div>
-    </div>
-    <div style="display: none;">
-      <div id="popup" class="popover top in">
-        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-        <div class="arrow"></div>
-        <h3 class="popover-title">Info</h3>
-        <div id="popup-content" class="popover-content"></div>
+      <div class='between'></div>
+      <div id='filter'>
+        <div id='filter-body'>
+          <select class="form-control" id="sel-rayon" multiple='multiple'></select>
+          <div id="filter-button"><img id='filter-button-img' style="cursor: pointer;" width="50" height="20" src="img/toggle_aan.svg" title="zet filter op uw rayonselectie aan/uit" /></div>
+        </div>
       </div>
+      <div class='between'></div>
+      <div id='beep'>
+        <div id='beep-button'><img id='beep-button-img' src="img/sound_on.svg" width="32" height="32" style="cursor: pointer;" title="zet geluid bij nieuwe melding aan/uit"/></div>
+      </div>
+      <div class='between'></div>
+      <div id='legend' title='Het bij elke melding gepubliceerde tijdstip betreft het moment waarop het LCM het dossier afsluit en het proces van inschakeling van de berger begint. Meldingen verschijnen in beeld met een vertraging van tien tot dertig seconden ten opzichte van het gepubliceerde tijdstip.'>
+        <table>
+          <tr>
+            <td><img class="legendimg" src="img/driehoek-rood.svg"></td>
+            <td class="legendtext">laatste melding</td>
+          </tr>
+          <tr>
+            <td><img class="legendimg" src="img/driehoek-oranje.svg"></td>
+            <td class="legendtext">op &eacute;&eacute;n na laatste melding</td>
+          </tr>
+          <tr>
+            <td><img class="legendimg" src="img/driehoek-geel.svg"></td>
+            <td class="legendtext">drie laatste meldingen daarv&oacute;&oacute;r</td>
+          </tr>
+          <tr>
+            <td><img class="legendimg" src="img/driehoek-grijs.svg"></td>
+            <td class="legendtext">recente meldingen</td>
+          </tr>
+        </table>
+      </div>
+      <div class='between'></div>
+      <div id='datetime'>
+        <div id="hour"></div>
+        <div id="date"></div>
+      </div>
+      <button id='options'>Extra opties</button>
+    </div>
+  </div>
+  <div style="display: none;">
+    <div id="popup" class="popover top in">
+      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+      <div class="arrow"></div>
+      <h3 class="popover-title">Info</h3>
+      <div id="popup-content" class="popover-content"></div>
     </div>
   </div>
   <script src="app.js"></script>

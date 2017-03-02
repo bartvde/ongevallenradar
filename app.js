@@ -336,6 +336,16 @@
     })
   };
 
+  var filterFunction = function(feature) {
+    if (filterRayon === true && selectedRayons[rayon] !== true) {
+      return false;
+    }
+    var melder = feature.get('melder');
+    if (filterMelder === true && selectedMelders[melder] === false) {
+      return false;
+    }
+  };
+
   var layers = {
     uur: new ol.layer.Vector({
       zIndex: 4,
@@ -344,8 +354,7 @@
       title: 'Meldingen laatste zestig minuten',
       style: function(feature, resolution) {
         var showLabel = resolution <= 78;
-        var rayon = feature.get('rayon');
-        if (filterRayon === true && selectedRayons[rayon] !== true) {
+        if (filterFunction(feature) === false) {
           return null;
         }
         var text = feature.get('bps') + '\n' + feature.get('tijdstip') + '\n' + feature.get('incident_type');
@@ -372,8 +381,7 @@
       title: 'Meldingen vandaag',
       style: function(feature, resolution) {
         var showLabel = resolution <= 78;
-        var rayon = feature.get('rayon');
-        if (filterRayon === true && selectedRayons[rayon] !== true) {
+        if (filterFunction(feature) === false) {
           return null;
         }
         var text = feature.get('bps') + '\n' + feature.get('tijdstip') + '\n' + feature.get('incident_type');
@@ -399,8 +407,7 @@
       title: 'Actuele meldingen',
       style: function(feature, resolution) {
         var nummer = feature.get('nummer');
-        var rayon = feature.get('rayon');
-        if (filterRayon === true && selectedRayons[rayon] !== true) {
+        if (filterFunction(feature) === false) {
           return null;
         }
         var text = feature.get('bps') + '\n' + feature.get('tijdstip') + '\n' + feature.get('incident_type');
@@ -447,57 +454,67 @@
   }
 
   var selectedRayons = {};
+  var selectedMelders = {};
   var filterRayon = false;
+  var filterMelder = false;
 
-  if (window.embedMap !== true) {
-    var hasRayon = function() {
-      var result = false;
-      for (var rayon in selectedRayons) {
-        if (selectedRayons[rayon] === true) {
-          result = true;
-          break;
-        }
+  var hasRayon = function() {
+    var result = false;
+    for (var rayon in selectedRayons) {
+      if (selectedRayons[rayon] === true) {
+        result = true;
+        break;
       }
-      return result;
-    };
-    $('#filter-button').on('click', function(evt){ 
+    }
+    return result;
+  };
+
+  $('#options').on('click', function(evt) {
+    $('#mainoptions').hide();
+    $('#secondaryoptions').show();
+  });
+
+  $('#backtomain').on('click', function(evt) {
+    $('#mainoptions').show();
+    $('#secondaryoptions').hide();
+  });
+
+  $('#filter-button').on('click', function(evt){ 
+    if (!hasRayon()) {
+      return;
+    }
+    filterRayon = !filterRayon;
+    if (filterRayon) {
+      $('#filter-button-img').attr('src', 'img/toggle_uit.svg');
+    } else {
+      $('#filter-button-img').attr('src', 'img/toggle_aan.svg');
+    }
+    for (var key in sources) {
+      var source = sources[key];
+      source.changed();
+    }
+  });
+  $('#sel-rayon').multiSelect({
+    afterSelect: function(values) {
+      selectedRayons[values[0]] = true;
+    },
+    afterDeselect: function(values) {
+      if (values !== null) {
+        selectedRayons[values[0]] = false;
+      }
       if (!hasRayon()) {
-        return;
-      }
-      filterRayon = !filterRayon;
-      if (filterRayon) {
-        $('#filter-button-img').attr('src', 'img/toggle_uit.svg');
-      } else {
         $('#filter-button-img').attr('src', 'img/toggle_aan.svg');
-      }
-      for (var key in sources) {
-        var source = sources[key];
-        source.changed();
-      }
-    });
-    $('#sel-rayon').multiSelect({
-      afterSelect: function(values) {
-        selectedRayons[values[0]] = true;
-      },
-      afterDeselect: function(values) {
-        if (values !== null) {
-          selectedRayons[values[0]] = false;
-        }
-        if (!hasRayon()) {
-          $('#filter-button-img').attr('src', 'img/toggle_aan.svg');
-          filterRayon = false;
-          for (var key in sources) {
-            var source = sources[key];
-            source.changed();
-          }
+        filterRayon = false;
+        for (var key in sources) {
+          var source = sources[key];
+          source.changed();
         }
       }
-    });
-  }
+    }
+  });
 
   var map = new ol.Map({
-    interactions: window.embedMap === true ? [] : ol.interaction.defaults(),
-    controls: window.embedMap === true ? [] : ol.control.defaults({attribution: false}),
+    controls: ol.control.defaults({attribution: false}),
     layers: [
       new ol.layer.Tile({
         extent: [313086.06785608083, 6418264.391049679, 939258.2035682462, 7200979.560689885],
@@ -540,52 +557,50 @@
       layers.actueel
     ],
     target: 'map',
-    view: new ol.View({ minResolution: 0.5971642834779395, maxResolution: window.embedMap !== true ? 611.49622628141 : undefined, center: [570000, 6817000], zoom: window.embedMap !== true ? 1 : 6})
+    view: new ol.View({ minResolution: 0.5971642834779395, maxResolution: 611.49622628141, center: [570000, 6817000], zoom: 1})
   });
 
-  if (window.embedMap !== true) {
-    var container = document.getElementById('popup');
-    var content = document.getElementById('popup-content');
-    var closer = document.getElementById('popup-closer');
+  var container = document.getElementById('popup');
+  var content = document.getElementById('popup-content');
+  var closer = document.getElementById('popup-closer');
 
-    closer.onclick = function() {
-      overlay.setPosition(undefined);
-      closer.blur();
-      return false;
-    };
+  closer.onclick = function() {
+    overlay.setPosition(undefined);
+    closer.blur();
+    return false;
+  };
 
-    var overlay = new ol.Overlay({
-      element: container,
-      autoPan: true,
-      autoPanAnimation: {
-        duration: 250
+  var overlay = new ol.Overlay({
+    element: container,
+    autoPan: true,
+    autoPanAnimation: {
+      duration: 250
+    }
+  });
+
+  map.addOverlay(overlay);
+
+  map.on('click', function(evt) {
+    var pixel = map.getEventPixel(evt.originalEvent);
+    overlay.setPosition(undefined);
+    map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+      if (feature && layer !== null) {
+        var coordinate = evt.coordinate;
+        var html = '<table class="table"><tbody>';
+        html += '<tr><td>IM nummer</td><td>' + feature.get('meldnr') + '</td></tr>';
+        html += '<tr><td>Locatie</td><td>' + feature.get('bps') + '</td></tr>';
+        html += '<tr><td>Tijdstip</td><td>' + feature.get('tijdstip') + '</td></tr>';
+        html += '<tr><td>Type</td><td>' + feature.get('incident_type').replace('Pech', 'Pechverplaatsing').replace('Onbeheerd', 'Onbeheerd voertuig') + '</td></tr>';
+        html += '<tr><td>Berger</td><td>' + feature.get('berger') + '</td></tr>';
+        html += '<tr><td>Melder</td><td>' + feature.get('melder') + '</td></tr>';
+        html += '</tbody></table>';
+        content.innerHTML = html;
+        overlay.setPosition(feature.getGeometry().getCoordinates());
       }
     });
+  });
 
-    map.addOverlay(overlay);
-
-    map.on('click', function(evt) {
-      var pixel = map.getEventPixel(evt.originalEvent);
-      overlay.setPosition(undefined);
-      map.forEachFeatureAtPixel(pixel, function(feature, layer) {
-        if (feature && layer !== null) {
-          var coordinate = evt.coordinate;
-          var html = '<table class="table"><tbody>';
-          html += '<tr><td>IM nummer</td><td>' + feature.get('meldnr') + '</td></tr>';
-          html += '<tr><td>Locatie</td><td>' + feature.get('bps') + '</td></tr>';
-          html += '<tr><td>Tijdstip</td><td>' + feature.get('tijdstip') + '</td></tr>';
-          html += '<tr><td>Type</td><td>' + feature.get('incident_type').replace('Pech', 'Pechverplaatsing').replace('Onbeheerd', 'Onbeheerd voertuig') + '</td></tr>';
-          html += '<tr><td>Berger</td><td>' + feature.get('berger') + '</td></tr>';
-          html += '<tr><td>Melder</td><td>' + feature.get('melder') + '</td></tr>';
-          html += '</tbody></table>';
-          content.innerHTML = html;
-          overlay.setPosition(feature.getGeometry().getCoordinates());
-        }
-      });
-    });
-  }
-
-  var allowBeep = (window.embedMap !== true);
+  var allowBeep = true;
   $('#beep-button').on('click', function(evt) {
     allowBeep = !allowBeep;
     if (allowBeep) {
@@ -637,9 +652,8 @@
       if (!sourceHasFeature(source, feature)) {
         // only beep for actueel
         doBeep = (key === 'actueel');
-        var rayon = feature.get('rayon');
-        // do not beep if we are filtering and rayon is not in the selected list
-        if (filterRayon === true && selectedRayons[rayon] !== true) {
+        // do not beep if we are filtered
+        if (filterFunction(feature) === false) {
           doBeep = false;
         }
       }
@@ -700,13 +714,46 @@
 
   // melders filter
   var melder_filter = $('#filter-melder');
-  var melders = [{id: 0, title: 'Verkeerscentrale'}, {id: 1, title: 'Politie meldkamer'}, {id: 2, title: 'ANWB'}];
-  for (var m = 0, mm = melders.length; m < mm; ++m) {
+  var melders = [{
+    id: 0,
+    title: 'Verkeerscentrale',
+    items: ['Verkeerscentrale']
+  }, {
+    id: 1,
+    title: 'Politie',
+    items: ['Politiemeldkamer', 'KLPD']
+  }, {
+    id: 2,
+    title: 'ANWB',
+    items: ['ANWB']
+  }, {
+    id: 3,
+    title: 'Alarmcentrale',
+    items: ['SOS International', 'Allianz Global Assistance', 'Eurocross']
+  }, {
+    id: 4,
+    title: 'Onbekend',
+    items: ['Overig']
+  }];
+  var m, mm;
+  var handleMelderFilter = function(evt) {
+    for (m = 0, mm = melders.length; m < mm; ++m) {
+      if ('' + melders[m].id === evt.target.value) {
+        for (var itemI = 0, itemII = melders[m].items.length; itemI < itemII; ++itemI) {
+          selectedMelders[melders[m].items[itemI]] = evt.target.checked;
+        }
+        break;
+      }
+    }
+    filterMelder = true;
+    for (var key in sources) {
+      var source = sources[key];
+      source.changed();
+    }
+  };
+  for (m = 0, mm = melders.length; m < mm; ++m) {
     melder_filter.append('<div class="pretty"><input id="melder_' + melders[m].id + '" type="checkbox" value="' + melders[m].id +  '" checked/><label><i class="mi mi-check"></i>' + melders[m].title + '</label></div><br/>');
-    $('#melder_' + melders[m].id).on('change', $.proxy(function(evt) {
-      console.log(evt.target.value);
-      console.log(evt.target.checked);
-    }));
+    $('#melder_' + melders[m].id).on('change', handleMelderFilter);
   }
 
   // layer list control
