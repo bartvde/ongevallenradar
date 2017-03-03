@@ -229,51 +229,95 @@
     'ZH163a'
   ];
 
+  var cirkel = false;
+
   var imageStyles = {
     actueel: {
-      een: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: '#FF0000'}),
-        stroke: new ol.style.Stroke({color: '#990000', width: 2}),
-        points: 3,
-        radius: 13.5,
-        angle: 0
-      }),
-      twee: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: '#FF6600'}),
-        stroke: new ol.style.Stroke({color: '#B84F09', width: 2}),
-        points: 3,
-        radius: 13.5,
-        angle: 0
-      }),
-      drie: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: 'yellow'}),
-        stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
-        points: 3,
-        radius: 13.5,
-        angle: 0
-      }),
-      vier: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: 'yellow'}),
-        stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
-        points: 3,
-        radius: 13.5,
-        angle: 0
-      }),
-      vijf: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: 'yellow'}),
-        stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
-        points: 3,
-        radius: 13.5,
-        angle: 0
-      })
+      een: {
+        normal: new ol.style.RegularShape({
+          fill: new ol.style.Fill({color: '#FF0000'}),
+          stroke: new ol.style.Stroke({color: '#990000', width: 2}),
+          points: 3,
+          radius: 13.5,
+          angle: 0
+        }),
+        circle: new ol.style.Circle({
+          fill: new ol.style.Fill({color: '#FF0000'}),
+          stroke: new ol.style.Stroke({color: '#990000', width: 2}),
+          radius: 13.5
+        })
+      },
+      twee: {
+        normal: new ol.style.RegularShape({
+          fill: new ol.style.Fill({color: '#FF6600'}),
+          stroke: new ol.style.Stroke({color: '#B84F09', width: 2}),
+          points: 3,
+          radius: 13.5,
+          angle: 0
+        }),
+        circle: new ol.style.Circle({
+          fill: new ol.style.Fill({color: '#FF6600'}),
+          stroke: new ol.style.Stroke({color: '#B84F09', width: 2}),
+          radius: 13.5
+        })
+      },
+      drie: {
+        normal: new ol.style.RegularShape({
+          fill: new ol.style.Fill({color: 'yellow'}),
+          stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
+          points: 3,
+          radius: 13.5,
+          angle: 0
+        }),
+        circle: new ol.style.Circle({
+          fill: new ol.style.Fill({color: 'yellow'}),
+          stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
+          radius: 13.5
+        })
+      },
+      vier: {
+        normal: new ol.style.RegularShape({
+          fill: new ol.style.Fill({color: 'yellow'}),
+          stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
+          points: 3,
+          radius: 13.5,
+          angle: 0
+        }),
+        circle: new ol.style.Circle({
+          fill: new ol.style.Fill({color: 'yellow'}),
+          stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
+          radius: 13.5
+        })
+      },
+      vijf: {
+        normal: new ol.style.RegularShape({
+          fill: new ol.style.Fill({color: 'yellow'}),
+          stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
+          points: 3,
+          radius: 13.5,
+          angle: 0
+        }),
+        circle: new ol.style.Circle({
+          fill: new ol.style.Fill({color: 'yellow'}),
+          stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
+          radius: 13.5
+        })
+      }
     },
-    uur: new ol.style.RegularShape({
-      fill: new ol.style.Fill({color: '#E5E5E5'}),
-      stroke: new ol.style.Stroke({color: '#4C4C4C', width: 2}),
-      points: 3,
-      radius: 10,
-      angle: 0
-    })
+    uur: {
+      normal: new ol.style.RegularShape({
+        fill: new ol.style.Fill({color: '#E5E5E5'}),
+        stroke: new ol.style.Stroke({color: '#4C4C4C', width: 2}),
+        points: 3,
+        radius: 10,
+        angle: 0
+      }),
+      circle: new ol.style.Circle({
+        fill: new ol.style.Fill({color: '#E5E5E5'}),
+        stroke: new ol.style.Stroke({color: '#4C4C4C', width: 2}),
+        radius: 10
+      })
+    }
   };
 
   var doJSONP = function(url, success, failure, scope) {
@@ -367,7 +411,7 @@
               offsetY: -35,
               text: text
             }) : undefined,
-            image: imageStyles.uur
+            image: imageStyles.uur[cirkel ? 'circle' : 'normal']
           });
         }
         return styleCacheUur[showLabel + '|' + text];
@@ -394,7 +438,7 @@
               offsetY: -35,
               text: text
             }) : undefined,
-            image: imageStyles.uur
+            image: imageStyles.uur[cirkel ? 'circle' : 'normal']
           });
         }
         return styleCacheVandaag[showLabel + '|' + text];
@@ -420,7 +464,7 @@
               offsetY: -35,
               text: text
             }),
-            image: imageStyles.actueel[nummer]
+            image: imageStyles.actueel[nummer][cirkel ? 'circle' : 'normal']
           });
         }
         return styleCache[nummer + '|' + text];
@@ -769,6 +813,17 @@
       }, layer));
     }
   }
+
+  $('#cirkel').on('change', function(evt) {
+    cirkel = evt.target.checked;
+    // clear the style caches
+    styleCache = {};
+    styleCacheUur = {};
+    styleCacheVandaag = {};
+    for (var key in sources) {
+      sources[key].changed();
+    }
+  });
 
   var collapsibleEl = $('#eastpanel');
   var buttonEl =  $("#collapse-button");

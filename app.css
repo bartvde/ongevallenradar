@@ -22,6 +22,11 @@ label {
   -ms-user-select: none;
   user-select: none;
 }
+#backtomain {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
 .flexcontainer {
   justify-content: space-between;
   display: -webkit-flex;
@@ -30,6 +35,9 @@ label {
   flex-direction: column;
 }
 #filter-melder {
+  margin: 15px 0px 0px 30px;
+}
+#cirkel-pech {
   margin: 15px 0px 0px 30px;
 }
 #title {
