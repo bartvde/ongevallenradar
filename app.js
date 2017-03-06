@@ -1,4 +1,14 @@
 (function() {
+  var cookieName = 'ongevallenradar';
+  var cookieInfo = Cookies.getJSON(cookieName);
+  var selectedRayons = cookieInfo ? cookieInfo.selectedRayons : {};
+  var selectedMelders = cookieInfo ? cookieInfo.selectedMelders : {};
+  var filterRayon = cookieInfo ? cookieInfo.filterRayon : false;
+  var filterMelder = cookieInfo ? cookieInfo.filterMelder : false;
+  var cirkel = cookieInfo ? cookieInfo.cirkel : false;
+
+  $('#cirkel').attr('checked', cirkel);
+
   var protocol = (window.location.protocol === 'https:') ? 'https:' : 'http:';
   var geoserverUrl = protocol + '//164.138.30.171/geoserver/ows?';
   var useJSONP = true;
@@ -229,8 +239,6 @@
     'ZH163a'
   ];
 
-  var cirkel = false;
-
   var imageStyles = {
     actueel: {
       een: {
@@ -381,6 +389,7 @@
   };
 
   var filterFunction = function(feature) {
+    var rayon = feature.get('rayon');
     if (filterRayon === true && selectedRayons[rayon] !== true) {
       return false;
     }
@@ -497,11 +506,6 @@
     $('#sel-rayon').append($("<option></option>").attr("value", rayons[i]).text(rayons[i]));
   }
 
-  var selectedRayons = {};
-  var selectedMelders = {};
-  var filterRayon = false;
-  var filterMelder = false;
-
   var hasRayon = function() {
     var result = false;
     for (var rayon in selectedRayons) {
@@ -520,8 +524,12 @@
     json.filterMelder = filterMelder;
     json.selectedMelders = selectedMelders;
     json.cirkel = cirkel;
-console.log(json);
-    Cookies.set('ongevallenradar', json);
+    Cookies.set(cookieName, json);
+  });
+
+  $('#clear').on('click', function(evt) {
+    Cookies.remove(cookieName);
+    // TODO reload
   });
 
   $('#options').on('click', function(evt) {
@@ -534,16 +542,22 @@ console.log(json);
     $('#secondaryoptions').hide();
   });
 
+  var setToggleImg = function() {
+    var toggleAanImg = 'img/toggle_aan.svg';
+    var toggleUitImg = 'img/toggle_uit.svg';
+    if (filterRayon) {
+      $('#filter-button-img').attr('src', toggleUitImg);
+    } else {
+      $('#filter-button-img').attr('src', toggleAanImg);
+    }
+  };
+  setToggleImg();
   $('#filter-button').on('click', function(evt){ 
     if (!hasRayon()) {
       return;
     }
     filterRayon = !filterRayon;
-    if (filterRayon) {
-      $('#filter-button-img').attr('src', 'img/toggle_uit.svg');
-    } else {
-      $('#filter-button-img').attr('src', 'img/toggle_aan.svg');
-    }
+    setToggleImg();
     for (var key in sources) {
       var source = sources[key];
       source.changed();
@@ -567,6 +581,13 @@ console.log(json);
       }
     }
   });
+  var initialRayons = [];
+  for (var r in selectedRayons) {
+    if (selectedRayons[r] === true) {
+      initialRayons.push(r);
+    }
+  }
+  $('#sel-rayon').multiSelect('select', initialRayons);
 
   var map = new ol.Map({
     controls: ol.control.defaults({attribution: false}),
