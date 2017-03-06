@@ -17,6 +17,7 @@
   <script src="vendor/jquery/dist/jquery.min.js"></script>
   <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="vendor/multiselect/js/jquery.multi-select.js"></script>
+  <script src="vendor/js-cookie/src/js.cookie.js"></script>
 </head>
 <body>
   <div id='map'>
@@ -29,9 +30,19 @@
   </div>
   <div id='eastpanel'>
     <div id='secondaryoptions'>
+      <a href="http://www.stichtingimn.nl"/><div id='title'></div></a>
+      <div class='between'></div>
       <div id='filter-melder'></div>
+      <div class='between'></div>
       <div id='cirkel-pech'>
         <div class="pretty"><input id="cirkel" type="checkbox"/><label><i class="mi mi-check"></i>Pechgeval als cirkel</label></div>
+      </div>
+      <div class='between'></div>
+      <div id='save-settings'>
+        <button id='save'>Opslaan instellingen</button>
+      </div>
+      <div id='clear-settings'>
+        <button id='clear'>Wissen instellingen</button>
       </div>
       <button id='backtomain'>Terug naar Hoofdmenu</button> 
     </div>

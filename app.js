@@ -411,7 +411,7 @@
               offsetY: -35,
               text: text
             }) : undefined,
-            image: imageStyles.uur[cirkel ? 'circle' : 'normal']
+            image: imageStyles.uur[(cirkel && feature.get('incident_type') === 'Pech') ? 'circle' : 'normal']
           });
         }
         return styleCacheUur[showLabel + '|' + text];
@@ -438,7 +438,7 @@
               offsetY: -35,
               text: text
             }) : undefined,
-            image: imageStyles.uur[cirkel ? 'circle' : 'normal']
+            image: imageStyles.uur[(cirkel && feature.get('incident_type') === 'Pech') ? 'circle' : 'normal']
           });
         }
         return styleCacheVandaag[showLabel + '|' + text];
@@ -464,7 +464,7 @@
               offsetY: -35,
               text: text
             }),
-            image: imageStyles.actueel[nummer][cirkel ? 'circle' : 'normal']
+            image: imageStyles.actueel[nummer][(cirkel && feature.get('incident_type') === 'Pech') ? 'circle' : 'normal']
           });
         }
         return styleCache[nummer + '|' + text];
@@ -512,6 +512,17 @@
     }
     return result;
   };
+
+  $('#save').on('click', function(evt) {
+    var json = {};
+    json.filterRayon = filterRayon;
+    json.selectedRayons = selectedRayons;
+    json.filterMelder = filterMelder;
+    json.selectedMelders = selectedMelders;
+    json.cirkel = cirkel;
+console.log(json);
+    Cookies.set('ongevallenradar', json);
+  });
 
   $('#options').on('click', function(evt) {
     $('#mainoptions').hide();

@@ -15,6 +15,9 @@ body {
 label {
   color: #077395;
 }
+button {
+  color: #077395 !important;
+}
 #canvas {
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -38,6 +41,12 @@ label {
   margin: 15px 0px 0px 30px;
 }
 #cirkel-pech {
+  margin: 15px 0px 0px 30px;
+}
+#save-settings {
+  margin: 15px 0px 0px 30px;
+}
+#clear-settings {
   margin: 15px 0px 0px 30px;
 }
 #title {
