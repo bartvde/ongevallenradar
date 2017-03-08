@@ -22,6 +22,7 @@ label {
   color: #077395;
 }
 button {
+  background-color: white;
   color: #077395 !important;
 }
 #canvas {
