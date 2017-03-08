@@ -531,6 +531,9 @@
     json.selectedMeldersCat = selectedMeldersCat;
     json.cirkel = cirkel;
     Cookies.set(cookieName, json);
+    if (Cookies.getJSON(cookieName)) {
+      alert('Instellingen succesvol opgeslagen');
+    }
   });
 
   $('#clear').on('click', function(evt) {
