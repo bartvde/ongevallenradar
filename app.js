@@ -519,6 +519,11 @@
 
   $('#save').on('click', function(evt) {
     var json = {};
+    json.layers = {};
+    $("#layer-body :input").each(function(){
+      var input = $(this);
+      json.layers[input.attr('id')] = input.is(':checked');
+    });
     json.filterRayon = filterRayon;
     json.selectedRayons = selectedRayons;
     json.filterMelder = filterMelder;
@@ -838,6 +843,13 @@
   for (var l = 0, ll = layersArray.length; l < ll; ++l) {
     var layer = layersArray[l];
     if (layer.get('title')) {
+      if (cookieInfo && cookieInfo.layers) {
+        for (var lyr in cookieInfo.layers) {
+          if ('vis_' + layer.get('id') === lyr) {
+            layer.setVisible(cookieInfo.layers[lyr]);
+          }
+        }
+      }
       var checked = layer.getVisible() ? ' checked' : '';
       layerBody.append('<div class="pretty"><input id="vis_' + layer.get('id') + '" type="checkbox" value=""' + checked + '/><label><i class="mi mi-check"></i>' + layer.get('title') + '</label></div><br/>');
       $('#vis_' + layer.get('id')).on('change', $.proxy(function(evt) {
