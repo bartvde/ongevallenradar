@@ -8,6 +8,12 @@ body {
   font-size: 14px !important;
   font-size: 1.8vh !important;
 }
+.ol-zoom {
+  font-size: 16px;
+}
+.ol-zoom button {
+  color: white !important;
+}
 .ms-container .ms-selectable li.ms-elem-selectable, .ms-container .ms-selection li.ms-elem-selection {
   font-size: 14px !important;
   font-size: 1.8vh !important;
