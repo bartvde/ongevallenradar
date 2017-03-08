@@ -2,7 +2,8 @@
   var cookieName = 'ongevallenradar';
   var cookieInfo = Cookies.getJSON(cookieName);
   var selectedRayons = cookieInfo ? cookieInfo.selectedRayons : {};
-  var selectedMelders = cookieInfo ? cookieInfo.selectedMelders : {};
+  var selectedMelders = {};
+  var selectedMeldersCat = cookieInfo ? cookieInfo.selectedMeldersCat : {};
   var filterRayon = cookieInfo ? cookieInfo.filterRayon : false;
   var filterMelder = cookieInfo ? cookieInfo.filterMelder : false;
   var cirkel = cookieInfo ? cookieInfo.cirkel : false;
@@ -393,7 +394,7 @@
     if (filterRayon === true && selectedRayons[rayon] !== true) {
       return false;
     }
-    var melder = feature.get('melder');
+    var melder = feature.get('melder').toLowerCase();
     if (filterMelder === true && selectedMelders[melder] === false) {
       return false;
     }
@@ -527,7 +528,7 @@
     json.filterRayon = filterRayon;
     json.selectedRayons = selectedRayons;
     json.filterMelder = filterMelder;
-    json.selectedMelders = selectedMelders;
+    json.selectedMeldersCat = selectedMeldersCat;
     json.cirkel = cirkel;
     Cookies.set(cookieName, json);
   });
@@ -796,32 +797,37 @@
   // melders filter
   var melder_filter = $('#filter-melder');
   var melders = [{
-    id: 0,
-    title: 'Verkeerscentrale',
-    items: ['Verkeerscentrale']
-  }, {
-    id: 1,
-    title: 'Politie',
-    items: ['Politiemeldkamer', 'KLPD']
-  }, {
-    id: 2,
+    id: '0',
     title: 'ANWB',
     items: ['ANWB']
   }, {
-    id: 3,
-    title: 'Alarmcentrale',
-    items: ['SOS International', 'Allianz Global Assistance', 'Eurocross']
+    id: '1',
+    title: 'Verkeerscentrale',
+    items: ['Verkeerscentrale']
   }, {
-    id: 4,
+    id: '2',
+    title: 'Politiemeldkamer',
+    items: ['Politiemeldkamer']
+  }, {
+    id: '3',
+    title: 'Alarmcentrale',
+    items: ['SOS International', 'Allianz Global Assistance', 'Eurocross', 'VHD']
+  }, {
+    id: '4',
     title: 'Onbekend',
-    items: ['Overig']
+    items: ['Overig', 'Wegbeheerder']
+  }, {
+    id: '5',
+    title: 'Landelijke eenheid',
+    items: ['KLPD']
   }];
   var m, mm;
   var handleMelderFilter = function(evt) {
     for (m = 0, mm = melders.length; m < mm; ++m) {
-      if ('' + melders[m].id === evt.target.value) {
+      if (melders[m].id === evt.target.value) {
+        selectedMeldersCat[evt.target.value] = evt.target.checked;
         for (var itemI = 0, itemII = melders[m].items.length; itemI < itemII; ++itemI) {
-          selectedMelders[melders[m].items[itemI]] = evt.target.checked;
+          selectedMelders[melders[m].items[itemI].toLowerCase()] = evt.target.checked;
         }
         break;
       }
@@ -835,6 +841,10 @@
   for (m = 0, mm = melders.length; m < mm; ++m) {
     melder_filter.append('<div class="pretty"><input id="melder_' + melders[m].id + '" type="checkbox" value="' + melders[m].id +  '" checked/><label><i class="mi mi-check"></i>' + melders[m].title + '</label></div><br/>');
     $('#melder_' + melders[m].id).on('change', handleMelderFilter);
+    if (cookieInfo && cookieInfo.selectedMeldersCat) {
+      $('#melder_' + melders[m].id).prop('checked', cookieInfo.selectedMeldersCat[melders[m].id]);
+      handleMelderFilter({target: $('#melder_' + melders[m].id)[0]});
+    }
   }
 
   // layer list control
