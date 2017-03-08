@@ -842,8 +842,11 @@
     melder_filter.append('<div class="pretty"><input id="melder_' + melders[m].id + '" type="checkbox" value="' + melders[m].id +  '" checked/><label><i class="mi mi-check"></i>' + melders[m].title + '</label></div><br/>');
     $('#melder_' + melders[m].id).on('change', handleMelderFilter);
     if (cookieInfo && cookieInfo.selectedMeldersCat) {
-      $('#melder_' + melders[m].id).prop('checked', cookieInfo.selectedMeldersCat[melders[m].id]);
-      handleMelderFilter({target: $('#melder_' + melders[m].id)[0]});
+      var checked = cookieInfo.selectedMeldersCat[melders[m].id];
+      if (!checked) {
+        $('#melder_' + melders[m].id).prop('checked', checked);
+        handleMelderFilter({target: $('#melder_' + melders[m].id)[0]});
+      }
     }
   }
 
