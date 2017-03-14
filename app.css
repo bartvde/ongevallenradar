@@ -86,8 +86,10 @@ button {
   margin: -10px 0px -10px 0px;
 }
 #beep-button {
-  width: 32px;
-  height: 32px;
+  margin-right: 10px;
+}
+#save {
+  margin-right: 10px;
 }
 #legend {
   overflow: auto;

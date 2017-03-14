@@ -1,14 +1,22 @@
 (function() {
   var cookieName = 'ongevallenradar';
-  var cookieInfo = Cookies.getJSON(cookieName);
+  var cookieInfo;
+  var loadCookie = function() {
+    cookieInfo = Cookies.getJSON(cookieName);
+  }
+  loadCookie();
   var selectedRayons = cookieInfo ? cookieInfo.selectedRayons : {};
   var selectedMelders = {};
   var selectedMeldersCat = cookieInfo ? cookieInfo.selectedMeldersCat : {};
   var filterRayon = cookieInfo ? cookieInfo.filterRayon : false;
   var filterMelder = cookieInfo ? cookieInfo.filterMelder : false;
-  var cirkel = cookieInfo ? cookieInfo.cirkel : false;
 
-  $('#cirkel').attr('checked', cirkel);
+  var cirkel;
+  var loadCirkelFromCookie = function() {
+    cirkel = cookieInfo ? cookieInfo.cirkel : false;
+    $('#cirkel').attr('checked', cirkel);
+  }
+  loadCirkelFromCookie();
 
   var protocol = (window.location.protocol === 'https:') ? 'https:' : 'http:';
   var geoserverUrl = protocol + '//164.138.30.171/geoserver/ows?';
@@ -531,13 +539,13 @@
     json.selectedMeldersCat = selectedMeldersCat;
     json.cirkel = cirkel;
     Cookies.set(cookieName, json);
-    if (Cookies.getJSON(cookieName)) {
-      alert('Instellingen succesvol opgeslagen');
-    }
   });
 
   $('#clear').on('click', function(evt) {
     Cookies.remove(cookieName);
+    loadCookie();
+    loadCirkelFromCookie();
+    onChangeCirkel({target: $('#cirkel')[0]})
     // TODO reload
   });
 
@@ -874,7 +882,7 @@
     }
   }
 
-  $('#cirkel').on('change', function(evt) {
+  var onChangeCirkel = function(evt) {
     cirkel = evt.target.checked;
     // clear the style caches
     styleCache = {};
@@ -883,7 +891,9 @@
     for (var key in sources) {
       sources[key].changed();
     }
-  });
+  }
+
+  $('#cirkel').on('change', onChangeCirkel);
 
   var collapsibleEl = $('#eastpanel');
   var buttonEl =  $("#collapse-button");
