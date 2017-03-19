@@ -56,7 +56,7 @@ button {
 #clear-settings {
   margin: 15px 0px 0px 30px;
 }
-#title {
+.title {
   margin: 15px 0px 0px 30px;
   background-color: white;
   height: 80px;
@@ -209,7 +209,10 @@ button {
 }
 #secondaryoptions {
   display: none;
+  height: 100%;
   width: 100%;
+  top: 0px;
+  position: absolute;
 }
 #filter-button {
   width: 50px;
