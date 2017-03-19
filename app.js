@@ -1,4 +1,56 @@
 (function() {
+  var cookieName = 'ongevallenradar';
+  var cookieInfo;
+  var loadCookie = function() {
+    cookieInfo = Cookies.getJSON(cookieName);
+  }
+  loadCookie();
+  var allowBeep;
+  var loadBeepFromCookie = function() {
+    allowBeep = cookieInfo ? cookieInfo.allowBeep : true;
+  }
+  loadBeepFromCookie();
+  var selectedMelders = {};
+  var selectedMeldersCat;
+  var filterMelder;
+  var defaultMeldersCat = {
+    0: true,
+    1: true,
+    2: true,
+    3: true,
+    4: true,
+    5: true
+  };
+  var loadMelderInfoFromCookie = function() {
+    selectedMeldersCat = cookieInfo ? cookieInfo.selectedMeldersCat : defaultMeldersCat;
+    filterMelder = cookieInfo ? cookieInfo.filterMelder : false;
+  }
+  loadMelderInfoFromCookie();
+  var selectedRayons;
+  var filterRayon;
+  var loadRayonInfoFromCookie = function() {
+    selectedRayons = cookieInfo ? cookieInfo.selectedRayons : {};
+    filterRayon = cookieInfo ? cookieInfo.filterRayon : false;
+  }
+  loadRayonInfoFromCookie();
+
+  var defaultLayerInfo = {
+    uur: true,
+    actueel: true
+  };
+  var layerInfo;
+  var loadLayerInfoFromCookie = function() {
+    layerInfo = cookieInfo ? cookieInfo.layers : defaultLayerInfo;
+  }
+  loadLayerInfoFromCookie();
+
+  var cirkel;
+  var loadCirkelFromCookie = function() {
+    cirkel = cookieInfo ? cookieInfo.cirkel : false;
+    $('#cirkel').attr('checked', cirkel);
+  }
+  loadCirkelFromCookie();
+
   var protocol = (window.location.protocol === 'https:') ? 'https:' : 'http:';
   var geoserverUrl = protocol + '//164.138.30.171/geoserver/ows?';
   var useJSONP = true;
@@ -231,49 +283,91 @@
 
   var imageStyles = {
     actueel: {
-      een: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: '#FF0000'}),
-        stroke: new ol.style.Stroke({color: '#990000', width: 2}),
-        points: 3,
-        radius: 13.5,
-        angle: 0
-      }),
-      twee: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: '#FF6600'}),
-        stroke: new ol.style.Stroke({color: '#B84F09', width: 2}),
-        points: 3,
-        radius: 13.5,
-        angle: 0
-      }),
-      drie: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: 'yellow'}),
-        stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
-        points: 3,
-        radius: 13.5,
-        angle: 0
-      }),
-      vier: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: 'yellow'}),
-        stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
-        points: 3,
-        radius: 13.5,
-        angle: 0
-      }),
-      vijf: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: 'yellow'}),
-        stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
-        points: 3,
-        radius: 13.5,
-        angle: 0
-      })
+      een: {
+        normal: new ol.style.RegularShape({
+          fill: new ol.style.Fill({color: '#FF0000'}),
+          stroke: new ol.style.Stroke({color: '#990000', width: 2}),
+          points: 3,
+          radius: 13.5,
+          angle: 0
+        }),
+        circle: new ol.style.Circle({
+          fill: new ol.style.Fill({color: '#FF0000'}),
+          stroke: new ol.style.Stroke({color: '#990000', width: 2}),
+          radius: 13.5
+        })
+      },
+      twee: {
+        normal: new ol.style.RegularShape({
+          fill: new ol.style.Fill({color: '#FF6600'}),
+          stroke: new ol.style.Stroke({color: '#B84F09', width: 2}),
+          points: 3,
+          radius: 13.5,
+          angle: 0
+        }),
+        circle: new ol.style.Circle({
+          fill: new ol.style.Fill({color: '#FF6600'}),
+          stroke: new ol.style.Stroke({color: '#B84F09', width: 2}),
+          radius: 13.5
+        })
+      },
+      drie: {
+        normal: new ol.style.RegularShape({
+          fill: new ol.style.Fill({color: 'yellow'}),
+          stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
+          points: 3,
+          radius: 13.5,
+          angle: 0
+        }),
+        circle: new ol.style.Circle({
+          fill: new ol.style.Fill({color: 'yellow'}),
+          stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
+          radius: 13.5
+        })
+      },
+      vier: {
+        normal: new ol.style.RegularShape({
+          fill: new ol.style.Fill({color: 'yellow'}),
+          stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
+          points: 3,
+          radius: 13.5,
+          angle: 0
+        }),
+        circle: new ol.style.Circle({
+          fill: new ol.style.Fill({color: 'yellow'}),
+          stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
+          radius: 13.5
+        })
+      },
+      vijf: {
+        normal: new ol.style.RegularShape({
+          fill: new ol.style.Fill({color: 'yellow'}),
+          stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
+          points: 3,
+          radius: 13.5,
+          angle: 0
+        }),
+        circle: new ol.style.Circle({
+          fill: new ol.style.Fill({color: 'yellow'}),
+          stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
+          radius: 13.5
+        })
+      }
     },
-    uur: new ol.style.RegularShape({
-      fill: new ol.style.Fill({color: '#E5E5E5'}),
-      stroke: new ol.style.Stroke({color: '#4C4C4C', width: 2}),
-      points: 3,
-      radius: 10,
-      angle: 0
-    })
+    uur: {
+      normal: new ol.style.RegularShape({
+        fill: new ol.style.Fill({color: '#E5E5E5'}),
+        stroke: new ol.style.Stroke({color: '#4C4C4C', width: 2}),
+        points: 3,
+        radius: 10,
+        angle: 0
+      }),
+      circle: new ol.style.Circle({
+        fill: new ol.style.Fill({color: '#E5E5E5'}),
+        stroke: new ol.style.Stroke({color: '#4C4C4C', width: 2}),
+        radius: 10
+      })
+    }
   };
 
   var doJSONP = function(url, success, failure, scope) {
@@ -336,16 +430,26 @@
     })
   };
 
+  var filterFunction = function(feature) {
+    var rayon = feature.get('rayon');
+    if (filterRayon === true && selectedRayons[rayon] !== true) {
+      return false;
+    }
+    var melder = feature.get('melder').toLowerCase();
+    if (filterMelder === true && selectedMelders[melder] === false) {
+      return false;
+    }
+  };
+
   var layers = {
     uur: new ol.layer.Vector({
       zIndex: 4,
-      visible: true,
+      visible: !!layerInfo.uur,
       id: 'uur',
       title: 'Meldingen laatste zestig minuten',
       style: function(feature, resolution) {
         var showLabel = resolution <= 78;
-        var rayon = feature.get('rayon');
-        if (filterRayon === true && selectedRayons[rayon] !== true) {
+        if (filterFunction(feature) === false) {
           return null;
         }
         var text = feature.get('bps') + '\n' + feature.get('tijdstip') + '\n' + feature.get('incident_type');
@@ -358,7 +462,7 @@
               offsetY: -35,
               text: text
             }) : undefined,
-            image: imageStyles.uur
+            image: imageStyles.uur[(cirkel && feature.get('incident_type') === 'Pech') ? 'circle' : 'normal']
           });
         }
         return styleCacheUur[showLabel + '|' + text];
@@ -367,13 +471,12 @@
     }),
     vandaag: new ol.layer.Vector({
       zIndex: 4,
-      visible: false,
+      visible: !!layerInfo.vandaag,
       id: 'vandaag',
       title: 'Meldingen vandaag',
       style: function(feature, resolution) {
         var showLabel = resolution <= 78;
-        var rayon = feature.get('rayon');
-        if (filterRayon === true && selectedRayons[rayon] !== true) {
+        if (filterFunction(feature) === false) {
           return null;
         }
         var text = feature.get('bps') + '\n' + feature.get('tijdstip') + '\n' + feature.get('incident_type');
@@ -386,7 +489,7 @@
               offsetY: -35,
               text: text
             }) : undefined,
-            image: imageStyles.uur
+            image: imageStyles.uur[(cirkel && feature.get('incident_type') === 'Pech') ? 'circle' : 'normal']
           });
         }
         return styleCacheVandaag[showLabel + '|' + text];
@@ -394,13 +497,13 @@
       source: sources.vandaag
     }),
     actueel: new ol.layer.Vector({
+      visible: !!layerInfo.actueel,
       zIndex: 5,
       id: 'actueel',
       title: 'Actuele meldingen',
       style: function(feature, resolution) {
         var nummer = feature.get('nummer');
-        var rayon = feature.get('rayon');
-        if (filterRayon === true && selectedRayons[rayon] !== true) {
+        if (filterFunction(feature) === false) {
           return null;
         }
         var text = feature.get('bps') + '\n' + feature.get('tijdstip') + '\n' + feature.get('incident_type');
@@ -413,7 +516,7 @@
               offsetY: -35,
               text: text
             }),
-            image: imageStyles.actueel[nummer]
+            image: imageStyles.actueel[nummer][(cirkel && feature.get('incident_type') === 'Pech') ? 'circle' : 'normal']
           });
         }
         return styleCache[nummer + '|' + text];
@@ -446,58 +549,112 @@
     $('#sel-rayon').append($("<option></option>").attr("value", rayons[i]).text(rayons[i]));
   }
 
-  var selectedRayons = {};
-  var filterRayon = false;
+  var hasRayon = function() {
+    var result = false;
+    for (var rayon in selectedRayons) {
+      if (selectedRayons[rayon] === true) {
+        result = true;
+        break;
+      }
+    }
+    return result;
+  };
 
-  if (window.embedMap !== true) {
-    var hasRayon = function() {
-      var result = false;
-      for (var rayon in selectedRayons) {
-        if (selectedRayons[rayon] === true) {
-          result = true;
-          break;
-        }
+  $('#save').on('click', function(evt) {
+    var json = {};
+    json.layers = {};
+    $("#layer-body :input").each(function(){
+      var input = $(this);
+      json.layers[input.attr('id').replace('vis_', '')] = input.is(':checked');
+    });
+    json.filterRayon = filterRayon;
+    json.selectedRayons = selectedRayons;
+    json.filterMelder = filterMelder;
+    json.selectedMeldersCat = selectedMeldersCat;
+    json.cirkel = cirkel;
+    json.allowBeep = allowBeep;
+    Cookies.set(cookieName, json);
+  });
+
+  $('#clear').on('click', function(evt) {
+    Cookies.remove(cookieName);
+    loadCookie();
+    loadCirkelFromCookie();
+    onChangeCirkel({target: $('#cirkel')[0]})
+    loadLayerInfoFromCookie();
+    applyLayerVisbility();
+    loadRayonInfoFromCookie();
+    applyInitialRayons();
+    setToggleImg();
+    loadMelderInfoFromCookie();
+    setMelderFilter();
+    loadBeepFromCookie();
+    setBeepImg();
+  });
+
+  $('#options').on('click', function(evt) {
+    $('#mainoptions').hide();
+    $('#secondaryoptions').show();
+  });
+
+  $('#backtomain').on('click', function(evt) {
+    $('#mainoptions').show();
+    $('#secondaryoptions').hide();
+  });
+
+  var setToggleImg = function() {
+    var toggleAanImg = 'img/toggle_aan.svg';
+    var toggleUitImg = 'img/toggle_uit.svg';
+    if (filterRayon) {
+      $('#filter-button-img').attr('src', toggleUitImg);
+    } else {
+      $('#filter-button-img').attr('src', toggleAanImg);
+    }
+  };
+  setToggleImg();
+  $('#filter-button').on('click', function(evt){ 
+    if (!hasRayon()) {
+      return;
+    }
+    filterRayon = !filterRayon;
+    setToggleImg();
+    for (var key in sources) {
+      var source = sources[key];
+      source.changed();
+    }
+  });
+  $('#sel-rayon').multiSelect({
+    afterSelect: function(values) {
+      selectedRayons[values[0]] = true;
+    },
+    afterDeselect: function(values) {
+      if (values !== null) {
+        selectedRayons[values[0]] = false;
       }
-      return result;
-    };
-    $('#filter-button').on('click', function(evt){ 
       if (!hasRayon()) {
-        return;
-      }
-      filterRayon = !filterRayon;
-      if (filterRayon) {
-        $('#filter-button-img').attr('src', 'img/toggle_uit.svg');
-      } else {
         $('#filter-button-img').attr('src', 'img/toggle_aan.svg');
-      }
-      for (var key in sources) {
-        var source = sources[key];
-        source.changed();
-      }
-    });
-    $('#sel-rayon').multiSelect({
-      afterSelect: function(values) {
-        selectedRayons[values[0]] = true;
-      },
-      afterDeselect: function(values) {
-        if (values !== null) {
-          selectedRayons[values[0]] = false;
-        }
-        if (!hasRayon()) {
-          $('#filter-button-img').attr('src', 'img/toggle_aan.svg');
-          filterRayon = false;
-          for (var key in sources) {
-            var source = sources[key];
-            source.changed();
-          }
+        filterRayon = false;
+        for (var key in sources) {
+          var source = sources[key];
+          source.changed();
         }
       }
-    });
+    }
+  });
+  var applyInitialRayons = function() {
+    var initialRayons = [];
+    for (var r in selectedRayons) {
+      if (selectedRayons[r] === true) {
+        initialRayons.push(r);
+      }
+    }
+    $('#sel-rayon').multiSelect('deselect_all');
+    $('#sel-rayon').multiSelect('select', initialRayons);
   }
+  applyInitialRayons();
 
   var map = new ol.Map({
-    interactions: window.embedMap === true ? [] : ol.interaction.defaults(),
-    controls: window.embedMap === true ? [] : ol.control.defaults({attribution: false}),
+    controls: ol.control.defaults({attribution: false}),
     layers: [
       new ol.layer.Tile({
         extent: [313086.06785608083, 6418264.391049679, 939258.2035682462, 7200979.560689885],
@@ -506,7 +663,7 @@
         })
       }),
       new ol.layer.Tile({
-        visible: false,
+        visible: !!layerInfo.rayons,
         zIndex: 3,
         id: 'rayons',
         title: 'Rayons',
@@ -516,7 +673,7 @@
         })
       }),
       new ol.layer.Tile({
-        visible: false,
+        visible: !!layerInfo.bps,
         zIndex: 3,
         id: 'bps',
         title: 'Hectometerpalen',
@@ -526,7 +683,7 @@
         })
       }),
       new ol.layer.Tile({
-        visible: false,
+        visible: !!layerInfo.imwegen,
         zIndex: 3,
         id: 'imwegen',
         title: 'IM-wegen',
@@ -540,59 +697,63 @@
       layers.actueel
     ],
     target: 'map',
-    view: new ol.View({ minResolution: 0.5971642834779395, maxResolution: window.embedMap !== true ? 611.49622628141 : undefined, center: [570000, 6817000], zoom: window.embedMap !== true ? 1 : 6})
+    view: new ol.View({ minResolution: 0.5971642834779395, maxResolution: 611.49622628141, center: [570000, 6817000], zoom: 1})
   });
 
-  if (window.embedMap !== true) {
-    var container = document.getElementById('popup');
-    var content = document.getElementById('popup-content');
-    var closer = document.getElementById('popup-closer');
+  var container = document.getElementById('popup');
+  var content = document.getElementById('popup-content');
+  var closer = document.getElementById('popup-closer');
 
-    closer.onclick = function() {
-      overlay.setPosition(undefined);
-      closer.blur();
-      return false;
-    };
+  closer.onclick = function() {
+    overlay.setPosition(undefined);
+    closer.blur();
+    return false;
+  };
 
-    var overlay = new ol.Overlay({
-      element: container,
-      autoPan: true,
-      autoPanAnimation: {
-        duration: 250
+  var overlay = new ol.Overlay({
+    element: container,
+    autoPan: true,
+    autoPanAnimation: {
+      duration: 250
+    }
+  });
+
+  map.addOverlay(overlay);
+
+  map.on('click', function(evt) {
+    var pixel = map.getEventPixel(evt.originalEvent);
+    overlay.setPosition(undefined);
+    map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+      if (feature && layer !== null) {
+        var coordinate = evt.coordinate;
+        var html = '<table class="table"><tbody>';
+        html += '<tr><td>IM nummer</td><td>' + feature.get('meldnr') + '</td></tr>';
+        html += '<tr><td>Locatie</td><td>' + feature.get('bps') + '</td></tr>';
+        html += '<tr><td>Tijdstip</td><td>' + feature.get('tijdstip') + '</td></tr>';
+        html += '<tr><td>Type</td><td>' + feature.get('incident_type').replace('Pech', 'Pechverplaatsing').replace('Onbeheerd', 'Onbeheerd voertuig') + '</td></tr>';
+        html += '<tr><td>Berger</td><td>' + feature.get('berger') + '</td></tr>';
+        html += '<tr><td>Melder</td><td>' + feature.get('melder') + '</td></tr>';
+        html += '</tbody></table>';
+        content.innerHTML = html;
+        overlay.setPosition(feature.getGeometry().getCoordinates());
       }
     });
+  });
 
-    map.addOverlay(overlay);
+  var setBeepImg = function() {
+    var beepAanImg = 'img/sound_on.svg';
+    var beepUitImg = 'img/sound_off.svg';
+    if (allowBeep) {
+      $('#beep-button-img').attr('src', beepAanImg);
+    } else {
+      $('#beep-button-img').attr('src', beepUitImg);
+    }
+  };
+  setBeepImg();
 
-    map.on('click', function(evt) {
-      var pixel = map.getEventPixel(evt.originalEvent);
-      overlay.setPosition(undefined);
-      map.forEachFeatureAtPixel(pixel, function(feature, layer) {
-        if (feature && layer !== null) {
-          var coordinate = evt.coordinate;
-          var html = '<table class="table"><tbody>';
-          html += '<tr><td>IM nummer</td><td>' + feature.get('meldnr') + '</td></tr>';
-          html += '<tr><td>Locatie</td><td>' + feature.get('bps') + '</td></tr>';
-          html += '<tr><td>Tijdstip</td><td>' + feature.get('tijdstip') + '</td></tr>';
-          html += '<tr><td>Type</td><td>' + feature.get('incident_type').replace('Pech', 'Pechverplaatsing').replace('Onbeheerd', 'Onbeheerd voertuig') + '</td></tr>';
-          html += '<tr><td>Berger</td><td>' + feature.get('berger') + '</td></tr>';
-          html += '<tr><td>Melder</td><td>' + feature.get('melder') + '</td></tr>';
-          html += '</tbody></table>';
-          content.innerHTML = html;
-          overlay.setPosition(feature.getGeometry().getCoordinates());
-        }
-      });
-    });
-  }
-
-  var allowBeep = (window.embedMap !== true);
   $('#beep-button').on('click', function(evt) {
     allowBeep = !allowBeep;
-    if (allowBeep) {
-      $('#beep-button-img').attr('src', 'img/sound_on.svg');
-    } else {
-      $('#beep-button-img').attr('src', 'img/sound_off.svg');
-    }
+    setBeepImg();
   });
   var beep = function() {
     var sound = new Audio("data:audio/wav;base64,//uQRAAAAWMSLwUIYAAsYkXgoQwAEaYLWfkWgAI0wWs/ItAAAGDgYtAgAyN+QWaAAihwMWm4G8QQRDiMcCBcH3Cc+CDv/7xA4Tvh9Rz/y8QADBwMWgQAZG/ILNAARQ4GLTcDeIIIhxGOBAuD7hOfBB3/94gcJ3w+o5/5eIAIAAAVwWgQAVQ2ORaIQwEMAJiDg95G4nQL7mQVWI6GwRcfsZAcsKkJvxgxEjzFUgfHoSQ9Qq7KNwqHwuB13MA4a1q/DmBrHgPcmjiGoh//EwC5nGPEmS4RcfkVKOhJf+WOgoxJclFz3kgn//dBA+ya1GhurNn8zb//9NNutNuhz31f////9vt///z+IdAEAAAK4LQIAKobHItEIYCGAExBwe8jcToF9zIKrEdDYIuP2MgOWFSE34wYiR5iqQPj0JIeoVdlG4VD4XA67mAcNa1fhzA1jwHuTRxDUQ//iYBczjHiTJcIuPyKlHQkv/LHQUYkuSi57yQT//uggfZNajQ3Vmz+Zt//+mm3Wm3Q576v////+32///5/EOgAAADVghQAAAAA//uQZAUAB1WI0PZugAAAAAoQwAAAEk3nRd2qAAAAACiDgAAAAAAABCqEEQRLCgwpBGMlJkIz8jKhGvj4k6jzRnqasNKIeoh5gI7BJaC1A1AoNBjJgbyApVS4IDlZgDU5WUAxEKDNmmALHzZp0Fkz1FMTmGFl1FMEyodIavcCAUHDWrKAIA4aa2oCgILEBupZgHvAhEBcZ6joQBxS76AgccrFlczBvKLC0QI2cBoCFvfTDAo7eoOQInqDPBtvrDEZBNYN5xwNwxQRfw8ZQ5wQVLvO8OYU+mHvFLlDh05Mdg7BT6YrRPpCBznMB2r//xKJjyyOh+cImr2/4doscwD6neZjuZR4AgAABYAAAABy1xcdQtxYBYYZdifkUDgzzXaXn98Z0oi9ILU5mBjFANmRwlVJ3/6jYDAmxaiDG3/6xjQQCCKkRb/6kg/wW+kSJ5//rLobkLSiKmqP/0ikJuDaSaSf/6JiLYLEYnW/+kXg1WRVJL/9EmQ1YZIsv/6Qzwy5qk7/+tEU0nkls3/zIUMPKNX/6yZLf+kFgAfgGyLFAUwY//uQZAUABcd5UiNPVXAAAApAAAAAE0VZQKw9ISAAACgAAAAAVQIygIElVrFkBS+Jhi+EAuu+lKAkYUEIsmEAEoMeDmCETMvfSHTGkF5RWH7kz/ESHWPAq/kcCRhqBtMdokPdM7vil7RG98A2sc7zO6ZvTdM7pmOUAZTnJW+NXxqmd41dqJ6mLTXxrPpnV8avaIf5SvL7pndPvPpndJR9Kuu8fePvuiuhorgWjp7Mf/PRjxcFCPDkW31srioCExivv9lcwKEaHsf/7ow2Fl1T/9RkXgEhYElAoCLFtMArxwivDJJ+bR1HTKJdlEoTELCIqgEwVGSQ+hIm0NbK8WXcTEI0UPoa2NbG4y2K00JEWbZavJXkYaqo9CRHS55FcZTjKEk3NKoCYUnSQ0rWxrZbFKbKIhOKPZe1cJKzZSaQrIyULHDZmV5K4xySsDRKWOruanGtjLJXFEmwaIbDLX0hIPBUQPVFVkQkDoUNfSoDgQGKPekoxeGzA4DUvnn4bxzcZrtJyipKfPNy5w+9lnXwgqsiyHNeSVpemw4bWb9psYeq//uQZBoABQt4yMVxYAIAAAkQoAAAHvYpL5m6AAgAACXDAAAAD59jblTirQe9upFsmZbpMudy7Lz1X1DYsxOOSWpfPqNX2WqktK0DMvuGwlbNj44TleLPQ+Gsfb+GOWOKJoIrWb3cIMeeON6lz2umTqMXV8Mj30yWPpjoSa9ujK8SyeJP5y5mOW1D6hvLepeveEAEDo0mgCRClOEgANv3B9a6fikgUSu/DmAMATrGx7nng5p5iimPNZsfQLYB2sDLIkzRKZOHGAaUyDcpFBSLG9MCQALgAIgQs2YunOszLSAyQYPVC2YdGGeHD2dTdJk1pAHGAWDjnkcLKFymS3RQZTInzySoBwMG0QueC3gMsCEYxUqlrcxK6k1LQQcsmyYeQPdC2YfuGPASCBkcVMQQqpVJshui1tkXQJQV0OXGAZMXSOEEBRirXbVRQW7ugq7IM7rPWSZyDlM3IuNEkxzCOJ0ny2ThNkyRai1b6ev//3dzNGzNb//4uAvHT5sURcZCFcuKLhOFs8mLAAEAt4UWAAIABAAAAAB4qbHo0tIjVkUU//uQZAwABfSFz3ZqQAAAAAngwAAAE1HjMp2qAAAAACZDgAAAD5UkTE1UgZEUExqYynN1qZvqIOREEFmBcJQkwdxiFtw0qEOkGYfRDifBui9MQg4QAHAqWtAWHoCxu1Yf4VfWLPIM2mHDFsbQEVGwyqQoQcwnfHeIkNt9YnkiaS1oizycqJrx4KOQjahZxWbcZgztj2c49nKmkId44S71j0c8eV9yDK6uPRzx5X18eDvjvQ6yKo9ZSS6l//8elePK/Lf//IInrOF/FvDoADYAGBMGb7FtErm5MXMlmPAJQVgWta7Zx2go+8xJ0UiCb8LHHdftWyLJE0QIAIsI+UbXu67dZMjmgDGCGl1H+vpF4NSDckSIkk7Vd+sxEhBQMRU8j/12UIRhzSaUdQ+rQU5kGeFxm+hb1oh6pWWmv3uvmReDl0UnvtapVaIzo1jZbf/pD6ElLqSX+rUmOQNpJFa/r+sa4e/pBlAABoAAAAA3CUgShLdGIxsY7AUABPRrgCABdDuQ5GC7DqPQCgbbJUAoRSUj+NIEig0YfyWUho1VBBBA//uQZB4ABZx5zfMakeAAAAmwAAAAF5F3P0w9GtAAACfAAAAAwLhMDmAYWMgVEG1U0FIGCBgXBXAtfMH10000EEEEEECUBYln03TTTdNBDZopopYvrTTdNa325mImNg3TTPV9q3pmY0xoO6bv3r00y+IDGid/9aaaZTGMuj9mpu9Mpio1dXrr5HERTZSmqU36A3CumzN/9Robv/Xx4v9ijkSRSNLQhAWumap82WRSBUqXStV/YcS+XVLnSS+WLDroqArFkMEsAS+eWmrUzrO0oEmE40RlMZ5+ODIkAyKAGUwZ3mVKmcamcJnMW26MRPgUw6j+LkhyHGVGYjSUUKNpuJUQoOIAyDvEyG8S5yfK6dhZc0Tx1KI/gviKL6qvvFs1+bWtaz58uUNnryq6kt5RzOCkPWlVqVX2a/EEBUdU1KrXLf40GoiiFXK///qpoiDXrOgqDR38JB0bw7SoL+ZB9o1RCkQjQ2CBYZKd/+VJxZRRZlqSkKiws0WFxUyCwsKiMy7hUVFhIaCrNQsKkTIsLivwKKigsj8XYlwt/WKi2N4d//uQRCSAAjURNIHpMZBGYiaQPSYyAAABLAAAAAAAACWAAAAApUF/Mg+0aohSIRobBAsMlO//Kk4soosy1JSFRYWaLC4qZBYWFRGZdwqKiwkNBVmoWFSJkWFxX4FFRQWR+LsS4W/rFRb/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VEFHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU291bmRib3kuZGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMjAwNGh0dHA6Ly93d3cuc291bmRib3kuZGUAAAAAAAAAACU=");
@@ -637,9 +798,8 @@
       if (!sourceHasFeature(source, feature)) {
         // only beep for actueel
         doBeep = (key === 'actueel');
-        var rayon = feature.get('rayon');
-        // do not beep if we are filtering and rayon is not in the selected list
-        if (filterRayon === true && selectedRayons[rayon] !== true) {
+        // do not beep if we are filtered
+        if (filterFunction(feature) === false) {
           doBeep = false;
         }
       }
@@ -698,6 +858,87 @@
     }
   };
 
+  // melders filter
+  var melder_filter = $('#filter-melder');
+  var melders = [{
+    id: '0',
+    title: 'ANWB',
+    items: ['ANWB']
+  }, {
+    id: '1',
+    title: 'Verkeerscentrale',
+    items: ['Verkeerscentrale']
+  }, {
+    id: '2',
+    title: 'Politiemeldkamer',
+    items: ['Politiemeldkamer']
+  }, {
+    id: '3',
+    title: 'Alarmcentrale',
+    items: ['SOS International', 'Allianz Global Assistance', 'Eurocross', 'VHD']
+  }, {
+    id: '4',
+    title: 'Onbekend',
+    items: ['Overig', 'Wegbeheerder']
+  }, {
+    id: '5',
+    title: 'Landelijke eenheid',
+    items: ['KLPD']
+  }];
+  var m, mm;
+  var handleMelderFilter = function(evt) {
+    for (m = 0, mm = melders.length; m < mm; ++m) {
+      if (melders[m].id === evt.target.value) {
+        selectedMeldersCat[evt.target.value] = evt.target.checked;
+        for (var itemI = 0, itemII = melders[m].items.length; itemI < itemII; ++itemI) {
+          selectedMelders[melders[m].items[itemI].toLowerCase()] = evt.target.checked;
+        }
+        break;
+      }
+    }
+    filterMelder = true;
+    for (var key in sources) {
+      var source = sources[key];
+      source.changed();
+    }
+  };
+  for (m = 0, mm = melders.length; m < mm; ++m) {
+    var checked = selectedMeldersCat[melders[m].id] ? ' checked' : '';
+    melder_filter.append('<div class="pretty"><input id="melder_' + melders[m].id + '" type="checkbox" value="' + melders[m].id +  '"' + checked + '/><label><i class="mi mi-check"></i>' + melders[m].title + '</label></div><br/>');
+    $('#melder_' + melders[m].id).on('change', handleMelderFilter);
+  }
+
+  setMelderFilter = function() {
+    for (i = 0, ii = melders.length; i < ii; ++i) {
+      var checked = selectedMeldersCat[melders[i].id];
+      $('#melder_' + melders[i].id).prop('checked', checked);
+      if (!checked) {
+        handleMelderFilter({target: $('#melder_' + melders[i].id)[0]});
+      }
+    }
+  }
+  setMelderFilter();
+
+  var findLayerById = function(id) {
+    var layersArray = map.getLayers().getArray()
+    for (var i = 0, ii = layersArray.length; i < ii; ++i) {
+      if (layersArray[i].get('id') === id) {
+        return layersArray[i];
+      }
+    }
+  };
+
+  var applyLayerVisbility = function() {
+    $("#layer-body :input").each(function(){
+      var input = $(this);
+      var id = input.attr('id');
+      var visible = !!layerInfo[id.replace('vis_', '')];
+      input.attr('checked', visible);
+      var layer = findLayerById(id.replace('vis_', ''));
+      layer.setVisible(visible);
+    });
+  };
+
   // layer list control
   var layerBody = $('#layer-body');
   var layersArray = map.getLayers().getArray().reverse();
@@ -711,6 +952,19 @@
       }, layer));
     }
   }
+
+  var onChangeCirkel = function(evt) {
+    cirkel = evt.target.checked;
+    // clear the style caches
+    styleCache = {};
+    styleCacheUur = {};
+    styleCacheVandaag = {};
+    for (var key in sources) {
+      sources[key].changed();
+    }
+  }
+
+  $('#cirkel').on('change', onChangeCirkel);
 
   var collapsibleEl = $('#eastpanel');
   var buttonEl =  $("#collapse-button");
