@@ -5,11 +5,17 @@
     cookieInfo = Cookies.getJSON(cookieName);
   }
   loadCookie();
-  var selectedRayons = cookieInfo ? cookieInfo.selectedRayons : {};
   var selectedMelders = {};
   var selectedMeldersCat = cookieInfo ? cookieInfo.selectedMeldersCat : {};
-  var filterRayon = cookieInfo ? cookieInfo.filterRayon : false;
   var filterMelder = cookieInfo ? cookieInfo.filterMelder : false;
+
+  var selectedRayons;
+  var filterRayon;
+  var loadRayonInfoFromCookie = function() {
+    selectedRayons = cookieInfo ? cookieInfo.selectedRayons : {};
+    filterRayon = cookieInfo ? cookieInfo.filterRayon : false;
+  }
+  loadRayonInfoFromCookie();
 
   var defaultLayerInfo = {
     uur: true,
@@ -559,7 +565,9 @@
     onChangeCirkel({target: $('#cirkel')[0]})
     loadLayerInfoFromCookie();
     applyLayerVisbility();
-    // TODO reload
+    loadRayonInfoFromCookie();
+    applyInitialRayons();
+    setToggleImg();
   });
 
   $('#options').on('click', function(evt) {
@@ -611,13 +619,17 @@
       }
     }
   });
-  var initialRayons = [];
-  for (var r in selectedRayons) {
-    if (selectedRayons[r] === true) {
-      initialRayons.push(r);
+  var applyInitialRayons = function() {
+    var initialRayons = [];
+    for (var r in selectedRayons) {
+      if (selectedRayons[r] === true) {
+        initialRayons.push(r);
+      }
     }
+    $('#sel-rayon').multiSelect('deselect_all');
+    $('#sel-rayon').multiSelect('select', initialRayons);
   }
-  $('#sel-rayon').multiSelect('select', initialRayons);
+  applyInitialRayons();
 
   var map = new ol.Map({
     controls: ol.control.defaults({attribution: false}),
