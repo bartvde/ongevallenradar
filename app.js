@@ -6,9 +6,21 @@
   }
   loadCookie();
   var selectedMelders = {};
-  var selectedMeldersCat = cookieInfo ? cookieInfo.selectedMeldersCat : {};
-  var filterMelder = cookieInfo ? cookieInfo.filterMelder : false;
-
+  var selectedMeldersCat;
+  var filterMelder;
+  var defaultMeldersCat = {
+    0: true,
+    1: true,
+    2: true,
+    3: true,
+    4: true,
+    5: true
+  };
+  var loadMelderInfoFromCookie = function() {
+    selectedMeldersCat = cookieInfo ? cookieInfo.selectedMeldersCat : defaultMeldersCat;
+    filterMelder = cookieInfo ? cookieInfo.filterMelder : false;
+  }
+  loadMelderInfoFromCookie();
   var selectedRayons;
   var filterRayon;
   var loadRayonInfoFromCookie = function() {
@@ -568,6 +580,8 @@
     loadRayonInfoFromCookie();
     applyInitialRayons();
     setToggleImg();
+    loadMelderInfoFromCookie();
+    setMelderFilter();
   });
 
   $('#options').on('click', function(evt) {
@@ -875,16 +889,21 @@
     }
   };
   for (m = 0, mm = melders.length; m < mm; ++m) {
-    melder_filter.append('<div class="pretty"><input id="melder_' + melders[m].id + '" type="checkbox" value="' + melders[m].id +  '" checked/><label><i class="mi mi-check"></i>' + melders[m].title + '</label></div><br/>');
+    var checked = selectedMeldersCat[melders[m].id] ? ' checked' : '';
+    melder_filter.append('<div class="pretty"><input id="melder_' + melders[m].id + '" type="checkbox" value="' + melders[m].id +  '"' + checked + '/><label><i class="mi mi-check"></i>' + melders[m].title + '</label></div><br/>');
     $('#melder_' + melders[m].id).on('change', handleMelderFilter);
-    if (cookieInfo && cookieInfo.selectedMeldersCat) {
-      var checked = cookieInfo.selectedMeldersCat[melders[m].id];
+  }
+
+  setMelderFilter = function() {
+    for (i = 0, ii = melders.length; i < ii; ++i) {
+      var checked = selectedMeldersCat[melders[i].id];
+      $('#melder_' + melders[i].id).prop('checked', checked);
       if (!checked) {
-        $('#melder_' + melders[m].id).prop('checked', checked);
-        handleMelderFilter({target: $('#melder_' + melders[m].id)[0]});
+        handleMelderFilter({target: $('#melder_' + melders[i].id)[0]});
       }
     }
   }
+  setMelderFilter();
 
   var findLayerById = function(id) {
     var layersArray = map.getLayers().getArray()
