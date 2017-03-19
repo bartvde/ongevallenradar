@@ -11,6 +11,16 @@
   var filterRayon = cookieInfo ? cookieInfo.filterRayon : false;
   var filterMelder = cookieInfo ? cookieInfo.filterMelder : false;
 
+  var defaultLayerInfo = {
+    uur: true,
+    actueel: true
+  };
+  var layerInfo;
+  var loadLayerInfoFromCookie = function() {
+    layerInfo = cookieInfo ? cookieInfo.layers : defaultLayerInfo;
+  }
+  loadLayerInfoFromCookie();
+
   var cirkel;
   var loadCirkelFromCookie = function() {
     cirkel = cookieInfo ? cookieInfo.cirkel : false;
@@ -411,7 +421,7 @@
   var layers = {
     uur: new ol.layer.Vector({
       zIndex: 4,
-      visible: true,
+      visible: !!layerInfo.uur,
       id: 'uur',
       title: 'Meldingen laatste zestig minuten',
       style: function(feature, resolution) {
@@ -438,7 +448,7 @@
     }),
     vandaag: new ol.layer.Vector({
       zIndex: 4,
-      visible: false,
+      visible: !!layerInfo.vandaag,
       id: 'vandaag',
       title: 'Meldingen vandaag',
       style: function(feature, resolution) {
@@ -464,6 +474,7 @@
       source: sources.vandaag
     }),
     actueel: new ol.layer.Vector({
+      visible: !!layerInfo.actueel,
       zIndex: 5,
       id: 'actueel',
       title: 'Actuele meldingen',
@@ -531,7 +542,7 @@
     json.layers = {};
     $("#layer-body :input").each(function(){
       var input = $(this);
-      json.layers[input.attr('id')] = input.is(':checked');
+      json.layers[input.attr('id').replace('vis_', '')] = input.is(':checked');
     });
     json.filterRayon = filterRayon;
     json.selectedRayons = selectedRayons;
@@ -546,6 +557,8 @@
     loadCookie();
     loadCirkelFromCookie();
     onChangeCirkel({target: $('#cirkel')[0]})
+    loadLayerInfoFromCookie();
+    applyLayerVisbility();
     // TODO reload
   });
 
@@ -616,7 +629,7 @@
         })
       }),
       new ol.layer.Tile({
-        visible: false,
+        visible: !!layerInfo.rayons,
         zIndex: 3,
         id: 'rayons',
         title: 'Rayons',
@@ -626,7 +639,7 @@
         })
       }),
       new ol.layer.Tile({
-        visible: false,
+        visible: !!layerInfo.bps,
         zIndex: 3,
         id: 'bps',
         title: 'Hectometerpalen',
@@ -636,7 +649,7 @@
         })
       }),
       new ol.layer.Tile({
-        visible: false,
+        visible: !!layerInfo.imwegen,
         zIndex: 3,
         id: 'imwegen',
         title: 'IM-wegen',
@@ -861,19 +874,32 @@
     }
   }
 
+  var findLayerById = function(id) {
+    var layersArray = map.getLayers().getArray()
+    for (var i = 0, ii = layersArray.length; i < ii; ++i) {
+      if (layersArray[i].get('id') === id) {
+        return layersArray[i];
+      }
+    }
+  };
+
+  var applyLayerVisbility = function() {
+    $("#layer-body :input").each(function(){
+      var input = $(this);
+      var id = input.attr('id');
+      var visible = !!layerInfo[id.replace('vis_', '')];
+      input.attr('checked', visible);
+      var layer = findLayerById(id.replace('vis_', ''));
+      layer.setVisible(visible);
+    });
+  };
+
   // layer list control
   var layerBody = $('#layer-body');
   var layersArray = map.getLayers().getArray().reverse();
   for (var l = 0, ll = layersArray.length; l < ll; ++l) {
     var layer = layersArray[l];
     if (layer.get('title')) {
-      if (cookieInfo && cookieInfo.layers) {
-        for (var lyr in cookieInfo.layers) {
-          if ('vis_' + layer.get('id') === lyr) {
-            layer.setVisible(cookieInfo.layers[lyr]);
-          }
-        }
-      }
       var checked = layer.getVisible() ? ' checked' : '';
       layerBody.append('<div class="pretty"><input id="vis_' + layer.get('id') + '" type="checkbox" value=""' + checked + '/><label><i class="mi mi-check"></i>' + layer.get('title') + '</label></div><br/>');
       $('#vis_' + layer.get('id')).on('change', $.proxy(function(evt) {
