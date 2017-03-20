@@ -294,7 +294,7 @@
         circle: new ol.style.Circle({
           fill: new ol.style.Fill({color: '#FF0000'}),
           stroke: new ol.style.Stroke({color: '#990000', width: 2}),
-          radius: 13.5
+          radius: 9
         })
       },
       twee: {
@@ -308,7 +308,7 @@
         circle: new ol.style.Circle({
           fill: new ol.style.Fill({color: '#FF6600'}),
           stroke: new ol.style.Stroke({color: '#B84F09', width: 2}),
-          radius: 13.5
+          radius: 9
         })
       },
       drie: {
@@ -322,7 +322,7 @@
         circle: new ol.style.Circle({
           fill: new ol.style.Fill({color: 'yellow'}),
           stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
-          radius: 13.5
+          radius: 9
         })
       },
       vier: {
@@ -336,7 +336,7 @@
         circle: new ol.style.Circle({
           fill: new ol.style.Fill({color: 'yellow'}),
           stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
-          radius: 13.5
+          radius: 0
         })
       },
       vijf: {
@@ -350,7 +350,7 @@
         circle: new ol.style.Circle({
           fill: new ol.style.Fill({color: 'yellow'}),
           stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
-          radius: 13.5
+          radius: 9
         })
       }
     },
@@ -365,7 +365,7 @@
       circle: new ol.style.Circle({
         fill: new ol.style.Fill({color: '#E5E5E5'}),
         stroke: new ol.style.Stroke({color: '#4C4C4C', width: 2}),
-        radius: 10
+        radius: 8
       })
     }
   };
