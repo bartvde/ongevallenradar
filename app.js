@@ -484,7 +484,7 @@
               offsetY: -35,
               text: text
             }) : undefined,
-            image: imageStyles.uur[(cirkel && feature.get('incident_type') === 'Pech') ? 'circle' : 'normal']
+            image: imageStyles.uur[(cirkel && feature.get('incident_type') !== 'Ongeval') ? 'circle' : 'normal']
           });
         }
         return styleCacheUur[showLabel + '|' + text];
@@ -511,7 +511,7 @@
               offsetY: -35,
               text: text
             }) : undefined,
-            image: imageStyles.uur[(cirkel && feature.get('incident_type') === 'Pech') ? 'circle' : 'normal']
+            image: imageStyles.uur[(cirkel && feature.get('incident_type') !== 'Ongeval') ? 'circle' : 'normal']
           });
         }
         return styleCacheVandaag[showLabel + '|' + text];
@@ -538,7 +538,7 @@
               offsetY: -35,
               text: text
             }),
-            image: imageStyles.actueel[nummer][(cirkel && feature.get('incident_type') === 'Pech') ? 'circle' : 'normal']
+            image: imageStyles.actueel[nummer][(cirkel && feature.get('incident_type') !== 'Ongeval') ? 'circle' : 'normal']
           });
         }
         return styleCache[nummer + '|' + text];
