@@ -871,7 +871,7 @@
   }, {
     id: '2',
     title: 'Politiemeldkamer',
-    items: ['Politiemeldkamer']
+    items: ['Politiemeldkamer', 'KLPD']
   }, {
     id: '3',
     title: 'Alarmcentrale',
@@ -880,10 +880,6 @@
     id: '4',
     title: 'Onbekend',
     items: ['Overig', 'Wegbeheerder']
-  }, {
-    id: '5',
-    title: 'Landelijke eenheid',
-    items: ['KLPD']
   }];
   var m, mm;
   var handleMelderFilter = function(evt) {
