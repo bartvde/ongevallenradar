@@ -862,16 +862,16 @@
   var melder_filter = $('#filter-melder');
   var melders = [{
     id: '0',
-    title: 'ANWB',
-    items: ['ANWB']
+    title: 'Politiemeldkamer',
+    items: ['Politiemeldkamer', 'KLPD']
   }, {
     id: '1',
     title: 'Verkeerscentrale',
     items: ['Verkeerscentrale']
   }, {
     id: '2',
-    title: 'Politiemeldkamer',
-    items: ['Politiemeldkamer', 'KLPD']
+    title: 'ANWB',
+    items: ['ANWB']
   }, {
     id: '3',
     title: 'Alarmcentrale',
