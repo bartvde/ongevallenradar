@@ -79,9 +79,12 @@ button {
 }
 #beep {
   background-color: white;
-  background-repeat: no-repeat;
   padding: 0px 0px 0px 35px;
   margin: -10px 0px -10px 0px;
+}
+#settings {
+  margin: 15px 0px 0px 30px;
+  height: 50px;
 }
 #beep-button {
   margin-right: 10px;
