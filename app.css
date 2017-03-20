@@ -42,7 +42,7 @@ button {
   -webkit-flex-direction: column;
   flex-direction: column;
 }
-#filter-melder {
+#filter-melder, #filter-type {
   margin: 15px 0px 0px 30px;
 }
 #cirkel-pech {

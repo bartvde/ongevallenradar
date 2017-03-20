@@ -5,6 +5,18 @@
     cookieInfo = Cookies.getJSON(cookieName);
   }
   loadCookie();
+  var filterType;
+  var selectedTypes;
+  var defaultTypes = {
+    0: true,
+    1: true
+  };
+  var loadTypesFromCookie = function() {
+    filterType = cookieInfo ? cookieInfo.filterType : false;
+    selectedTypes = cookieInfo ? cookieInfo.selectedTypes : defaultTypes;
+  }
+  loadTypesFromCookie();
+
   var allowBeep;
   var loadBeepFromCookie = function() {
     allowBeep = cookieInfo ? cookieInfo.allowBeep : true;
@@ -439,6 +451,16 @@
     if (filterMelder === true && selectedMelders[melder] === false) {
       return false;
     }
+    var incidentType = feature.get('incident_type');
+    if (filterType === true) {
+      if (selectedTypes['0'] === false && selectedTypes['1'] === true) {
+        return incidentType !== 'Ongeval';
+      } else if (selectedTypes['0'] === true && selectedTypes['1'] === false) {
+        return incidentType === 'Ongeval';
+      } else {
+        return selectedTypes['0'] && selectedTypes['1'];
+      }
+    }
   };
 
   var layers = {
@@ -573,6 +595,8 @@
     json.selectedMeldersCat = selectedMeldersCat;
     json.cirkel = cirkel;
     json.allowBeep = allowBeep;
+    json.filterType = filterType;
+    json.selectedTypes = selectedTypes;
     Cookies.set(cookieName, json);
   });
 
@@ -590,6 +614,8 @@
     setMelderFilter();
     loadBeepFromCookie();
     setBeepImg();
+    loadTypesFromCookie();
+    setTypeFilter();
   });
 
   $('#options').on('click', function(evt) {
@@ -914,6 +940,43 @@
     }
   }
   setMelderFilter();
+
+  var handleTypeFilter = function(evt) {
+    selectedTypes[evt.target.value] = evt.target.checked;
+    filterType = true;
+    for (var key in sources) {
+      var source = sources[key];
+      source.changed();
+    }
+  }
+
+  var typeContainer = $('#filter-type');
+  var typeOptions = [{
+    id: '0',
+    title: 'Ongeval'
+  }, {
+    id: '1',
+    title: 'Pech en overig'
+  }];
+
+  var t, tt;
+
+  for (t = 0, tt = typeOptions.length; t < tt; ++t) {
+    var checked = selectedTypes[typeOptions[t].id] ? ' checked' : '';
+    typeContainer.append('<div class="pretty"><input id="type_' + typeOptions[t].id + '" type="checkbox" value="' + typeOptions[t].id +  '"' + checked + '/><label><i class="mi mi-check"></i>' + typeOptions[t].title + '</label></div><br/>');
+    $('#type_' + typeOptions[t].id).on('change', handleTypeFilter);
+  }
+
+  setTypeFilter = function() {
+    for (t = 0, tt = typeOptions.length; t < tt; ++t) {
+      var checked = selectedTypes[typeOptions[t].id];
+      $('#type_' + typeOptions[t].id).prop('checked', checked);
+      if (!checked) {
+        handleTypeFilter({target: $('#type_' + typeOptions[t].id)[0]});
+      }
+    }
+  }
+  setTypeFilter();
 
   var findLayerById = function(id) {
     var layersArray = map.getLayers().getArray()
