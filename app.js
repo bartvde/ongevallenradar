@@ -348,7 +348,7 @@
         circle: new ol.style.Circle({
           fill: new ol.style.Fill({color: 'yellow'}),
           stroke: new ol.style.Stroke({color: '#99990B', width: 2}),
-          radius: 0
+          radius: 9
         })
       },
       vijf: {
