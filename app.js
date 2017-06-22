@@ -903,6 +903,10 @@
     title: 'Alarmcentrale',
     items: ['SOS International', 'Allianz Global Assistance', 'Eurocross', 'VHD']
   }, {
+    id: '5',
+    title: 'Flitsmeister',
+    items: ['Flitsmeister']
+  }, {
     id: '4',
     title: 'Onbekend',
     items: ['Overig', 'Wegbeheerder']
