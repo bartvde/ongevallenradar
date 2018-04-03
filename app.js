@@ -65,7 +65,8 @@
 
   var protocol = (window.location.protocol === 'https:') ? 'https:' : 'http:';
   var geoserverUrl = protocol + '//164.138.30.171/geoserver/ows?';
-  var useJSONP = true;
+  // set to false to use static files instead
+  var useJSONP = false;
 
   var rayons = [
     'D50',
@@ -415,29 +416,34 @@
 
   var geojsonFormat = new ol.format.GeoJSON();
 
-  var sourceUrls = {
+  var sourceUrls = useJSONP ? {
     actueel: geoserverUrl + 'service=WFS&request=GetFeature&typename=meldingen:actueel&version=1.1.0&srsname=EPSG:3857&outputFormat=%output%',
     uur: geoserverUrl + 'service=WFS&request=GetFeature&typename=meldingen:uur&version=1.1.0&srsname=EPSG:3857&outputFormat=%output%',
     vandaag: geoserverUrl + 'service=WFS&request=GetFeature&typename=meldingen:vandaag&version=1.1.0&srsname=EPSG:3857&outputFormat=%output%'
+  } : {
+    actueel: '/meldingen/meldingen_actueel.json?_salt=%salt%',
+    uur: '/meldingen/meldingen_uur.json?_salt=%salt%',
+    vandaag: '/meldingen/meldingen_vandaag.json?_salt=%salt%'
   };
 
+  var timestamp = new Date().getTime();
   var sources = {
     actueel: new ol.source.Vector({
       useSpatialIndex: false,
       strategy: ol.loadingstrategy.all,
-      url: useJSONP ? undefined : sourceUrls.actueel.replace('%output%', 'application/json'),
+      url: useJSONP ? undefined : sourceUrls.actueel.replace('%salt%', timestamp),
       format: geojsonFormat
     }),
     uur: new ol.source.Vector({
       useSpatialIndex: false,
       strategy: ol.loadingstrategy.all,
-      url: (useJSONP === true) ? undefined : sourceUrls.uur.replace('%output%', 'application/json'),
+      url: useJSONP ? undefined : sourceUrls.uur.replace('%salt%', timestamp),
       format: geojsonFormat
     }),
     vandaag: new ol.source.Vector({
       useSpatialIndex: false,
       strategy: ol.loadingstrategy.all,
-      url: (useJSONP === true) ? undefined : sourceUrls.vandaag.replace('%output%', 'application/json'),
+      url: useJSONP ? undefined : sourceUrls.vandaag.replace('%salt%', timestamp),
       format: geojsonFormat
     })
   };
@@ -875,7 +881,8 @@
             handleNewFeatures(this, features);
           }, undefined, {source: source, key: key});
         } else {
-          doGET(sourceUrls[key].replace('%output%', 'application/json'), function(xmlhttp) {
+          var timestamp = new Date().getTime();
+          doGET(sourceUrls[key].replace('%salt%', timestamp), function(xmlhttp) {
             var features = this.source.getFormat().readFeatures(xmlhttp.responseText);
             handleNewFeatures(this, features);
           }, undefined, {source: source, key: key});
