@@ -1,4 +1,16 @@
 (function() {
+
+  var getUrlVars = function() {
+    var vars = {}, hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for (var i = 0, ii = hashes.length; i < ii; i++) {
+      hash = hashes[i].split('=');
+      vars[hash[0]] = decodeURIComponent(hash[1]);
+    }
+    return vars;
+  }
+  var urlVars = getUrlVars();
+
   var cookieName = 'ongevallenradar';
   var cookieInfo;
   var loadCookie = function() {
@@ -27,8 +39,20 @@
   var loadAudioFromCookie = function() {
     audio = cookieInfo && cookieInfo.audio ? cookieInfo.audio : 'beep';
   }
-  loadAudioFromCookie();
-
+  var loadAudioFromUrl = function() {
+    var paramValue = urlVars.geluid;
+    var options = ['beep', 'bell'];
+    if (options.indexOf(paramValue) !== -1) {
+      audio = paramValue;
+    } else {
+      audio = 'beep';
+    }
+  }
+  if (urlVars.geluid) {
+    loadAudioFromUrl();
+  } else {
+    loadAudioFromCookie();
+  }
   $('#beep-select').on('change', function(evt) {
     audio = evt.target.value;
   });
@@ -60,16 +84,6 @@
     selectedRayons = cookieInfo ? cookieInfo.selectedRayons : {};
     filterRayon = cookieInfo ? cookieInfo.filterRayon : false;
   }
-  var getUrlVars = function() {
-    var vars = {}, hash;
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    for (var i = 0, ii = hashes.length; i < ii; i++) {
-      hash = hashes[i].split('=');
-      vars[hash[0]] = hash[1];
-    }
-    return vars;
-  }
-  var urlVars = getUrlVars();
   var loadRayonInfoFromUrl = function() {
     selectedRayons = {};
     var rayons = urlVars.rayon.split(',');
@@ -662,7 +676,11 @@
     setMelderFilter();
     loadBeepFromCookie();
     setBeepImg();
-    loadAudioFromCookie();
+    if (urlVars.geluid) {
+      loadAudioFromUrl();
+    } else {
+      loadAudioFromCookie();
+    }
     setAudioFragment();
     loadTypesFromCookie();
     setTypeFilter();
