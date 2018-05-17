@@ -1,4 +1,16 @@
 (function() {
+
+  var getUrlVars = function() {
+    var vars = {}, hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for (var i = 0, ii = hashes.length; i < ii; i++) {
+      hash = hashes[i].split('=');
+      vars[hash[0]] = decodeURIComponent(hash[1]);
+    }
+    return vars;
+  }
+  var urlVars = getUrlVars();
+
   var cookieName = 'ongevallenradar';
   var cookieInfo;
   var loadCookie = function() {
@@ -27,8 +39,20 @@
   var loadAudioFromCookie = function() {
     audio = cookieInfo && cookieInfo.audio ? cookieInfo.audio : 'beep';
   }
-  loadAudioFromCookie();
-
+  var loadAudioFromUrl = function() {
+    var paramValue = urlVars.geluid;
+    var options = ['beep', 'bell'];
+    if (options.indexOf(paramValue) !== -1) {
+      audio = paramValue;
+    } else {
+      audio = 'beep';
+    }
+  }
+  if (urlVars.geluid) {
+    loadAudioFromUrl();
+  } else {
+    loadAudioFromCookie();
+  }
   $('#beep-select').on('change', function(evt) {
     audio = evt.target.value;
   });
@@ -60,8 +84,19 @@
     selectedRayons = cookieInfo ? cookieInfo.selectedRayons : {};
     filterRayon = cookieInfo ? cookieInfo.filterRayon : false;
   }
-  loadRayonInfoFromCookie();
-
+  var loadRayonInfoFromUrl = function() {
+    selectedRayons = {};
+    var rayons = urlVars.rayon.split(',');
+    for (var i = 0, ii = rayons.length; i < ii; ++i) {
+      selectedRayons[rayons[i]] = true;
+    }
+    filterRayon = true;
+  }
+  if (urlVars.rayon) {
+    loadRayonInfoFromUrl();
+  } else {
+    loadRayonInfoFromCookie();
+  }
   var defaultLayerInfo = {
     uur: true,
     actueel: true
@@ -630,14 +665,22 @@
     onChangeCirkel({target: $('#cirkel')[0]})
     loadLayerInfoFromCookie();
     applyLayerVisbility();
-    loadRayonInfoFromCookie();
+    if (urlVars.rayon) {
+      loadRayonInfoFromUrl();
+    } else {
+      loadRayonInfoFromCookie();
+    }
     applyInitialRayons();
     setToggleImg();
     loadMelderInfoFromCookie();
     setMelderFilter();
     loadBeepFromCookie();
     setBeepImg();
-    loadAudioFromCookie();
+    if (urlVars.geluid) {
+      loadAudioFromUrl();
+    } else {
+      loadAudioFromCookie();
+    }
     setAudioFragment();
     loadTypesFromCookie();
     setTypeFilter();
